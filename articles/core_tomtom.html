@@ -134,7 +134,7 @@
 </ul>
 <p><strong>NOTE:</strong> if an invalid location is found at one option, <code><a href="../reference/runTomTom.html">runTomTom()</a></code> will fall back to the next location if valid (eg if the <code>meme_db</code> option is set to an invalid file, but the <code>MEME_DB</code> environment variable is a valid file, the <code>MEME_DB</code> path will be used.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>meme_db <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/db/fly_factor_survey_id.meme"</span>, package <span class="op">=</span> <span class="st">"memes"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>meme_db <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/flyFactorSurvey_cleaned.meme"</span>, package <span class="op">=</span> <span class="st">"memes"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
 <div id="input-types" class="section level2">
