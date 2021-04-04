@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Example runFimo() output — example_fimo • memes</title>
+<title>Visualize a heatmap of aligned sequences — plot_sequence_heatmap • memes</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,13 @@
 
 
 
-<meta property="og:title" content="Example runFimo() output — example_fimo" />
-<meta property="og:description" content="Run using 100bp windows around `example_chip_summits`, using E93 motif as database." />
+<meta property="og:title" content="Visualize a heatmap of aligned sequences — plot_sequence_heatmap" />
+<meta property="og:description" content="Sometimes it is useful to visualize individual motif matches in aggregate to
+understand how sequence variability contributes to motif matches. This
+function creates a heatmap where each row represents a single sequence and
+each column represents a position. Sequences are optionally aggregated into a
+sequence logo aligned in register with the heatmap to visualize how sequence
+variability contributes to motif makeup." />
 
 
 
@@ -57,6 +62,8 @@
 <![endif]-->
 
 
+
+<!-- dependencies from examples -->
 
 
   
@@ -144,22 +151,75 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Example runFimo() output</h1>
-    <small class="dont-index">Source: <a href='https://github.com/snystrom/memes/blob/master/R/data.R'><code>R/data.R</code></a></small>
-    <div class="hidden name"><code>example_fimo.Rd</code></div>
+    <h1>Visualize a heatmap of aligned sequences</h1>
+    <small class="dont-index">Source: <a href='https://github.com/snystrom/memes/blob/master/R/sequence_heatmap.R'><code>R/sequence_heatmap.R</code></a></small>
+    <div class="hidden name"><code>plot_sequence_heatmap.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Run using 100bp windows around `example_chip_summits`, using E93 motif as database.</p>
+    <p>Sometimes it is useful to visualize individual motif matches in aggregate to
+understand how sequence variability contributes to motif matches. This
+function creates a heatmap where each row represents a single sequence and
+each column represents a position. Sequences are optionally aggregated into a
+sequence logo aligned in register with the heatmap to visualize how sequence
+variability contributes to motif makeup.</p>
     </div>
 
-    <pre class="usage"><span class='va'>example_fimo</span></pre>
+    <pre class="usage"><span class='fu'>plot_sequence_heatmap</span><span class='op'>(</span>
+  <span class='va'>sequence</span>,
+  title <span class='op'>=</span> <span class='cn'>NULL</span>,
+  logo <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  alph <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"DNA"</span>, <span class='st'>"RNA"</span>, <span class='st'>"AA"</span><span class='op'>)</span>,
+  title_hjust <span class='op'>=</span> <span class='fl'>0</span>,
+  heights <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>5</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>sequence</th>
+      <td><p>character vector of sequences, plot will be ranked in order
+of the sequences. Each sequence must be equal length.</p></td>
+    </tr>
+    <tr>
+      <th>title</th>
+      <td><p>title of the plot</p></td>
+    </tr>
+    <tr>
+      <th>logo</th>
+      <td><p>whether to include a sequence logo above the heatmap</p></td>
+    </tr>
+    <tr>
+      <th>alph</th>
+      <td><p>alphabet colorscheme to use. One of: DNA, RNA, AA.</p></td>
+    </tr>
+    <tr>
+      <th>title_hjust</th>
+      <td><p>value from 0 to 1 determining the horizontal justification
+of the title. Default: 0.</p></td>
+    </tr>
+    <tr>
+      <th>heights</th>
+      <td><p>ratio of logo:heatmap heights. Given as: c(logo_height,
+heatmap_height). Values are not absolute. Ignored when logo = FALSE.</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A GRanges object of E93 motif positions within 100bp windows of `example_chip_summits`</p>
+    <p>a ggplot object of the sequence heatmap ranked by the order of
+  sequences</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
+    <div class='dont-index'><p>runFimo</p></div>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>example_fimo</span>, package <span class='op'>=</span> <span class='st'>"memes"</span><span class='op'>)</span>
+<span class='va'>genome</span> <span class='op'>&lt;-</span> <span class='fu'>BSgenome.Dmelanogaster.UCSC.dm3</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/BSgenome.Dmelanogaster.UCSC.dm3/man/package.html'>BSgenome.Dmelanogaster.UCSC.dm3</a></span>
+<span class='va'>motifs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='add_sequence.html'>add_sequence</a></span><span class='op'>(</span><span class='va'>example_fimo</span>, <span class='va'>genome</span><span class='op'>)</span>
+<span class='fu'>plot_sequence_heatmap</span><span class='op'>(</span><span class='va'>motifs</span><span class='op'>$</span><span class='va'>sequence</span><span class='op'>)</span>
+</div><div class='img'><img src='plot_sequence_heatmap-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
