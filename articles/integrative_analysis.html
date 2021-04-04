@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">memes</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.6</span>
       </span>
     </div>
 
@@ -257,13 +257,13 @@
 <div id="visualizing-ame-results" class="section level3">
 <h3 class="hasAnchor">
 <a href="#visualizing-ame-results" class="anchor"></a>Visualizing AME results</h3>
-<p>The <code><a href="../reference/ame_plot_heatmap.html">ame_plot_heatmap()</a></code> function provides a quick way to visualize AME results. It is built on top of <code>ggplot2</code>, so all <code>ggplot2</code> functions can be used to further modify the plot.</p>
-<p>By default, it uses the -log10(adjusted p-value) as the heat values. See the documentation (<code><a href="../reference/ame_plot_heatmap.html">?ame_plot_heatmap</a></code>) for additional notes on customization.</p>
+<p>The <code><a href="../reference/plot_ame_heatmap.html">plot_ame_heatmap()</a></code> function provides a quick way to visualize AME results. It is built on top of <code>ggplot2</code>, so all <code>ggplot2</code> functions can be used to further modify the plot.</p>
+<p>By default, it uses the -log10(adjusted p-value) as the heat values. See the documentation (<code><a href="../reference/plot_ame_heatmap.html">?plot_ame_heatmap</a></code>) for additional notes on customization.</p>
 <p>We can visualize the top 10 hits from the ectopic binding results as follows:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ame_by_binding</span><span class="op">$</span><span class="va">ectopic</span> <span class="op">%&gt;%</span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">rank</span> <span class="op">%in%</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/ame_plot_heatmap.html">ame_plot_heatmap</a></span><span class="op">(</span>group_name <span class="op">=</span> <span class="st">"Ectopic Sites"</span><span class="op">)</span>  <span class="op">+</span>
+  <span class="fu"><a href="../reference/plot_ame_heatmap.html">plot_ame_heatmap</a></span><span class="op">(</span>group_name <span class="op">=</span> <span class="st">"Ectopic Sites"</span><span class="op">)</span>  <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Top 10 AME Hits in Ectopic Sites"</span><span class="op">)</span></code></pre></div>
 <p><img src="integrative_analysis_files/figure-html/unnamed-chunk-17-1.png" width="672"></p>
 <p>To plot results from multiple runs together, they must first be joined into a single data frame. The <code>ame_by_binding</code> object is a list whose names correspond to the E93 binding category. The list can be combined into a data.frame using <code><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">dplyr::bind_rows</a></code>. Setting <code>.id = "binding_type"</code> creates a new column <code>binding_type</code> that contains the names from the <code>ame_by_binding</code> list. In this way, the <code>ame_res</code> data.frame contains all AME results for each run, which can be distinguished by the <code>binding_type</code> column.</p>
@@ -271,10 +271,10 @@
 <code class="sourceCode R"><span class="va">ame_res</span> <span class="op">&lt;-</span> <span class="va">ame_by_binding</span> <span class="op">%&gt;%</span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span>.id <span class="op">=</span> <span class="st">"binding_type"</span><span class="op">)</span>
   </code></pre></div>
-<p>It is possible to aggregate results from multiple runs into a heatmap by setting the <code>group</code> parameter in <code><a href="../reference/ame_plot_heatmap.html">ame_plot_heatmap()</a></code>. This will stratify the y-axis by the entries in the column passed to <code>group</code>. This results in clustering motifs with shared hits across categories along the x-axis for quickly visualizing motifs that may be shared or distinct between multiple groups.</p>
+<p>It is possible to aggregate results from multiple runs into a heatmap by setting the <code>group</code> parameter in <code><a href="../reference/plot_ame_heatmap.html">plot_ame_heatmap()</a></code>. This will stratify the y-axis by the entries in the column passed to <code>group</code>. This results in clustering motifs with shared hits across categories along the x-axis for quickly visualizing motifs that may be shared or distinct between multiple groups.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ame_res</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/ame_plot_heatmap.html">ame_plot_heatmap</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">binding_type</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="../reference/plot_ame_heatmap.html">plot_ame_heatmap</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">binding_type</span><span class="op">)</span></code></pre></div>
 <p><img src="integrative_analysis_files/figure-html/unnamed-chunk-19-1.png" width="1440"></p>
 </div>
 <div id="reducing-redundant-motif-hits" class="section level3">
@@ -301,7 +301,7 @@
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">binding_type</span>, <span class="va">motif_alt_id</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="co"># within each binding type, select the TF hit with the lowest adjusted p-value</span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">adj.pvalue</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">adj.pvalue</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/ame_plot_heatmap.html">ame_plot_heatmap</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">binding_type</span>, id <span class="op">=</span> <span class="va">motif_alt_id</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="../reference/plot_ame_heatmap.html">plot_ame_heatmap</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">binding_type</span>, id <span class="op">=</span> <span class="va">motif_alt_id</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"Binding Category"</span>,
          x <span class="op">=</span> <span class="st">"Transcription Factor Motif"</span><span class="op">)</span></code></pre></div>
 <p><img src="integrative_analysis_files/figure-html/unnamed-chunk-21-1.png" width="1152"></p>
@@ -324,18 +324,18 @@
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">adj.pvalue</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">adj.pvalue</span><span class="op">)</span><span class="op">)</span>
   
 <span class="va">pval_heatmap</span> <span class="op">&lt;-</span> <span class="va">best_ame_hits</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/ame_plot_heatmap.html">ame_plot_heatmap</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">binding_type</span>, id <span class="op">=</span> <span class="va">motif_alt_id</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="../reference/plot_ame_heatmap.html">plot_ame_heatmap</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">binding_type</span>, id <span class="op">=</span> <span class="va">motif_alt_id</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="cn">NULL</span>,
          title <span class="op">=</span> <span class="st">"-log10(adj.pvalue)"</span><span class="op">)</span>
   
 
 <span class="va">norm_heatmap</span> <span class="op">&lt;-</span> <span class="va">best_ame_hits</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/ame_plot_heatmap.html">ame_plot_heatmap</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">binding_type</span>, id <span class="op">=</span> <span class="va">motif_alt_id</span>, value <span class="op">=</span> <span class="st">"normalize"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="../reference/plot_ame_heatmap.html">plot_ame_heatmap</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">binding_type</span>, id <span class="op">=</span> <span class="va">motif_alt_id</span>, value <span class="op">=</span> <span class="st">"normalize"</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="cn">NULL</span>,
          title <span class="op">=</span> <span class="st">"normalize"</span><span class="op">)</span>
 
 <span class="va">pval_scaled_heatmap</span> <span class="op">&lt;-</span> <span class="va">best_ame_hits</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/ame_plot_heatmap.html">ame_plot_heatmap</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">binding_type</span>, id <span class="op">=</span> <span class="va">motif_alt_id</span>, scale_max <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="../reference/plot_ame_heatmap.html">plot_ame_heatmap</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">binding_type</span>, id <span class="op">=</span> <span class="va">motif_alt_id</span>, scale_max <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="cn">NULL</span>,
          title <span class="op">=</span> <span class="st">"-log10(adj.pvalue) (scale capped at 10)"</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
@@ -411,7 +411,7 @@
 <p>Plotting the heatmap of results reveals that indeed a majority of the <em>de-novo</em> motifs discovered within a single category are detected in all 3 categories, supporting the conclusion that orphan, ectopic, and entopic sites are highly similar in sequence content.</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ame_denovo_by_binding</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/ame_plot_heatmap.html">ame_plot_heatmap</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">binding_type</span>, scale_max <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="../reference/plot_ame_heatmap.html">plot_ame_heatmap</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">binding_type</span>, scale_max <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></code></pre></div>
 <p><img src="integrative_analysis_files/figure-html/unnamed-chunk-28-1.png" width="960"></p>
 <p>However, there are 2 interesting motifs which distinguish orphan and ectopic sites from entopic sites. To help identify which TFs these motifs might belong to, we can use TomTom to match them to known TF motifs.</p>
 <p>First, we select the motif id’s that are not found in entopic sites.</p>
@@ -701,7 +701,8 @@
   <span class="co"># Extract the "sequence" column from each category</span>
   <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="st">"sequence"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="co"># Plot a heatmap for each category</span>
-  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/imap.html" class="external-link">imap</a></span><span class="op">(</span><span class="va">plot_sequence_heatmap</span>, title_hjust <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/plot_sequence_heatmap.html">plot_sequence_heatmap</a></span><span class="op">(</span>title_hjust <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="co"># Arrange into a grid</span>
   <span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span>plotlist <span class="op">=</span> <span class="va">.</span>, nrow <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
 <p><img src="integrative_analysis_files/figure-html/unnamed-chunk-50-1.png" width="768"></p>
 </div>
@@ -765,9 +766,9 @@
 <span class="co">#&gt; [8] methods   base     </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
-<span class="co">#&gt; [1] universalmotif_1.9.39 GenomicRanges_1.43.3  GenomeInfoDb_1.27.8  </span>
+<span class="co">#&gt; [1] universalmotif_1.9.40 GenomicRanges_1.43.3  GenomeInfoDb_1.27.8  </span>
 <span class="co">#&gt; [4] IRanges_2.25.6        S4Vectors_0.29.11     BiocGenerics_0.37.1  </span>
-<span class="co">#&gt; [7] ggplot2_3.3.3         magrittr_2.0.1        memes_0.99.5         </span>
+<span class="co">#&gt; [7] ggplot2_3.3.3         magrittr_2.0.1        memes_0.99.6         </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
 <span class="co">#&gt;   [1] colorspace_2.0-0                     </span>

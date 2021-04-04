@@ -10,9 +10,6 @@
     <loc>https://snystrom.github.io/dremeR/reference/ame_compare_heatmap_methods.html</loc>
   </url>
   <url>
-    <loc>https://snystrom.github.io/dremeR/reference/ame_plot_heatmap.html</loc>
-  </url>
-  <url>
     <loc>https://snystrom.github.io/dremeR/reference/check_meme_install.html</loc>
   </url>
   <url>
@@ -80,6 +77,9 @@
   </url>
   <url>
     <loc>https://snystrom.github.io/dremeR/reference/nest_tomtom.html</loc>
+  </url>
+  <url>
+    <loc>https://snystrom.github.io/dremeR/reference/plot_ame_heatmap.html</loc>
   </url>
   <url>
     <loc>https://snystrom.github.io/dremeR/reference/plot_sequence_heatmap.html</loc>

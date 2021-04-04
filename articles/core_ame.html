@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">memes</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.6</span>
       </span>
     </div>
 
@@ -254,7 +254,7 @@
 <div id="visualizing-results-as-heatmap" class="section level2">
 <h2 class="hasAnchor">
 <a href="#visualizing-results-as-heatmap" class="anchor"></a>Visualizing Results as Heatmap</h2>
-<p>The <code><a href="../reference/ame_plot_heatmap.html">ame_plot_heatmap()</a></code> function provides a method to easily generate visualizations of AME results.</p>
+<p>The <code><a href="../reference/plot_ame_heatmap.html">plot_ame_heatmap()</a></code> function provides a method to easily generate visualizations of AME results.</p>
 <p>To plot results from multiple runs together, they must first be joined into 1 data frame. The <code>ame_by_behavior_vs_static</code> object is a list whose names correspond to the E93 response (Increasing or Decreasing). The list can be combined into a data.frame using <code><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">dplyr::bind_rows</a></code>. Setting <code>.id = "behavior</code> creates a new column <code>behavior</code> that contains the names from the <code>ame_by_behavior_vs_static</code> list. In this way, the resulting data.frame contains all AME results for each run, which can be distinguished by the <code>behavior</code> column.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ame_by_behavior_vs_static</span> <span class="op">%&gt;%</span> 
@@ -262,7 +262,7 @@
   <span class="co"># .id will specify a column to hold the list object names</span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span>.id <span class="op">=</span> <span class="st">"behavior"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="co"># setting group to a column name will split the results on the y-axis</span>
-  <span class="fu"><a href="../reference/ame_plot_heatmap.html">ame_plot_heatmap</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">behavior</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="../reference/plot_ame_heatmap.html">plot_ame_heatmap</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">behavior</span><span class="op">)</span></code></pre></div>
 <p><img src="core_ame_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
 <div id="complex-heatmap-example" class="section level3">
 <h3 class="hasAnchor">
@@ -280,11 +280,11 @@
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ame_res</span> <span class="op">&lt;-</span> <span class="va">ame_by_binding</span> <span class="op">%&gt;%</span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span>.id <span class="op">=</span> <span class="st">"binding_type"</span><span class="op">)</span></code></pre></div>
-<p>It is possible to aggregate results from multiple runs into a heatmap by setting the <code>group</code> parameter in <code><a href="../reference/ame_plot_heatmap.html">ame_plot_heatmap()</a></code>.</p>
+<p>It is possible to aggregate results from multiple runs into a heatmap by setting the <code>group</code> parameter in <code><a href="../reference/plot_ame_heatmap.html">plot_ame_heatmap()</a></code>.</p>
 <p>This is too many hits to properly view in this vignette, but you can see that the heatmap will plot motifs by their overlap across groups, where unique motifs are on the left, and shared motifs are on the right.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ame_res</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/ame_plot_heatmap.html">ame_plot_heatmap</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">binding_type</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="../reference/plot_ame_heatmap.html">plot_ame_heatmap</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">binding_type</span><span class="op">)</span></code></pre></div>
 <p><img src="core_ame_files/figure-html/unnamed-chunk-19-1.png" width="1440"></p>
 </div>
 </div>
@@ -298,7 +298,7 @@
 <code class="sourceCode R"><span class="va">ame_res</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="../reference/ame_compare_heatmap_methods.html">ame_compare_heatmap_methods</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">binding_type</span><span class="op">)</span></code></pre></div>
 <p><img src="core_ame_files/figure-html/unnamed-chunk-20-1.png" width="720"></p>
-<p>To use the normalized rank value, set <code>value = "normalize"</code> in <code><a href="../reference/ame_plot_heatmap.html">ame_plot_heatmap()</a></code>.</p>
+<p>To use the normalized rank value, set <code>value = "normalize"</code> in <code><a href="../reference/plot_ame_heatmap.html">plot_ame_heatmap()</a></code>.</p>
 <p>This plot reveals that the motifs which tend to be shared across all 3 categories tend to be higher ranks in the output than the motifs unique to the different categories, which tend to come from lower ranks. This <em>suggests</em> that although there are differences in motif content across the three categories, they may be largely similar in motif makeup. We will investigate this question in more detail in the “Denovo motif similarity” section.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span>
@@ -306,7 +306,7 @@
 <span class="op">(</span><span class="va">normalize_heatmap</span> <span class="op">&lt;-</span> <span class="va">ame_res</span> <span class="op">%&gt;%</span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">binding_type</span>, <span class="va">motif_alt_id</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">adj.pvalue</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">adj.pvalue</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/ame_plot_heatmap.html">ame_plot_heatmap</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">binding_type</span>, id <span class="op">=</span> <span class="va">motif_alt_id</span>, value <span class="op">=</span> <span class="st">"normalize"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="../reference/plot_ame_heatmap.html">plot_ame_heatmap</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">binding_type</span>, id <span class="op">=</span> <span class="va">motif_alt_id</span>, value <span class="op">=</span> <span class="st">"normalize"</span><span class="op">)</span> <span class="op">+</span>
     <span class="co"># All ggplot functions can be used to extend or edit the heatmap plots</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"value = \"normalize\""</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="core_ame_files/figure-html/unnamed-chunk-21-1.png" width="2400"></p>
@@ -316,13 +316,13 @@
 <code class="sourceCode R"><span class="va">pval_heatmap</span> <span class="op">&lt;-</span> <span class="va">ame_res</span> <span class="op">%&gt;%</span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">binding_type</span>, <span class="va">motif_alt_id</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">adj.pvalue</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">adj.pvalue</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/ame_plot_heatmap.html">ame_plot_heatmap</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">binding_type</span>, id <span class="op">=</span> <span class="va">motif_alt_id</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="../reference/plot_ame_heatmap.html">plot_ame_heatmap</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">binding_type</span>, id <span class="op">=</span> <span class="va">motif_alt_id</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"value = -log10(adj.pvalue)"</span><span class="op">)</span>
 
 <span class="va">scale_heatmap</span> <span class="op">&lt;-</span> <span class="va">ame_res</span> <span class="op">%&gt;%</span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">binding_type</span>, <span class="va">motif_alt_id</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">adj.pvalue</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">adj.pvalue</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/ame_plot_heatmap.html">ame_plot_heatmap</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">binding_type</span>, id <span class="op">=</span> <span class="va">motif_alt_id</span>, scale_max <span class="op">=</span> <span class="fl">7.5</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="../reference/plot_ame_heatmap.html">plot_ame_heatmap</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">binding_type</span>, id <span class="op">=</span> <span class="va">motif_alt_id</span>, scale_max <span class="op">=</span> <span class="fl">7.5</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"value = -log10(adj.pvalue) (scale capped at 7.5)"</span><span class="op">)</span></code></pre></div>
 <p>Below is a comparison using the <code>-log10(adj.pvalue)</code> vs <code>normalize</code> methods for plotting the heatmap. Note how the different plots highlight different data properties. The <code>-log10(adj.pvalue)</code> plot shows overall significance of each hit, while <code>normalize</code> method shows the relative rank of each hit within a <code>binding_type</code>. Lowering the maximum scale value in C) does a better job than A) at visualizing differences in significance along the ectopic and entopic rows at the cost of decreasing the dynamic range of the orphan row. Selecting a visualization for publication will depend heavily on context, but if in doubt, prefer one which includes information of statistical significance as in A) or C).</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
@@ -385,7 +385,7 @@
 <span class="co">#&gt; other attached packages:</span>
 <span class="co">#&gt; [1] ggplot2_3.3.3        magrittr_2.0.1       GenomicRanges_1.43.3</span>
 <span class="co">#&gt; [4] GenomeInfoDb_1.27.8  IRanges_2.25.6       S4Vectors_0.29.11   </span>
-<span class="co">#&gt; [7] BiocGenerics_0.37.1  memes_0.99.5        </span>
+<span class="co">#&gt; [7] BiocGenerics_0.37.1  memes_0.99.6        </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
 <span class="co">#&gt;  [1] bitops_1.0-6                          matrixStats_0.58.0                   </span>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plot AME heatmap clustered by similarity in detected motifs — ame_plot_heatmap • memes</title>
+<title>Plot AME heatmap clustered by similarity in detected motifs — plot_ame_heatmap • memes</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Plot AME heatmap clustered by similarity in detected motifs — ame_plot_heatmap" />
+<meta property="og:title" content="Plot AME heatmap clustered by similarity in detected motifs — plot_ame_heatmap" />
 <meta property="og:description" content="Plot AME heatmap clustered by similarity in detected motifs" />
 
 
@@ -83,7 +83,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">memes</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.6</span>
       </span>
     </div>
 
@@ -148,14 +148,14 @@
     <div class="page-header">
     <h1>Plot AME heatmap clustered by similarity in detected motifs</h1>
     <small class="dont-index">Source: <a href='https://github.com/snystrom/memes/blob/master/R/ame_methods.R'><code>R/ame_methods.R</code></a></small>
-    <div class="hidden name"><code>ame_plot_heatmap.Rd</code></div>
+    <div class="hidden name"><code>plot_ame_heatmap.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>Plot AME heatmap clustered by similarity in detected motifs</p>
     </div>
 
-    <pre class="usage"><span class='fu'>ame_plot_heatmap</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>plot_ame_heatmap</span><span class='op'>(</span>
   <span class='va'>ame</span>,
   id <span class='op'>=</span> <span class='va'>motif_id</span>,
   group <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -233,12 +233,12 @@ column by name, do not quote the column name.</p>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"example_ame"</span>, package <span class='op'>=</span> <span class='st'>"memes"</span><span class='op'>)</span>
 
 <span class='co'># Plot a single category heatmap</span>
-<span class='fu'>ame_plot_heatmap</span><span class='op'>(</span><span class='va'>example_ame</span><span class='op'>$</span><span class='va'>Decreasing</span><span class='op'>)</span>
-</div><div class='img'><img src='ame_plot_heatmap-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot_ame_heatmap</span><span class='op'>(</span><span class='va'>example_ame</span><span class='op'>$</span><span class='va'>Decreasing</span><span class='op'>)</span>
+</div><div class='img'><img src='plot_ame_heatmap-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Plot a multi category heatmap</span>
 <span class='va'>grouped_ame</span> <span class='op'>&lt;-</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span><span class='op'>(</span><span class='va'>example_ame</span>, .id <span class='op'>=</span> <span class='st'>"category"</span><span class='op'>)</span>
-<span class='fu'>ame_plot_heatmap</span><span class='op'>(</span><span class='va'>grouped_ame</span>, group <span class='op'>=</span> <span class='va'>category</span><span class='op'>)</span>
-</div><div class='img'><img src='ame_plot_heatmap-2.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'>plot_ame_heatmap</span><span class='op'>(</span><span class='va'>grouped_ame</span>, group <span class='op'>=</span> <span class='va'>category</span><span class='op'>)</span>
+</div><div class='img'><img src='plot_ame_heatmap-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

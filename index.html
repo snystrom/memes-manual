@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">memes</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.6</span>
       </span>
     </div>
 
@@ -353,10 +353,10 @@ docker run -e PASSWORD=&lt;password&gt; -p 8787:8787 -v &lt;path&gt;/&lt;to&gt;/
   <span class="co"># Here I use the cowplot library simply to combine each plot into a 4-panel grid</span>
   <span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span>plotlist <span class="op">=</span> <span class="va">.</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-12-1.png"><!-- --></p>
-<p>It can be useful to view the results from <code><a href="reference/runAme.html">runAme()</a></code> as a heatmap. <code><a href="reference/ame_plot_heatmap.html">ame_plot_heatmap()</a></code> can create complex visualizations for analysis of enrichment between different region types (see vignettes for details). Here is a simple example heatmap.</p>
+<p>It can be useful to view the results from <code><a href="reference/runAme.html">runAme()</a></code> as a heatmap. <code><a href="reference/plot_ame_heatmap.html">plot_ame_heatmap()</a></code> can create complex visualizations for analysis of enrichment between different region types (see vignettes for details). Here is a simple example heatmap.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ame_results</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="reference/ame_plot_heatmap.html">ame_plot_heatmap</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="reference/plot_ame_heatmap.html">plot_ame_heatmap</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-13-1.png"><!-- --></p>
 </div>
 <div id="importing-data-from-previous-runs" class="section level2">
