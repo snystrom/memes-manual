@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">memes</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.11</span>
       </span>
     </div>
 
@@ -102,16 +102,16 @@
 
 <div id="memes" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#memes" class="anchor"></a>memes</h1></div>
+<a href="#memes" class="anchor" aria-hidden="true"></a>memes</h1></div>
 <!-- badges: start -->
 
 <p>An R interface to the <a href="http://meme-suite.org/" class="external-link">MEME Suite</a> family of tools, which provides several utilities for performing motif analysis on DNA, RNA, and protein sequences. memes works by detecting a local install of the MEME suite, running the commands, then importing the results directly into R.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<a href="#installation" class="anchor" aria-hidden="true"></a>Installation</h2>
 <div id="bioconductor" class="section level3">
 <h3 class="hasAnchor">
-<a href="#bioconductor" class="anchor"></a>Bioconductor</h3>
+<a href="#bioconductor" class="anchor" aria-hidden="true"></a>Bioconductor</h3>
 <p>memes is currently available on the Bioconductor <code>devel</code> branch:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
@@ -124,16 +124,19 @@
 </div>
 <div id="development-version-github" class="section level3">
 <h3 class="hasAnchor">
-<a href="#development-version-github" class="anchor"></a>Development Version (Github)</h3>
+<a href="#development-version-github" class="anchor" aria-hidden="true"></a>Development Version (Github)</h3>
 <p>You can install the development version of memes from <a href="https://github.com/snystrom/memes" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"remotes"</span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
   <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"snystrom/memes"</span><span class="op">)</span></code></pre></div>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"snystrom/memes"</span><span class="op">)</span>
+
+<span class="co"># To temporarily bypass the R version 4.1 requirement, you can pull from the following branch:</span>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"snystrom/memes"</span>, ref <span class="op">=</span> <span class="st">"no-r-4"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="docker-container" class="section level3">
 <h3 class="hasAnchor">
-<a href="#docker-container" class="anchor"></a>Docker Container</h3>
+<a href="#docker-container" class="anchor" aria-hidden="true"></a>Docker Container</h3>
 <pre class="shell"><code># Get development version from dockerhub
 docker pull snystrom/memes_docker:devel
 # the -v flag is used to mount an analysis directory, 
@@ -143,12 +146,12 @@ docker run -e PASSWORD=&lt;password&gt; -p 8787:8787 -v &lt;path&gt;/&lt;to&gt;/
 </div>
 <div id="detecting-the-meme-suite" class="section level2">
 <h2 class="hasAnchor">
-<a href="#detecting-the-meme-suite" class="anchor"></a>Detecting the MEME Suite</h2>
+<a href="#detecting-the-meme-suite" class="anchor" aria-hidden="true"></a>Detecting the MEME Suite</h2>
 <p>memes relies on a local install of the <a href="http://meme-suite.org/" class="external-link">MEME Suite</a>. For installation instructions for the MEME suite, see the <a href="http://meme-suite.org/doc/install.html?man_type=web" class="external-link">MEME Suite Installation Guide</a>.</p>
 <p>memes needs to know the location of the <code>meme/bin/</code> directory on your local machine. You can tell memes the location of your MEME suite install in 4 ways. memes will always prefer the more specific definition if it is a valid path. Here they are ranked from most- to least-specific:</p>
 <ol style="list-style-type: decimal">
 <li>Manually passing the install path to the <code>meme_path</code> argument of all memes functions</li>
-<li>Setting the path using <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options(meme_bin = "/path/to/meme/bin/")</a></code> inside your R script</li>
+<li>Setting the path using <code>options(meme_bin = "/path/to/meme/bin/")</code> inside your R script</li>
 <li>Setting <code>MEME_BIN=/path/to/meme/bin/</code> in your <code>.Renviron</code> file</li>
 <li>memes will try the default MEME install location <code>~/meme/bin/</code>
 </li>
@@ -168,7 +171,8 @@ docker run -e PASSWORD=&lt;password&gt; -p 8787:8787 -v &lt;path&gt;/&lt;to&gt;/
 <span class="co">#&gt; ✓ /opt/meme/bin/ame</span>
 <span class="co">#&gt; ✓ /opt/meme/bin/fimo</span>
 <span class="co">#&gt; ✓ /opt/meme/bin/tomtom</span>
-<span class="co">#&gt; ✓ /opt/meme/bin/meme</span></code></pre></div>
+<span class="co">#&gt; ✓ /opt/meme/bin/meme</span>
+<span class="co">#&gt; x /opt/meme/bin/streme</span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># You can manually input a path to meme_path</span>
 <span class="co"># If no meme/bin is detected, will return a red X</span>
@@ -178,14 +182,14 @@ docker run -e PASSWORD=&lt;password&gt; -p 8787:8787 -v &lt;path&gt;/&lt;to&gt;/
 </div>
 <div id="the-core-tools" class="section level2">
 <h2 class="hasAnchor">
-<a href="#the-core-tools" class="anchor"></a>The Core Tools</h2>
+<a href="#the-core-tools" class="anchor" aria-hidden="true"></a>The Core Tools</h2>
 <table class="table">
 <colgroup>
+<col width="10%">
+<col width="22%">
 <col width="11%">
-<col width="24%">
-<col width="12%">
 <col width="9%">
-<col width="42%">
+<col width="46%">
 </colgroup>
 <thead><tr class="header">
 <th align="center">Function Name</th>
@@ -196,43 +200,51 @@ docker run -e PASSWORD=&lt;password&gt; -p 8787:8787 -v &lt;path&gt;/&lt;to&gt;/
 </tr></thead>
 <tbody>
 <tr class="odd">
+<td align="center"><code><a href="reference/runStreme.html">runStreme()</a></code></td>
+<td align="center">Motif Discovery (short motifs)</td>
+<td align="center">Yes</td>
+<td align="center">No</td>
+<td align="left"><code>universalmotif_df</code></td>
+</tr>
+<tr class="even">
 <td align="center"><code><a href="reference/runDreme.html">runDreme()</a></code></td>
 <td align="center">Motif Discovery (short motifs)</td>
 <td align="center">Yes</td>
 <td align="center">No</td>
-<td align="left">data.frame w/ <code>motifs</code> column</td>
+<td align="left"><code>universalmotif_df</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="center"><code><a href="reference/runAme.html">runAme()</a></code></td>
 <td align="center">Motif Enrichment</td>
 <td align="center">Yes</td>
 <td align="center">Yes</td>
 <td align="left">data.frame (optional: <code>sequences</code> column)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="center"><code><a href="reference/runFimo.html">runFimo()</a></code></td>
 <td align="center">Motif Scanning</td>
 <td align="center">Yes</td>
 <td align="center">Yes</td>
 <td align="left">GRanges of motif positions</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="center"><code><a href="reference/runTomTom.html">runTomTom()</a></code></td>
 <td align="center">Motif Comparison</td>
 <td align="center">No</td>
 <td align="center">Yes</td>
-<td align="left">data.frame w/ <code>best_match_motif</code> and <code>tomtom</code> columns*</td>
+<td align="left">
+<code>universalmotif_df</code> w/ <code>best_match_motif</code> and <code>tomtom</code> columns*</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="center"><code><a href="reference/runMeme.html">runMeme()</a></code></td>
 <td align="center">Motif Discovery (long motifs)</td>
 <td align="center">Yes</td>
 <td align="center">No</td>
-<td align="left">data.frame w/ <code>motifs</code> column</td>
+<td align="left"><code>universalmotif_df</code></td>
 </tr>
 </tbody>
 </table>
-<p>* <strong>Note:</strong> if <code><a href="reference/runTomTom.html">runTomTom()</a></code> is run using the results of <code><a href="reference/runDreme.html">runDreme()</a></code>, the results will be joined with the <code><a href="reference/runDreme.html">runDreme()</a></code> results as extra columns. This allows easy comparison of <em>de-novo</em> discovered motifs with their matches.</p>
+<p>* <strong>Note:</strong> if <code><a href="reference/runTomTom.html">runTomTom()</a></code> is run using a <code>universalmotif_df</code> the results will be joined with the <code>universalmotif_df</code> results as extra columns. This allows easy comparison of <em>de-novo</em> discovered motifs with their matches.</p>
 <p><strong>Sequence Inputs</strong> can be any of:</p>
 <ol style="list-style-type: decimal">
 <li>Path to a .fasta formatted file</li>
@@ -245,10 +257,10 @@ docker run -e PASSWORD=&lt;password&gt; -p 8787:8787 -v &lt;path&gt;/&lt;to&gt;/
 <li>A path to a .meme formatted file of motifs to scan against</li>
 <li>A <code>universalmotif</code> object, or list of <code>universalmotif</code> objects</li>
 <li>A <code><a href="reference/runDreme.html">runDreme()</a></code> results object (this allows the results of <code><a href="reference/runDreme.html">runDreme()</a></code> to pass directly to <code><a href="reference/runTomTom.html">runTomTom()</a></code>)</li>
-<li>A combination of all of the above passed as a <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> (e.g. <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list("path/to/database.meme", "dreme_results" = dreme_res)</a></code>)</li>
+<li>A combination of all of the above passed as a <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> (e.g. <code>list("path/to/database.meme", "dreme_results" = dreme_res)</code>)</li>
 </ol>
 <p><strong>Output Types</strong>:</p>
-<p><code><a href="reference/runDreme.html">runDreme()</a></code>, and <code><a href="reference/runTomTom.html">runTomTom()</a></code> return <code>universalmotif_df</code> objects which are data.frames with special columns. The <code>motif</code> column contains a <code>universalmotif</code> object, with 1 entry per row. The remaining columns describe the properties of each returned motif. The following column names are special in that their values are used when running <code>update_motifs</code> to alter the properties of the motifs stored in the <code>motif</code> column. Be careful about changing these values as these changes will propagate to the <code>motif</code> column when calling <code><a href="https://rdrr.io/pkg/universalmotif/man/tidy-motifs.html" class="external-link">update_motifs()</a></code> or <code><a href="https://rdrr.io/pkg/universalmotif/man/tidy-motifs.html" class="external-link">to_list()</a></code>.</p>
+<p><code><a href="reference/runDreme.html">runDreme()</a></code>, <code><a href="reference/runStreme.html">runStreme()</a></code>, <code><a href="reference/runMeme.html">runMeme()</a></code> and <code><a href="reference/runTomTom.html">runTomTom()</a></code> return <code>universalmotif_df</code> objects which are data.frames with special columns. The <code>motif</code> column contains a <code>universalmotif</code> object, with 1 entry per row. The remaining columns describe the properties of each returned motif. The following column names are special in that their values are used when running <code><a href="https://rdrr.io/pkg/universalmotif/man/tidy-motifs.html" class="external-link">update_motifs()</a></code> and <code><a href="https://rdrr.io/pkg/universalmotif/man/tidy-motifs.html" class="external-link">to_list()</a></code> to alter the properties of the motifs stored in the <code>motif</code> column. Be careful about changing these values as these changes will propagate to the <code>motif</code> column when calling <code><a href="https://rdrr.io/pkg/universalmotif/man/tidy-motifs.html" class="external-link">update_motifs()</a></code> or <code><a href="https://rdrr.io/pkg/universalmotif/man/tidy-motifs.html" class="external-link">to_list()</a></code>.</p>
 <ul>
 <li>name</li>
 <li>altname</li>
@@ -262,14 +274,14 @@ docker run -e PASSWORD=&lt;password&gt; -p 8787:8787 -v &lt;path&gt;/&lt;to&gt;/
 <li>eval</li>
 </ul>
 <p>memes is built around the <a href="https://www.bioconductor.org/packages/release/bioc/html/universalmotif.html" class="external-link">universalmotif package</a> which provides a framework for manipulating motifs in R. <code>universalmotif_df</code> objects can interconvert between data.frame and <code>universalmotif</code> list format using the <code><a href="https://rdrr.io/pkg/universalmotif/man/tidy-motifs.html" class="external-link">to_df()</a></code> and <code><a href="https://rdrr.io/pkg/universalmotif/man/tidy-motifs.html" class="external-link">to_list()</a></code> functions, respectively. This allows use of <code>memes</code> results with all other Bioconductor motif packages, as <code>universalmotif</code> objects can convert to any other motif type using <code><a href="https://rdrr.io/pkg/universalmotif/man/convert_motifs.html" class="external-link">convert_motifs()</a></code>.</p>
-<p><code><a href="reference/runTomTom.html">runTomTom()</a></code> returns a special column: <code>tomtom</code> which is a <code>data.frame</code> of all match data for each input motif. This can be expanded out using <code><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">tidyr::unnest(tomtom_results, "tomtom")</a></code>, and renested with <code><a href="reference/nest_tomtom.html">nest_tomtom()</a></code>. The <code>best_match_</code> prefixed columns returned by <code><a href="reference/runTomTom.html">runTomTom()</a></code> indicate values for the motif which was the best match to the input motif.</p>
+<p><code><a href="reference/runTomTom.html">runTomTom()</a></code> returns a special column: <code>tomtom</code> which is a <code>data.frame</code> of all match data for each input motif. This can be expanded out using <code>tidyr::unnest(tomtom_results, "tomtom")</code>, and renested with <code><a href="reference/nest_tomtom.html">nest_tomtom()</a></code>. The <code>best_match_</code> prefixed columns returned by <code><a href="reference/runTomTom.html">runTomTom()</a></code> indicate values for the motif which was the best match to the input motif.</p>
 </div>
 <div id="quick-examples" class="section level2">
 <h2 class="hasAnchor">
-<a href="#quick-examples" class="anchor"></a>Quick Examples</h2>
+<a href="#quick-examples" class="anchor" aria-hidden="true"></a>Quick Examples</h2>
 <div id="motif-discovery-with-dreme" class="section level3">
 <h3 class="hasAnchor">
-<a href="#motif-discovery-with-dreme" class="anchor"></a>Motif Discovery with DREME</h3>
+<a href="#motif-discovery-with-dreme" class="anchor" aria-hidden="true"></a>Motif Discovery with DREME</h3>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bioconductor.org/packages/GenomicRanges" class="external-link">GenomicRanges</a></span><span class="op">)</span><span class="op">)</span>
@@ -282,8 +294,8 @@ docker run -e PASSWORD=&lt;password&gt; -p 8787:8787 -v &lt;path&gt;/&lt;to&gt;/
 <p>The <code>get_sequence</code> function takes a <code>GRanges</code> or <code>GRangesList</code> as input and returns the sequences as a <code>BioStrings::XStringSet</code>, or list of <code>XStringSet</code> objects, respectively. <code>get_sequence</code> will name each fasta entry by the genomic coordinates each sequence is from.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Generate sequences from 200bp about the center of my peaks of interest</span>
-<span class="va">sequences</span> <span class="op">&lt;-</span> <span class="va">example_peaks</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://rdrr.io/pkg/GenomicRanges/man/intra-range-methods.html" class="external-link">resize</a></span><span class="op">(</span><span class="fl">200</span>, <span class="st">"center"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<span class="va">sequences</span> <span class="op">&lt;-</span> <span class="va">example_peaks</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/GenomicRanges/man/intra-range-methods.html" class="external-link">resize</a></span><span class="op">(</span><span class="fl">200</span>, <span class="st">"center"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="reference/get_sequence.html">get_sequence</a></span><span class="op">(</span><span class="va">dm.genome</span><span class="op">)</span></code></pre></div>
 <p><code><a href="reference/runDreme.html">runDreme()</a></code> accepts XStringSet or a path to a fasta file as input. You can use other sequences or shuffled input sequences as the control dataset.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -295,14 +307,14 @@ docker run -e PASSWORD=&lt;password&gt; -p 8787:8787 -v &lt;path&gt;/&lt;to&gt;/
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bioconductor.org/packages/universalmotif/" class="external-link">universalmotif</a></span><span class="op">)</span>
 
-<span class="va">dreme_results</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://rdrr.io/pkg/universalmotif/man/tidy-motifs.html" class="external-link">to_list</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<span class="va">dreme_results</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/universalmotif/man/tidy-motifs.html" class="external-link">to_list</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="https://rdrr.io/pkg/universalmotif/man/view_motifs.html" class="external-link">view_motifs</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-8-1.png" style="display: block; margin: auto;"></p>
 </div>
 <div id="matching-motifs-using-tomtom" class="section level3">
 <h3 class="hasAnchor">
-<a href="#matching-motifs-using-tomtom" class="anchor"></a>Matching motifs using TOMTOM</h3>
+<a href="#matching-motifs-using-tomtom" class="anchor" aria-hidden="true"></a>Matching motifs using TOMTOM</h3>
 <p>Discovered motifs can be matched to known TF motifs using <code><a href="reference/runTomTom.html">runTomTom()</a></code>, which can accept as input a path to a .meme formatted file, a <code>universalmotif</code> list, or the results of <code><a href="reference/runDreme.html">runDreme()</a></code>.</p>
 <p>TomTom uses a database of known motifs which can be passed to the <code>database</code> parameter as a path to a .meme format file, or a <code>universalmotif</code> object.</p>
 <p>Optionally, you can set the environment variable <code>MEME_DB</code> in <code>.Renviron</code> to a file on disk, or the <code>meme_db</code> value in <code>options</code> to a valid .meme format file and memes will use that file as the database. memes will always prefer user input to the function call over a global variable setting.</p>
@@ -330,16 +342,16 @@ docker run -e PASSWORD=&lt;password&gt; -p 8787:8787 -v &lt;path&gt;/&lt;to&gt;/
 </div>
 <div id="using-rundreme-results-as-tomtom-input" class="section level3">
 <h3 class="hasAnchor">
-<a href="#using-rundreme-results-as-tomtom-input" class="anchor"></a>Using runDreme results as TOMTOM input</h3>
+<a href="#using-rundreme-results-as-tomtom-input" class="anchor" aria-hidden="true"></a>Using runDreme results as TOMTOM input</h3>
 <p><code><a href="reference/runTomTom.html">runTomTom()</a></code> will add its results as columns to a <code><a href="reference/runDreme.html">runDreme()</a></code> results data.frame.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">full_results</span> <span class="op">&lt;-</span> <span class="va">dreme_results</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">full_results</span> <span class="op">&lt;-</span> <span class="va">dreme_results</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="reference/runTomTom.html">runTomTom</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="motif-enrichment-using-ame" class="section level3">
 <h3 class="hasAnchor">
-<a href="#motif-enrichment-using-ame" class="anchor"></a>Motif Enrichment using AME</h3>
-<p>AME is used to test for enrichment of known motifs in target sequences. <code><a href="reference/runAme.html">runAme()</a></code> will use the <code>MEME_DB</code> entry in <code>.Renviron</code> or <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options(meme_db = "path/to/database.meme")</a></code> as the motif database. Alternately, it will accept all valid inputs similar to <code><a href="reference/runTomTom.html">runTomTom()</a></code>.</p>
+<a href="#motif-enrichment-using-ame" class="anchor" aria-hidden="true"></a>Motif Enrichment using AME</h3>
+<p>AME is used to test for enrichment of known motifs in target sequences. <code><a href="reference/runAme.html">runAme()</a></code> will use the <code>MEME_DB</code> entry in <code>.Renviron</code> or <code>options(meme_db = "path/to/database.meme")</code> as the motif database. Alternately, it will accept all valid inputs similar to <code><a href="reference/runTomTom.html">runTomTom()</a></code>.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># here I set the evalue_report_threshold = 30 to detect motifs in the limited example sequences</span>
 <span class="co"># In a real analysis, evalue_report_threshold should be carefully selected</span>
@@ -356,22 +368,22 @@ docker run -e PASSWORD=&lt;password&gt; -p 8787:8787 -v &lt;path&gt;/&lt;to&gt;/
 </div>
 <div id="visualizing-results" class="section level2">
 <h2 class="hasAnchor">
-<a href="#visualizing-results" class="anchor"></a>Visualizing Results</h2>
+<a href="#visualizing-results" class="anchor" aria-hidden="true"></a>Visualizing Results</h2>
 <p><code>view_tomtom_hits</code> allows comparing the input motifs to the top hits from TomTom. Manual inspection of these matches is important, as sometimes the top match is not always the correct assignment. Altering <code>top_n</code> allows you to show additional matches in descending order of their rank.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">full_results</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">full_results</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="reference/view_tomtom_hits.html">view_tomtom_hits</a></span><span class="op">(</span>top_n <span class="op">=</span> <span class="fl">1</span><span class="op">)</span>
 <span class="co">#&gt; $m01_AGAGC</span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-13-1.png" style="display: block; margin: auto;"></p>
 <p>It can be useful to view the results from <code><a href="reference/runAme.html">runAme()</a></code> as a heatmap. <code><a href="reference/plot_ame_heatmap.html">plot_ame_heatmap()</a></code> can create complex visualizations for analysis of enrichment between different region types (see vignettes for details). Here is a simple example heatmap.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">ame_results</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">ame_results</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="reference/plot_ame_heatmap.html">plot_ame_heatmap</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-14-1.png" style="display: block; margin: auto;"> # Scanning for motif occurances using FIMO</p>
 <p>The FIMO tool is used to identify matches to known motifs. <code>runFimo</code> will return these hits as a <code>GRanges</code> object containing the genomic coordinates of the motif match.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Query MotifDb for a motif</span>
-<span class="va">e93_motif</span> <span class="op">&lt;-</span> <span class="fu">MotifDb</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MotifDb/man/query.html" class="external-link">query</a></span><span class="op">(</span><span class="fu">MotifDb</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/MotifDb/man/MotifDb.html" class="external-link">MotifDb</a></span>, <span class="st">"Eip93F"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<span class="va">e93_motif</span> <span class="op">&lt;-</span> <span class="fu">MotifDb</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MotifDb/man/query.html" class="external-link">query</a></span><span class="op">(</span><span class="fu">MotifDb</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/MotifDb/man/MotifDb.html" class="external-link">MotifDb</a></span>, <span class="st">"Eip93F"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu">universalmotif</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/universalmotif/man/convert_motifs.html" class="external-link">convert_motifs</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; See system.file("LICENSE", package="MotifDb") for use restrictions.</span>
 
@@ -384,7 +396,7 @@ docker run -e PASSWORD=&lt;password&gt; -p 8787:8787 -v &lt;path&gt;/&lt;to&gt;/
 </div>
 <div id="importing-data-from-previous-runs" class="section level2">
 <h2 class="hasAnchor">
-<a href="#importing-data-from-previous-runs" class="anchor"></a>Importing Data from previous runs</h2>
+<a href="#importing-data-from-previous-runs" class="anchor" aria-hidden="true"></a>Importing Data from previous runs</h2>
 <p>memes also supports importing results generated using the MEME suite outside of R (for example, running jobs on <a href="meme-suite.org">meme-suite.org</a>, or running on the commandline). This enables use of preexisting MEME suite results with downstream memes functions.</p>
 <table class="table">
 <thead><tr class="header">
@@ -394,26 +406,31 @@ docker run -e PASSWORD=&lt;password&gt; -p 8787:8787 -v &lt;path&gt;/&lt;to&gt;/
 </tr></thead>
 <tbody>
 <tr class="odd">
+<td align="center">Streme</td>
+<td align="center"><code><a href="reference/importStremeXML.html">importStremeXML()</a></code></td>
+<td align="center">streme.xml</td>
+</tr>
+<tr class="even">
 <td align="center">Dreme</td>
 <td align="center"><code><a href="reference/importDremeXML.html">importDremeXML()</a></code></td>
 <td align="center">dreme.xml</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="center">TomTom</td>
 <td align="center"><code><a href="reference/importTomTomXML.html">importTomTomXML()</a></code></td>
 <td align="center">tomtom.xml</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="center">AME</td>
 <td align="center"><code><a href="reference/importAme.html">importAme()</a></code></td>
 <td align="center">ame.tsv*</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="center">FIMO</td>
 <td align="center"><code><a href="reference/importFimo.html">importFimo()</a></code></td>
 <td align="center">fimo.tsv</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="center">Meme</td>
 <td align="center"><code><a href="reference/importMeme.html">importMeme()</a></code></td>
 <td align="center">meme.txt</td>
@@ -425,10 +442,10 @@ docker run -e PASSWORD=&lt;password&gt; -p 8787:8787 -v &lt;path&gt;/&lt;to&gt;/
 </div>
 <div id="faqs" class="section level1">
 <h1 class="hasAnchor">
-<a href="#faqs" class="anchor"></a>FAQs</h1>
+<a href="#faqs" class="anchor" aria-hidden="true"></a>FAQs</h1>
 <div id="how-do-i-use-memesmeme-on-windows" class="section level3">
 <h3 class="hasAnchor">
-<a href="#how-do-i-use-memesmeme-on-windows" class="anchor"></a>How do I use memes/MEME on Windows?</h3>
+<a href="#how-do-i-use-memesmeme-on-windows" class="anchor" aria-hidden="true"></a>How do I use memes/MEME on Windows?</h3>
 <p>The MEME Suite does not currently support Windows, although it can be installed under <a href="https://www.cygwin.com/" class="external-link">Cygwin</a> or the <a href="https://docs.microsoft.com/en-us/windows/wsl/install-win10" class="external-link">Windows Linux Subsytem</a> (WSL). Please note that if MEME is installed on Cygwin or WSL, you must also run R inside Cygwin or WSL to use memes.</p>
 <p>An alternative solution is to use <a href="https://www.docker.com/get-started" class="external-link">Docker</a> to run a virtual environment with the MEME Suite installed. We provide a <a href="https://github.com/snystrom/memes_docker" class="external-link">memes docker container</a><br>
 that ships with the MEME Suite, R studio, and all <code>memes</code> dependencies pre-installed.</p>
@@ -436,7 +453,7 @@ that ships with the MEME Suite, R studio, and all <code>memes</code> dependencie
 </div>
 <div id="citation" class="section level1">
 <h1 class="hasAnchor">
-<a href="#citation" class="anchor"></a>Citation</h1>
+<a href="#citation" class="anchor" aria-hidden="true"></a>Citation</h1>
 <p>memes is a wrapper for a select few tools from the MEME Suite, which were developed by another group. In addition to citing memes, please cite the MEME Suite tools corresponding to the tools you use.</p>
 <p>If you use <code><a href="reference/runDreme.html">runDreme()</a></code> in your analysis, please cite:</p>
 <p>Timothy L. Bailey, “DREME: Motif discovery in transcription factor ChIP-seq data”, Bioinformatics, 27(12):1653-1659, 2011. <a href="https://academic.oup.com/bioinformatics/article/27/12/1653/257754" class="external-link">full text</a></p>
@@ -448,7 +465,7 @@ that ships with the MEME Suite, R studio, and all <code>memes</code> dependencie
 <p>Charles E. Grant, Timothy L. Bailey, and William Stafford Noble, “FIMO: Scanning for occurrences of a given motif”, Bioinformatics, 27(7):1017-1018, 2011. <a href="http://bioinformatics.oxfordjournals.org/content/early/2011/02/16/bioinformatics.btr064.full" class="external-link">full text</a></p>
 <div id="licensing-restrictions" class="section level2">
 <h2 class="hasAnchor">
-<a href="#licensing-restrictions" class="anchor"></a>Licensing Restrictions</h2>
+<a href="#licensing-restrictions" class="anchor" aria-hidden="true"></a>Licensing Restrictions</h2>
 <p>The MEME Suite is free for non-profit use, but for-profit users should purchase a license. See the <a href="http://meme-suite.org/doc/copyright.html" class="external-link">MEME Suite Copyright Page</a> for details.</p>
 </div>
 </div>

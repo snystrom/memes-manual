@@ -1,7 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://snystrom.github.io/dremeR/404.html</loc>
+  </url>
+  <url>
+    <loc>https://snystrom.github.io/dremeR/LICENSE-text.html</loc>
+  </url>
+  <url>
+    <loc>https://snystrom.github.io/dremeR/LICENSE.html</loc>
+  </url>
+  <url>
+    <loc>https://snystrom.github.io/dremeR/articles/core_ame.html</loc>
+  </url>
+  <url>
+    <loc>https://snystrom.github.io/dremeR/articles/core_dreme.html</loc>
+  </url>
+  <url>
+    <loc>https://snystrom.github.io/dremeR/articles/core_fimo.html</loc>
+  </url>
+  <url>
+    <loc>https://snystrom.github.io/dremeR/articles/core_tomtom.html</loc>
+  </url>
+  <url>
+    <loc>https://snystrom.github.io/dremeR/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://snystrom.github.io/dremeR/articles/install_guide.html</loc>
+  </url>
+  <url>
+    <loc>https://snystrom.github.io/dremeR/articles/integrative_analysis.html</loc>
+  </url>
+  <url>
+    <loc>https://snystrom.github.io/dremeR/articles/tidy_motifs.html</loc>
+  </url>
+  <url>
+    <loc>https://snystrom.github.io/dremeR/authors.html</loc>
+  </url>
+  <url>
     <loc>https://snystrom.github.io/dremeR/index.html</loc>
+  </url>
+  <url>
+    <loc>https://snystrom.github.io/dremeR/news/index.html</loc>
   </url>
   <url>
     <loc>https://snystrom.github.io/dremeR/reference/add_sequence.html</loc>
@@ -67,7 +106,13 @@
     <loc>https://snystrom.github.io/dremeR/reference/importMeme.html</loc>
   </url>
   <url>
+    <loc>https://snystrom.github.io/dremeR/reference/importStremeXML.html</loc>
+  </url>
+  <url>
     <loc>https://snystrom.github.io/dremeR/reference/importTomTomXML.html</loc>
+  </url>
+  <url>
+    <loc>https://snystrom.github.io/dremeR/reference/index.html</loc>
   </url>
   <url>
     <loc>https://snystrom.github.io/dremeR/reference/meme_is_installed.html</loc>
@@ -100,6 +145,9 @@
     <loc>https://snystrom.github.io/dremeR/reference/runMeme.html</loc>
   </url>
   <url>
+    <loc>https://snystrom.github.io/dremeR/reference/runStreme.html</loc>
+  </url>
+  <url>
     <loc>https://snystrom.github.io/dremeR/reference/runTomTom.html</loc>
   </url>
   <url>
@@ -110,26 +158,5 @@
   </url>
   <url>
     <loc>https://snystrom.github.io/dremeR/reference/write_fasta.html</loc>
-  </url>
-  <url>
-    <loc>https://snystrom.github.io/dremeR/articles/core_ame.html</loc>
-  </url>
-  <url>
-    <loc>https://snystrom.github.io/dremeR/articles/core_dreme.html</loc>
-  </url>
-  <url>
-    <loc>https://snystrom.github.io/dremeR/articles/core_fimo.html</loc>
-  </url>
-  <url>
-    <loc>https://snystrom.github.io/dremeR/articles/core_tomtom.html</loc>
-  </url>
-  <url>
-    <loc>https://snystrom.github.io/dremeR/articles/install_guide.html</loc>
-  </url>
-  <url>
-    <loc>https://snystrom.github.io/dremeR/articles/integrative_analysis.html</loc>
-  </url>
-  <url>
-    <loc>https://snystrom.github.io/dremeR/articles/tidy_motifs.html</loc>
   </url>
 </urlset>

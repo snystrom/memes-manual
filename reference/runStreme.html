@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Returns logical vector indicating valid MEME-Suite install status — meme_is_installed • memes</title>
+<title>Denovo motif discovery of target regions using STREME — runStreme • memes</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,12 @@
 
 
 
-<meta property="og:title" content="Returns logical vector indicating valid MEME-Suite install status — meme_is_installed" />
-<meta property="og:description" content="Checks for a valid meme install using same heirarchy as check_meme_install().
-Returns TRUE if all supported utilities are found in the meme install
-location, FALSE if not." />
+<meta property="og:title" content="Denovo motif discovery of target regions using STREME — runStreme" />
+<meta property="og:description" content="STREME discovers short, ungapped, *de-novo* motifs that are enriched or
+relatively enriched relative to a control set of sequences. STREME can be run
+to discover motifs relative to a shuffled set of input sequences, against a
+separately provided set of &quot;control&quot; sequences, or to determine whether
+motifs are centrally enriched within input sequences." />
 
 
 
@@ -59,8 +61,6 @@ location, FALSE if not." />
 <![endif]-->
 
 
-
-<!-- dependencies from examples -->
 
 
   
@@ -148,48 +148,124 @@ location, FALSE if not." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Returns logical vector indicating valid MEME-Suite install status</h1>
-    <small class="dont-index">Source: <a href='https://github.com/snystrom/memes/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
-    <div class="hidden name"><code>meme_is_installed.Rd</code></div>
+    <h1>Denovo motif discovery of target regions using STREME</h1>
+    <small class="dont-index">Source: <a href='https://github.com/snystrom/memes/blob/master/R/streme.R'><code>R/streme.R</code></a></small>
+    <div class="hidden name"><code>runStreme.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Checks for a valid meme install using same heirarchy as <code><a href='check_meme_install.html'>check_meme_install()</a></code>.
-Returns <code>TRUE</code> if all supported utilities are found in the meme install
-location, <code>FALSE</code> if not.</p>
+    <p>STREME discovers short, ungapped, *de-novo* motifs that are enriched or
+relatively enriched relative to a control set of sequences. STREME can be run
+to discover motifs relative to a shuffled set of input sequences, against a
+separately provided set of "control" sequences, or to determine whether
+motifs are centrally enriched within input sequences.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>meme_is_installed</span><span class='op'>(</span>path <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>runStreme</span><span class='op'>(</span>
+  <span class='va'>input</span>,
+  <span class='va'>control</span>,
+  outdir <span class='op'>=</span> <span class='st'>"auto"</span>,
+  objfun <span class='op'>=</span> <span class='st'>"de"</span>,
+  alph <span class='op'>=</span> <span class='st'>"dna"</span>,
+  meme_path <span class='op'>=</span> <span class='cn'>NULL</span>,
+  silent <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>path</th>
-      <td><p>optional path to "meme/bin/". If unset, will follow the search
-heirarchy listed above.</p></td>
+      <th>input</th>
+      <td><p>regions to scan for motifs. If using `objfun = "cd"` to test for
+centrally enriched motifs, be sure to include sufficient flanking sequence
+(e.g. +/- 500bp) for an accurate estimate. Can be any of:
+- path to fasta file
+- DNAStringSet object (can be generated from GRanges using `get_sequence()`)
+- List of DNAStringSet objects (generated from `get_sequence()`)
+- *NOTE:* if using StringSet inputs, each entry must be named (set with `names()`).
+- *NOTE:* If you want to retain the raw streme output files, you must use a
+path to fasta file as input, or specify an "outdir"</p></td>
+    </tr>
+    <tr>
+      <th>control</th>
+      <td><p>regions to use as background for motif search. These should
+have a similar length distribution as the input sequences. Can be any of:
+- path to fasta file
+- DNAStringSet object (can be generated from GRanges using get_sequence)
+- A Biostrings::BStringSetList (generated using `get_sequence`), in which
+case all sequences in the list will be combined as the control set.
+- if `input` is a list of DNAStringSet objects, a character vector of names
+in `input` will use those sequences as background. runstreme will not scan
+those regions as input.
+- "shuffle" to use streme's built-in dinucleotide shuffle feature (NOTE: if
+`input` is a list object with an entry named "shuffle", the list entry will
+be used instead).
+Optionally can also pass `seed = &lt;any number&gt;` to `...` to use as the random
+seed during shuffling. If no seed is passed, streme will use 0 as the random
+seed, so results will be reproducible if rerunning.</p></td>
+    </tr>
+    <tr>
+      <th>outdir</th>
+      <td><p>path to output directory of streme files, or "auto" to
+autogenerate path. Default: location of input fasta in dir named
+"\&lt;input\&gt;_vs_\&lt;control\&gt;". If input is DNAstringset, will be temporary
+path. This means that if you want to save the raw output files, you must
+use fasta files as input or use an informative (and unique) outdir name.
+memes will **not check** if it overwrites files in a directory. Directories
+will be recursively created if needed. (default: "auto")</p></td>
+    </tr>
+    <tr>
+      <th>objfun</th>
+      <td><p>one of c("de", "cd"). Default: "de" for differential
+enrichment. "cd" for central distance (control must be set to NA for "cd").</p></td>
+    </tr>
+    <tr>
+      <th>alph</th>
+      <td><p>one of c("dna", "rna", "protein") or a path to a MEME format alph file. (default: "dna")</p></td>
+    </tr>
+    <tr>
+      <th>meme_path</th>
+      <td><p>path to "meme/bin"</p></td>
+    </tr>
+    <tr>
+      <th>silent</th>
+      <td><p>Whether to suppress printing stdout &amp; stderr to console
+(default: TRUE). Warnings are always printed regardless of this setting.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>pass any commandline options as R function arguments. For a
+complete list of STREME options, see 
+[the STREME manual](https://meme-suite.org/meme/doc/streme.html).</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>logical(1)</code> indicating whether meme is installed with all supported utilities</p>
+    <p>a `universalmotif_df` of STREME Motifs</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The search heirarchy is as follows:</p><ol>
-<li><p>the <code>meme_path</code> function argument if set</p></li>
-<li><p>the <code>meme_bin</code> option</p></li>
-<li><p>the <code>MEME_BIN</code> environment variable</p></li>
-<li><p>the default location at <code>~/meme/bin</code></p></li>
-</ol>
+    <p>Properly setting the `control` parameter is key to discovering biologically
+relevant motifs. Often, using `control = "shuffle"` will produce a suboptimal
+set of motifs; however, some discriminative analysis designs don't have
+proper "control" regions other than to shuffle.</p>
 
+<p>If you have fewer than 50 sequences, consider using [runMeme()] instead.</p>
+
+
+<p># Citation</p>
+<p>If you use `runStreme()` in your analysis, please cite:</p>
+<p>Timothy L. Bailey, "STREME: Accurate and versatile sequence motif
+ discovery", Bioinformatics, 2021.
+ https://doi.org/10.1093/bioinformatics/btab203</p> 
+<p># Licensing
+ The MEME Suite is free for non-profit use, but for-profit users should purchase a
+ license. See the [MEME Suite Copyright Page](http://meme-suite.org/doc/copyright.html) for details.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='check_meme_install.html'>check_meme_install()</a></code></p></div>
+    <div class='dont-index'><p>`?universalmotif::tidy-motifs`</p></div>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>meme_is_installed</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='co'>#&gt; [1] TRUE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

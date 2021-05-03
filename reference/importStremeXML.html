@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Returns logical vector indicating valid MEME-Suite install status — meme_is_installed • memes</title>
+<title>Import Streme output from previous run — importStremeXML • memes</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,8 @@
 
 
 
-<meta property="og:title" content="Returns logical vector indicating valid MEME-Suite install status — meme_is_installed" />
-<meta property="og:description" content="Checks for a valid meme install using same heirarchy as check_meme_install().
-Returns TRUE if all supported utilities are found in the meme install
-location, FALSE if not." />
+<meta property="og:title" content="Import Streme output from previous run — importStremeXML" />
+<meta property="og:description" content="Import Streme output from previous run" />
 
 
 
@@ -148,48 +146,96 @@ location, FALSE if not." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Returns logical vector indicating valid MEME-Suite install status</h1>
-    <small class="dont-index">Source: <a href='https://github.com/snystrom/memes/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
-    <div class="hidden name"><code>meme_is_installed.Rd</code></div>
+    <h1>Import Streme output from previous run</h1>
+    <small class="dont-index">Source: <a href='https://github.com/snystrom/memes/blob/master/R/import_xml.R'><code>R/import_xml.R</code></a></small>
+    <div class="hidden name"><code>importStremeXML.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Checks for a valid meme install using same heirarchy as <code><a href='check_meme_install.html'>check_meme_install()</a></code>.
-Returns <code>TRUE</code> if all supported utilities are found in the meme install
-location, <code>FALSE</code> if not.</p>
+    <p>Import Streme output from previous run</p>
     </div>
 
-    <pre class="usage"><span class='fu'>meme_is_installed</span><span class='op'>(</span>path <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>importStremeXML</span><span class='op'>(</span><span class='va'>streme_xml_path</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>path</th>
-      <td><p>optional path to "meme/bin/". If unset, will follow the search
-heirarchy listed above.</p></td>
+      <th>streme_xml_path</th>
+      <td><p>path to streme.xml file</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>logical(1)</code> indicating whether meme is installed with all supported utilities</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>The search heirarchy is as follows:</p><ol>
-<li><p>the <code>meme_path</code> function argument if set</p></li>
-<li><p>the <code>meme_bin</code> option</p></li>
-<li><p>the <code>MEME_BIN</code> environment variable</p></li>
-<li><p>the default location at <code>~/meme/bin</code></p></li>
-</ol>
-
+    <p>data.frame with statistics for each discovered motif. The `motifs`
+  column contains a universalmotif object representation in PCM format of
+  each DREME motif. If no motifs are discovered, returns NULL.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='check_meme_install.html'>check_meme_install()</a></code></p></div>
+    <div class='dont-index'><p>[runStreme()]</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>meme_is_installed</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='co'>#&gt; [1] TRUE</div></pre>
+    <pre class="examples"><div class='input'><span class='va'>streme_xml</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"streme.xml"</span>, package <span class='op'>=</span> <span class='st'>"memes"</span><span class='op'>)</span>
+<span class='fu'>importStremeXML</span><span class='op'>(</span><span class='va'>streme_xml</span><span class='op'>)</span>
+</div><div class='co'>#&gt;                           motif               name  altname       consensus
+#&gt; m1_RGCCACACCCWNNBY &lt;mot:m1_R..&gt; m1_RGCCACACCCWNNBY STREME-1 NRCCMCACCCWNHNN
+#&gt; m2_CTCCACCCAK      &lt;mot:m2_C..&gt;      m2_CTCCACCCAK STREME-2      CTCCACCCAK
+#&gt; m3_RGAGATAAGRVD    &lt;mot:m3_R..&gt;    m3_RGAGATAAGRVD STREME-3    RNAGATAAGRNN
+#&gt; m4_CCCKCCCTYC      &lt;mot:m4_C..&gt;      m4_CCCKCCCTYC STREME-4      CCCKCCCTYC
+#&gt; m5_AAAATRAAANMCA   &lt;mot:m5_A..&gt;   m5_AAAATRAAANMCA STREME-5   AAAATRAAAHNNA
+#&gt; m6_CCCCACCCC       &lt;mot:m6_C..&gt;       m6_CCCCACCCC STREME-6       CCCCACCCC
+#&gt; m7_AAAACAAACCTAG   &lt;mot:m7_A..&gt;   m7_AAAACAAACCTAG STREME-7   AAAACAAACCTAG
+#&gt;                    alphabet strand   icscore nsites    pval type pseudocount
+#&gt; m1_RGCCACACCCWNNBY      DNA     +- 14.728262    325 2.3e-09  PCM           0
+#&gt; m2_CTCCACCCAK           DNA     +- 16.726387     43 3.0e-02  PCM           0
+#&gt; m3_RGAGATAAGRVD         DNA     +- 12.702128    336 4.5e-02  PCM           0
+#&gt; m4_CCCKCCCTYC           DNA     +- 10.250530    378 4.7e-02  PCM           0
+#&gt; m5_AAAATRAAANMCA        DNA     +-  9.943566    361 2.2e-01  PCM           0
+#&gt; m6_CCCCACCCC            DNA     +- 11.494070    165 6.0e-01  PCM           0
+#&gt; m7_AAAACAAACCTAG        DNA     +- 17.153239     34 1.0e+00  PCM           0
+#&gt;                                           bkg width initial_width
+#&gt; m1_RGCCACACCCWNNBY 0.256, 0.244, 0.244, 0.256    15            11
+#&gt; m2_CTCCACCCAK      0.256, 0.244, 0.244, 0.256    10             9
+#&gt; m3_RGAGATAAGRVD    0.256, 0.244, 0.244, 0.256    12            11
+#&gt; m4_CCCKCCCTYC      0.256, 0.244, 0.244, 0.256    10             7
+#&gt; m5_AAAATRAAANMCA   0.256, 0.244, 0.244, 0.256    13             9
+#&gt; m6_CCCCACCCC       0.256, 0.244, 0.244, 0.256     9             9
+#&gt; m7_AAAACAAACCTAG   0.256, 0.244, 0.244, 0.256    13            11
+#&gt;                               seed score_threshold pos_count neg_count
+#&gt; m1_RGCCACACCCWNNBY AGCCACACCCACTGC         11.5654        34         3
+#&gt; m2_CTCCACCCAK           CTCCACCCAT         13.6193         5         0
+#&gt; m3_RGAGATAAGRVD       GGAGATAAGAAT         8.98469        29        18
+#&gt; m4_CCCKCCCTYC           CCCTCCCTCC         8.17623        30        19
+#&gt; m5_AAAATRAAANMCA     AAAATGAAACGCA         8.38964        34        28
+#&gt; m6_CCCCACCCC             CCCCACCCC         10.2743         9         9
+#&gt; m7_AAAACAAACCTAG     AAAACAAACCTAG         13.2798         0         0
+#&gt;                     log_pval dtc bernoulli train_pos_count train_neg_count
+#&gt; m1_RGCCACACCCWNNBY  -8.63457  -1        -1             291              31
+#&gt; m2_CTCCACCCAK        -1.5299  -1        -1              38               1
+#&gt; m3_RGAGATAAGRVD     -1.35111  -1        -1             307             130
+#&gt; m4_CCCKCCCTYC       -1.33039  -1        -1             348             185
+#&gt; m5_AAAATRAAANMCA   -0.664534  -1        -1             327             189
+#&gt; m6_CCCCACCCC        -0.22349  -1        -1             156              66
+#&gt; m7_AAAACAAACCTAG           0  -1        -1              34               1
+#&gt;                    train_log_pval train_pval train_dtc train_bernoulli
+#&gt; m1_RGCCACACCCWNNBY       -64.9779    1.1e-65        -1              -1
+#&gt; m2_CTCCACCCAK            -10.3203    4.8e-11        -1              -1
+#&gt; m3_RGAGATAAGRVD          -22.9027    1.3e-23        -1              -1
+#&gt; m4_CCCKCCCTYC            -17.4235    3.8e-18        -1              -1
+#&gt; m5_AAAATRAAANMCA         -12.9385    1.2e-13        -1              -1
+#&gt; m6_CCCCACCCC             -10.4109    3.9e-11        -1              -1
+#&gt; m7_AAAACAAACCTAG          -9.1239    7.5e-10        -1              -1
+#&gt;                    is_palindromic elapsed_time
+#&gt; m1_RGCCACACCCWNNBY             no          3.9
+#&gt; m2_CTCCACCCAK                  no         16.8
+#&gt; m3_RGAGATAAGRVD                no            9
+#&gt; m4_CCCKCCCTYC                  no         13.2
+#&gt; m5_AAAATRAAANMCA               no         20.7
+#&gt; m6_CCCCACCCC                   no         23.8
+#&gt; m7_AAAACAAACCTAG               no         27.2
+#&gt; 
+#&gt; [Hidden empty columns: family, organism, bkgsites, qval, eval.]</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

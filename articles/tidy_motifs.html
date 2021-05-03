@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">memes</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.11</span>
       </span>
     </div>
 
@@ -115,17 +115,17 @@
 <p>The <code>MotifDb</code> package makes it easy to query thousands of motifs from public databases. Here, I will describe how to use one of these queries as input to memes functions, and how to manipulate the resulting motifs to prepare them for MEME suite tools.</p>
 <p>I will use the motifs from the <a href="https://mccb.umassmed.edu/ffs/" class="external-link">FlyFactorSurvey</a> as an example. They can be accessed from <code>MotifDb</code> using the following query.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">flyFactorDb</span> <span class="op">&lt;-</span> <span class="fu">MotifDb</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/MotifDb/man/MotifDb.html" class="external-link">MotifDb</a></span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">flyFactorDb</span> <span class="op">&lt;-</span> <span class="fu">MotifDb</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/MotifDb/man/MotifDb.html" class="external-link">MotifDb</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu">MotifDb</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MotifDb/man/query.html" class="external-link">query</a></span><span class="op">(</span><span class="st">"FlyFactorSurvey"</span><span class="op">)</span>
 <span class="co">#&gt; See system.file("LICENSE", package="MotifDb") for use restrictions.</span></code></pre></div>
 <p>Use <code><a href="https://rdrr.io/pkg/universalmotif/man/convert_motifs.html" class="external-link">universalmotif::convert_motifs()</a></code> to convert a <code>MotifDb</code> query into motif objects. In many cases, the resulting list can be used directly as input to memes functions, like <code>runTomTom</code>, or <code>runAme</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">flyFactorMotifs</span> <span class="op">&lt;-</span> <span class="va">flyFactorDb</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">flyFactorMotifs</span> <span class="op">&lt;-</span> <span class="va">flyFactorDb</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="https://rdrr.io/pkg/universalmotif/man/convert_motifs.html" class="external-link">convert_motifs</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>But there are some issues with this database. For example, the following motif name is the FlyBase gene number, and the alternate name is the actual informative name of the PWM. The MEME Suite relies more heavily on the primary name, so it would be nice if the database used interpretable names.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">flyFactorMotifs</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">flyFactorMotifs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
 <span class="co">#&gt; [[1]]</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;        Motif name:   FBgn0259750</span>
@@ -152,33 +152,33 @@
 <span class="co">#&gt; T 0.10 0.10 0.00</span></code></pre></div>
 <p>The universalmotif function <code><a href="https://rdrr.io/pkg/universalmotif/man/tidy-motifs.html" class="external-link">to_df()</a></code> converts universalmotif lists into <code>universalmotif_df</code> format which can be used to update motif entries. This is particularly useful when dealing with several motifs at once.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">flyFactor_data</span> <span class="op">&lt;-</span> <span class="va">flyFactorMotifs</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">flyFactor_data</span> <span class="op">&lt;-</span> <span class="va">flyFactorMotifs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="https://rdrr.io/pkg/universalmotif/man/tidy-motifs.html" class="external-link">to_df</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>The columns of the <code>universalmotif_df</code> can be freely changed to edit the properties of the motifs stored in the <code>motif</code> column. Just like standard data.frames, additional columns can be added to store additional metadata. For more details on these objects see the help page: <code><a href="https://rdrr.io/pkg/universalmotif/man/tidy-motifs.html" class="external-link">?universalmotif::to_df</a></code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># The following columns can be changed to update motif metadata</span>
-<span class="va">flyFactor_data</span> <span class="op">%&gt;%</span> 
+<span class="va">flyFactor_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="va">names</span>
-<span class="co">#&gt;  [1] "motif"      "name"       "altname"    "family"     "organism"  </span>
-<span class="co">#&gt;  [6] "consensus"  "alphabet"   "strand"     "icscore"    "nsites"    </span>
-<span class="co">#&gt; [11] "bkgsites"   "pval"       "qval"       "eval"       "type"      </span>
-<span class="co">#&gt; [16] "bkg"        "dataSource"</span></code></pre></div>
+<span class="co">#&gt;  [1] "motif"       "name"        "altname"     "family"      "organism"   </span>
+<span class="co">#&gt;  [6] "consensus"   "alphabet"    "strand"      "icscore"     "nsites"     </span>
+<span class="co">#&gt; [11] "bkgsites"    "pval"        "qval"        "eval"        "type"       </span>
+<span class="co">#&gt; [16] "pseudocount" "bkg"         "dataSource"</span></code></pre></div>
 <p>using the <code>universalmotif_df</code>, we can quickly see that the issue with FBgn numbers only applies to certain entries. And TFs which are represented by multiple motifs in the database are assigned the same name. The MEME Suite tools which use a motif database (like TomTom and AME) require that the entries have unique primary identifiers, therefore the default names will not be appropriate.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">flyFactor_data</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">flyFactor_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>
 <span class="co">#&gt;          motif        name                  altname      organism</span>
 <span class="co">#&gt; 1 &lt;mot:FBgn..&gt; FBgn0259750 ab_SANGER_10_FBgn0259750 Dmelanogaster</span>
 <span class="co">#&gt; 2 &lt;mot:FBgn..&gt; FBgn0259750  ab_SOLEXA_5_FBgn0259750 Dmelanogaster</span>
 <span class="co">#&gt; 3  &lt;mot:abd-A&gt;       abd-A Abd-A_FlyReg_FBgn0000014 Dmelanogaster</span>
 <span class="co">#&gt; 4  &lt;mot:Abd-B&gt;       Abd-B Abd-B_FlyReg_FBgn0000015 Dmelanogaster</span>
 <span class="co">#&gt; 5  &lt;mot:abd-A&gt;       abd-A    AbdA_Cell_FBgn0000014 Dmelanogaster</span>
-<span class="co">#&gt;                    consensus alphabet strand   icscore nsites type</span>
-<span class="co">#&gt; 1      BWNRCCAGGWMCNNTNNNGNN      DNA     +- 15.013759     20  PPM</span>
-<span class="co">#&gt; 2 NNNNHNRCCAGGWMCYNNNNNNNNNN      DNA     +- 14.570384    446  PPM</span>
-<span class="co">#&gt; 3                   KNMATWAW      DNA     +-  7.371641     37  PPM</span>
-<span class="co">#&gt; 4                   YCATAAAA      DNA     +-  7.831193      7  PPM</span>
-<span class="co">#&gt; 5                    TTAATKA      DNA     +-  8.976569     18  PPM</span>
+<span class="co">#&gt;                    consensus alphabet strand   icscore nsites type pseudocount</span>
+<span class="co">#&gt; 1      BWNRCCAGGWMCNNTNNNGNN      DNA     +- 15.013759     20  PPM           1</span>
+<span class="co">#&gt; 2 NNNNHNRCCAGGWMCYNNNNNNNNNN      DNA     +- 14.570384    446  PPM           1</span>
+<span class="co">#&gt; 3                   KNMATWAW      DNA     +-  7.371641     37  PPM           1</span>
+<span class="co">#&gt; 4                   YCATAAAA      DNA     +-  7.831193      7  PPM           1</span>
+<span class="co">#&gt; 5                    TTAATKA      DNA     +-  8.976569     18  PPM           1</span>
 <span class="co">#&gt;                      bkg      dataSource</span>
 <span class="co">#&gt; 1 0.25, 0.25, 0.25, 0.25 FlyFactorSurvey</span>
 <span class="co">#&gt; 2 0.25, 0.25, 0.25, 0.25 FlyFactorSurvey</span>
@@ -189,25 +189,25 @@
 <span class="co">#&gt; [Hidden empty columns: family, bkgsites, pval, qval, eval.]</span></code></pre></div>
 <p>However, the <code>altname</code> slots from the <code>motifDb</code> query are already unique, so we can make them the primary name.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">flyFactor_data</span><span class="op">$</span><span class="va">altname</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">flyFactor_data</span><span class="op">$</span><span class="va">altname</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">flyFactor_data</span><span class="op">$</span><span class="va">altname</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">flyFactor_data</span><span class="op">$</span><span class="va">altname</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; [1] TRUE</span></code></pre></div>
 <p>An easy way is to use <code><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">dplyr::rename</a></code> to swap the columns.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">flyFactor_data</span> <span class="op">%&lt;&gt;%</span> 
+<code class="sourceCode R"><span class="va">flyFactor_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/compound.html" class="external-link">%&lt;&gt;%</a></span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html" class="external-link">rename</a></span><span class="op">(</span><span class="st">"altname"</span> <span class="op">=</span> <span class="st">"name"</span>, 
                 <span class="st">"name"</span> <span class="op">=</span> <span class="st">"altname"</span><span class="op">)</span></code></pre></div>
 <p>The <code>name</code> column now contains the full motif name.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">flyFactor_data</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">flyFactor_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>
 <span class="co">#&gt;            motif     altname                     name      organism</span>
 <span class="co">#&gt; 1 * &lt;mot:FBgn..&gt; FBgn0259750 ab_SANGER_10_FBgn0259750 Dmelanogaster</span>
 <span class="co">#&gt; 2 * &lt;mot:FBgn..&gt; FBgn0259750  ab_SOLEXA_5_FBgn0259750 Dmelanogaster</span>
 <span class="co">#&gt; 3 *  &lt;mot:abd-A&gt;       abd-A Abd-A_FlyReg_FBgn0000014 Dmelanogaster</span>
-<span class="co">#&gt;                    consensus alphabet strand   icscore nsites type</span>
-<span class="co">#&gt; 1      BWNRCCAGGWMCNNTNNNGNN      DNA     +- 15.013759     20  PPM</span>
-<span class="co">#&gt; 2 NNNNHNRCCAGGWMCYNNNNNNNNNN      DNA     +- 14.570384    446  PPM</span>
-<span class="co">#&gt; 3                   KNMATWAW      DNA     +-  7.371641     37  PPM</span>
+<span class="co">#&gt;                    consensus alphabet strand   icscore nsites type pseudocount</span>
+<span class="co">#&gt; 1      BWNRCCAGGWMCNNTNNNGNN      DNA     +- 15.013759     20  PPM           1</span>
+<span class="co">#&gt; 2 NNNNHNRCCAGGWMCYNNNNNNNNNN      DNA     +- 14.570384    446  PPM           1</span>
+<span class="co">#&gt; 3                   KNMATWAW      DNA     +-  7.371641     37  PPM           1</span>
 <span class="co">#&gt;                      bkg      dataSource</span>
 <span class="co">#&gt; 1 0.25, 0.25, 0.25, 0.25 FlyFactorSurvey</span>
 <span class="co">#&gt; 2 0.25, 0.25, 0.25, 0.25 FlyFactorSurvey</span>
@@ -221,23 +221,23 @@
 <p>For this example, we will try to grab the correct gene name from the motif name, which is stored in the first field of the name, formatted as follows: “<gene><em><sequencing-platform></sequencing-platform></em><fbgn>”.</fbgn></gene></p>
 <p>We use <code><a href="https://tidyr.tidyverse.org/reference/separate.html" class="external-link">tidyr::separate</a></code> to split out the first entry to the <code>tifd</code> column, then only use this value if the altname contains an FBgn.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">flyFactor_data</span> <span class="op">%&lt;&gt;%</span> 
+<code class="sourceCode R"><span class="va">flyFactor_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/compound.html" class="external-link">%&lt;&gt;%</a></span> 
   <span class="co"># Critical to set remove = FALSE to keep the `name` column</span>
-  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/separate.html" class="external-link">separate</a></span><span class="op">(</span><span class="va">name</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"tfid"</span><span class="op">)</span>, remove <span class="op">=</span> <span class="cn">FALSE</span>, extra <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/separate.html" class="external-link">separate</a></span><span class="op">(</span><span class="va">name</span>, <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"tfid"</span><span class="op">)</span>, remove <span class="op">=</span> <span class="cn">FALSE</span>, extra <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="co"># Only use the tfid if the altname contains an FBgn</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>altname <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"^FBgn"</span>, <span class="va">altname</span><span class="op">)</span>, <span class="va">tfid</span>, <span class="va">altname</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>altname <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"^FBgn"</span>, <span class="va">altname</span><span class="op">)</span>, <span class="va">tfid</span>, <span class="va">altname</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Now, the first two entries are listed as “ab” instead of “FBgn0259750”.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">flyFactor_data</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">flyFactor_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>
 <span class="co">#&gt;            motif altname                     name tfid      organism</span>
 <span class="co">#&gt; 1 * &lt;mot:FBgn..&gt;      ab ab_SANGER_10_FBgn0259750   ab Dmelanogaster</span>
 <span class="co">#&gt; 2 * &lt;mot:FBgn..&gt;      ab  ab_SOLEXA_5_FBgn0259750   ab Dmelanogaster</span>
 <span class="co">#&gt; 3 *  &lt;mot:abd-A&gt;   abd-A Abd-A_FlyReg_FBgn0000014  Abd Dmelanogaster</span>
-<span class="co">#&gt;                    consensus alphabet strand   icscore nsites type</span>
-<span class="co">#&gt; 1      BWNRCCAGGWMCNNTNNNGNN      DNA     +- 15.013759     20  PPM</span>
-<span class="co">#&gt; 2 NNNNHNRCCAGGWMCYNNNNNNNNNN      DNA     +- 14.570384    446  PPM</span>
-<span class="co">#&gt; 3                   KNMATWAW      DNA     +-  7.371641     37  PPM</span>
+<span class="co">#&gt;                    consensus alphabet strand   icscore nsites type pseudocount</span>
+<span class="co">#&gt; 1      BWNRCCAGGWMCNNTNNNGNN      DNA     +- 15.013759     20  PPM           1</span>
+<span class="co">#&gt; 2 NNNNHNRCCAGGWMCYNNNNNNNNNN      DNA     +- 14.570384    446  PPM           1</span>
+<span class="co">#&gt; 3                   KNMATWAW      DNA     +-  7.371641     37  PPM           1</span>
 <span class="co">#&gt;                      bkg      dataSource</span>
 <span class="co">#&gt; 1 0.25, 0.25, 0.25, 0.25 FlyFactorSurvey</span>
 <span class="co">#&gt; 2 0.25, 0.25, 0.25, 0.25 FlyFactorSurvey</span>
@@ -248,32 +248,38 @@
 <span class="co">#&gt;   apply changes.]</span></code></pre></div>
 <p>Next, because the FBgn’s are out of date, we will remove them from the “names” to shorten up the motif names. This also makes the motif name more comparable to the original motif names from the <a href="https://mccb.umassmed.edu/ffs/" class="external-link">FlyFactor Survey</a>.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">flyFactor_data</span> <span class="op">%&lt;&gt;%</span> 
+<code class="sourceCode R"><span class="va">flyFactor_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/compound.html" class="external-link">%&lt;&gt;%</a></span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span><span class="st">"_FBgn\\d+"</span>, <span class="st">""</span>, <span class="va">name</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div id="a-few-reality-checks" class="section level2">
 <h2 class="hasAnchor">
-<a href="#a-few-reality-checks" class="anchor"></a>A few reality checks</h2>
+<a href="#a-few-reality-checks" class="anchor" aria-hidden="true"></a>A few reality checks</h2>
 <p>It’s worth taking a look at the instances where the <code>altname</code> and our parsed <code>tfid</code> do not match. This is a good way to ensure we haven’t missed any important edge cases in the data. As new edge cases are encountered, we can develop new rules for tidying the data to ensure a high quality set of motifs.</p>
 <p>Start by simply filtering for all instance where there is a mismatch between <code>altname</code> and <code>tfid</code>.</p>
 <p>Carefully compare the <code>altname</code>, <code>name</code>, and <code>tfid</code> columns. Why might the values differ? Are there instances that make you question the data?</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">flyFactor_data</span> <span class="op">%&gt;%</span> 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">altname</span> <span class="op">!=</span> <span class="va">tfid</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">flyFactor_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">altname</span> <span class="op">!=</span> <span class="va">tfid</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="co"># I'm only showing the first 5 rows for brevity, but take a look at the full</span>
   <span class="co"># data and see what patterns you notice</span>
-  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span>
 <span class="co">#&gt;           motif altname         name tfid      organism consensus alphabet</span>
 <span class="co">#&gt; 1 * &lt;mot:abd-A&gt;   abd-A Abd-A_FlyReg  Abd Dmelanogaster  KNMATWAW      DNA</span>
 <span class="co">#&gt; 2 * &lt;mot:Abd-B&gt;   Abd-B Abd-B_FlyReg  Abd Dmelanogaster  YCATAAAA      DNA</span>
 <span class="co">#&gt; 3 * &lt;mot:abd-A&gt;   abd-A    AbdA_Cell AbdA Dmelanogaster   TTAATKA      DNA</span>
 <span class="co">#&gt; 4 * &lt;mot:abd-A&gt;   abd-A  AbdA_SOLEXA AbdA Dmelanogaster  NTTAATKR      DNA</span>
 <span class="co">#&gt; 5 * &lt;mot:Abd-B&gt;   Abd-B    AbdB_Cell AbdB Dmelanogaster GWTTTATKA      DNA</span>
-<span class="co">#&gt;   strand  icscore nsites type                    bkg      dataSource</span>
-<span class="co">#&gt; 1     +- 7.371641     37  PPM 0.25, 0.25, 0.25, 0.25 FlyFactorSurvey</span>
-<span class="co">#&gt; 2     +- 7.831193      7  PPM 0.25, 0.25, 0.25, 0.25 FlyFactorSurvey</span>
-<span class="co">#&gt; 3     +- 8.976569     18  PPM 0.25, 0.25, 0.25, 0.25 FlyFactorSurvey</span>
-<span class="co">#&gt; 4     +- 8.330000    662  PPM 0.25, 0.25, 0.25, 0.25 FlyFactorSurvey</span>
-<span class="co">#&gt; 5     +- 9.147674     21  PPM 0.25, 0.25, 0.25, 0.25 FlyFactorSurvey</span>
+<span class="co">#&gt;   strand  icscore nsites type pseudocount                    bkg</span>
+<span class="co">#&gt; 1     +- 7.371641     37  PPM           1 0.25, 0.25, 0.25, 0.25</span>
+<span class="co">#&gt; 2     +- 7.831193      7  PPM           1 0.25, 0.25, 0.25, 0.25</span>
+<span class="co">#&gt; 3     +- 8.976569     18  PPM           1 0.25, 0.25, 0.25, 0.25</span>
+<span class="co">#&gt; 4     +- 8.330000    662  PPM           1 0.25, 0.25, 0.25, 0.25</span>
+<span class="co">#&gt; 5     +- 9.147674     21  PPM           1 0.25, 0.25, 0.25, 0.25</span>
+<span class="co">#&gt;        dataSource</span>
+<span class="co">#&gt; 1 FlyFactorSurvey</span>
+<span class="co">#&gt; 2 FlyFactorSurvey</span>
+<span class="co">#&gt; 3 FlyFactorSurvey</span>
+<span class="co">#&gt; 4 FlyFactorSurvey</span>
+<span class="co">#&gt; 5 FlyFactorSurvey</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [Hidden empty columns: family, bkgsites, pval, qval, eval.]</span>
 <span class="co">#&gt; [Rows marked with * are changed. Run update_motifs() or to_list() to</span>
@@ -281,15 +287,15 @@
 <p>One thing that becomes obvious is that many motifs have mismatched <code>altname</code>/<code>tfid</code> values because of capitalization or hyphenation differences. You can use domain-specific knowledge to assess which one is correct. For <em>Drosophila</em>, “abd-A” is correct over “AbdA”, for example.</p>
 <p>After manually inspecting these rows, I determined that instances of different capitalization, hyphenation, or names that contain “.” or “()” can be ignored. To further investigate the data, I will ignore capitalization and special character differences as follows:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">flyFactor_data</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">flyFactor_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="co"># calling tolower() on both columns removes capitalization as a difference</span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/chartr.html" class="external-link">tolower</a></span><span class="op">(</span><span class="va">altname</span><span class="op">)</span> <span class="op">!=</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html" class="external-link">tolower</a></span><span class="op">(</span><span class="va">tfid</span><span class="op">)</span>,
                 <span class="co"># Select all altnames that do not contain "-", "." or "("</span>
-                <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"-|\\.|\\("</span>, <span class="va">altname</span><span class="op">)</span>,
-                <span class="op">)</span> <span class="op">%&gt;%</span> 
+                <span class="op">!</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"-|\\.|\\("</span>, <span class="va">altname</span><span class="op">)</span>,
+                <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="co"># I'll visalize only these columns for brevity</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">altname</span>, <span class="va">tfid</span>, <span class="va">name</span>, <span class="va">consensus</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">altname</span>, <span class="va">tfid</span>, <span class="va">name</span>, <span class="va">consensus</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>
 <span class="co">#&gt;    altname    tfid              name            consensus</span>
 <span class="co">#&gt; 1       da      ac    ac_da_SANGER_5             RCACCTGC</span>
 <span class="co">#&gt; 2       da    amos amos_da_SANGER_10          RMCAYMTGBCV</span>
@@ -306,16 +312,16 @@
 <span class="co">#&gt;   information.]</span></code></pre></div>
 <p>Next, what is obvious is that several <code>altnames</code> set to “da” have a high number of mismatched <code>tfid</code>s. For instance, <code>amos_da_SANGER_10</code>. When checking the <a href="https://mccb.umassmed.edu/ffs/TFdetails.php?FlybaseID=FBgn0000413" class="external-link">FlyFactorSurvey page for da</a>, it reveals only 1 motif corresponds to this factor. Checking the <a href="https://mccb.umassmed.edu/ffs/TFdetails.php?FlybaseID=FBgn0003270" class="external-link">page for amos</a> shows a match to <code>amos_da_SANGER_10</code>. Therefore, we can conclude that factors assigned the name of <code>da</code> are incorrectly assigned, and we should prefer our parsed <code>tfid</code>.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">flyFactor_data</span> <span class="op">%&lt;&gt;%</span> 
+<code class="sourceCode R"><span class="va">flyFactor_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/compound.html" class="external-link">%&lt;&gt;%</a></span> 
   <span class="co"># rename all "da" instances using their tfid value instead</span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>altname <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">altname</span> <span class="op">==</span> <span class="st">"da"</span>, <span class="va">tfid</span>, <span class="va">altname</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Now we’ve handled the “da” mismatches, we filter them out to identify new special cases.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">flyFactor_data</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">flyFactor_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/chartr.html" class="external-link">tolower</a></span><span class="op">(</span><span class="va">altname</span><span class="op">)</span> <span class="op">!=</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html" class="external-link">tolower</a></span><span class="op">(</span><span class="va">tfid</span><span class="op">)</span>,
-                <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"-|\\.|\\("</span>, <span class="va">altname</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">altname</span>, <span class="va">tfid</span>, <span class="va">name</span>, <span class="va">consensus</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>
+                <span class="op">!</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"-|\\.|\\("</span>, <span class="va">altname</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">altname</span>, <span class="va">tfid</span>, <span class="va">name</span>, <span class="va">consensus</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>
 <span class="co">#&gt;    altname    tfid             name            consensus</span>
 <span class="co">#&gt; 1      Zif CG10267 CG10267_SANGER_5           WNYAACACTR</span>
 <span class="co">#&gt; 2      Zif CG10267 CG10267_SOLEXA_5 CNNNNWAYAACACTASNMNN</span>
@@ -332,12 +338,12 @@
 <span class="co">#&gt;   information.]</span></code></pre></div>
 <p>The next thing to notice about these data is that entries with “CG” prefixed tfids are often mismatched. This is because when the FlyFactor survey was conducted, many genes were unnamed, and thus assigned a CG from FlyBase. As time has gone on, some CG’s have been named. Checking the <a href="http://flybase.org/reports/FBgn0037446" class="external-link">FlyBase page for CG10267</a> reveals that it has been renamed “Zif”. This matches with the <code>altname</code>, so we conclude that rows with a “CG” <code>tfid</code> can be safely skipped as their <code>altname</code> contains the new gene symbol.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">flyFactor_data</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">flyFactor_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/chartr.html" class="external-link">tolower</a></span><span class="op">(</span><span class="va">altname</span><span class="op">)</span> <span class="op">!=</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html" class="external-link">tolower</a></span><span class="op">(</span><span class="va">tfid</span><span class="op">)</span>,
-                <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"-|\\.|\\("</span>, <span class="va">altname</span><span class="op">)</span>,
+                <span class="op">!</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"-|\\.|\\("</span>, <span class="va">altname</span><span class="op">)</span>,
                 <span class="co"># Remove CG genes from consideration</span>
-                <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"CG\\d+"</span>, <span class="va">tfid</span><span class="op">)</span>
-                <span class="op">)</span> <span class="op">%&gt;%</span> 
+                <span class="op">!</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"CG\\d+"</span>, <span class="va">tfid</span><span class="op">)</span>
+                <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">altname</span>, <span class="va">tfid</span>, <span class="va">name</span>, <span class="va">consensus</span><span class="op">)</span>
 <span class="co">#&gt;    altname tfid                 name   consensus</span>
 <span class="co">#&gt; 1      cyc  Clk     Clk_cyc_SANGER_5    MCACGTGA</span>
@@ -367,20 +373,20 @@
 <p>I determined from this that a few <code>altnames</code> need swapping, and one motif I will remove because it is unusual (<a href="https://mccb.umassmed.edu/ffs/TFdetails.php?FlybaseID=FBgn0013753" class="external-link">Bgb</a> has an identical motif to <a href="https://mccb.umassmed.edu/ffs/TFdetails.php?FlybaseID=FBgn0003300" class="external-link">run</a>, but the motif is marked “run” on the FlyFactor website).</p>
 <p>I’ll make those changes to the data:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">swap_alt_id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CG6272"</span>, <span class="st">"Clk"</span>, <span class="st">"Max"</span>, <span class="st">"Mnt"</span>, <span class="st">"Jra"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">swap_alt_id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CG6272"</span>, <span class="st">"Clk"</span>, <span class="st">"Max"</span>, <span class="st">"Mnt"</span>, <span class="st">"Jra"</span><span class="op">)</span>
 <span class="va">remove</span> <span class="op">&lt;-</span> <span class="st">"Bgb"</span>
 
-<span class="va">flyFactor_data</span> <span class="op">%&lt;&gt;%</span> 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>altname <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">altname</span> <span class="op">%in%</span> <span class="va">swap_alt_id</span>, <span class="va">tfid</span>, <span class="va">altname</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="op">(</span><span class="va">altname</span> <span class="op">%in%</span> <span class="va">remove</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="va">flyFactor_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/compound.html" class="external-link">%&lt;&gt;%</a></span> 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>altname <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">altname</span> <span class="op"><a href="https://rdrr.io/pkg/BiocGenerics/man/match.html" class="external-link">%in%</a></span> <span class="va">swap_alt_id</span>, <span class="va">tfid</span>, <span class="va">altname</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="op">(</span><span class="va">altname</span> <span class="op"><a href="https://rdrr.io/pkg/BiocGenerics/man/match.html" class="external-link">%in%</a></span> <span class="va">remove</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Finally, the remaining motif metadata is also OK based on my manual inspection.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">flyFactor_data</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">flyFactor_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/chartr.html" class="external-link">tolower</a></span><span class="op">(</span><span class="va">altname</span><span class="op">)</span> <span class="op">!=</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html" class="external-link">tolower</a></span><span class="op">(</span><span class="va">tfid</span><span class="op">)</span>,
-                <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"-|\\.|\\("</span>, <span class="va">altname</span><span class="op">)</span>,
+                <span class="op">!</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"-|\\.|\\("</span>, <span class="va">altname</span><span class="op">)</span>,
                 <span class="co"># Remove CG genes from consideration</span>
-                <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"CG\\d+"</span>, <span class="va">tfid</span><span class="op">)</span>
-                <span class="op">)</span> <span class="op">%&gt;%</span> 
+                <span class="op">!</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"CG\\d+"</span>, <span class="va">tfid</span><span class="op">)</span>
+                <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">altname</span>, <span class="va">tfid</span>, <span class="va">name</span>, <span class="va">consensus</span><span class="op">)</span>
 <span class="co">#&gt;    altname tfid                name  consensus</span>
 <span class="co">#&gt; 1      cyc  Clk    Clk_cyc_SANGER_5   MCACGTGA</span>
@@ -400,18 +406,21 @@
 </div>
 <div id="removing-duplicate-motif-matrices" class="section level2">
 <h2 class="hasAnchor">
-<a href="#removing-duplicate-motif-matrices" class="anchor"></a>Removing duplicate motif matrices</h2>
+<a href="#removing-duplicate-motif-matrices" class="anchor" aria-hidden="true"></a>Removing duplicate motif matrices</h2>
 <p>Just because the metadata for each entry is unique, this does not mean that the motif matrix for each entry is unique. There are many reasons why two different factors could have identical motifs: some biological, others technical. In the case of the FlyFactorSurvey, some entries are duplicated in MotifDb which should not be.</p>
 <p>For instance, the following motif is a duplicate where the tidied metadata matches:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">flyFactor_data</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">flyFactor_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">consensus</span> <span class="op">==</span> <span class="st">"MMCACCTGYYV"</span><span class="op">)</span>
 <span class="co">#&gt;            motif altname               name   tfid      organism   consensus</span>
 <span class="co">#&gt; 1 *     &lt;mot:da&gt;  HLH54F HLH54F_da_SANGER_5 HLH54F Dmelanogaster MMCACCTGYYV</span>
 <span class="co">#&gt; 2 * &lt;mot:HLH54F&gt;  HLH54F HLH54F_da_SANGER_5 HLH54F Dmelanogaster MMCACCTGYYV</span>
-<span class="co">#&gt;   alphabet strand  icscore nsites type                    bkg      dataSource</span>
-<span class="co">#&gt; 1      DNA     +- 12.24152     23  PPM 0.25, 0.25, 0.25, 0.25 FlyFactorSurvey</span>
-<span class="co">#&gt; 2      DNA     +- 12.24152     23  PPM 0.25, 0.25, 0.25, 0.25 FlyFactorSurvey</span>
+<span class="co">#&gt;   alphabet strand  icscore nsites type pseudocount                    bkg</span>
+<span class="co">#&gt; 1      DNA     +- 12.24152     23  PPM           1 0.25, 0.25, 0.25, 0.25</span>
+<span class="co">#&gt; 2      DNA     +- 12.24152     23  PPM           1 0.25, 0.25, 0.25, 0.25</span>
+<span class="co">#&gt;        dataSource</span>
+<span class="co">#&gt; 1 FlyFactorSurvey</span>
+<span class="co">#&gt; 2 FlyFactorSurvey</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [Hidden empty columns: family, bkgsites, pval, qval, eval.]</span>
 <span class="co">#&gt; [Rows marked with * are changed. Run update_motifs() or to_list() to</span>
@@ -434,12 +443,14 @@
 <span class="co">#&gt; [1] 556</span></code></pre></div>
 <p>Using the example from before now shows only 1 motif corresponding to this sequence.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">flyFactor_dedup</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">flyFactor_dedup</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">consensus</span> <span class="op">==</span> <span class="st">"MMCACCTGYYV"</span><span class="op">)</span>
 <span class="co">#&gt;          motif               name altname      organism   consensus alphabet</span>
 <span class="co">#&gt; 1 &lt;mot:HLH5..&gt; HLH54F_da_SANGER_5  HLH54F Dmelanogaster MMCACCTGYYV      DNA</span>
-<span class="co">#&gt;   strand  icscore nsites type                    bkg   tfid      dataSource</span>
-<span class="co">#&gt; 1     +- 12.24152     23  PPM 0.25, 0.25, 0.25, 0.25 HLH54F FlyFactorSurvey</span>
+<span class="co">#&gt;   strand  icscore nsites type pseudocount                    bkg   tfid</span>
+<span class="co">#&gt; 1     +- 12.24152     23  PPM           1 0.25, 0.25, 0.25, 0.25 HLH54F</span>
+<span class="co">#&gt;        dataSource</span>
+<span class="co">#&gt; 1 FlyFactorSurvey</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [Hidden empty columns: family, bkgsites, pval, qval, eval.]</span></code></pre></div>
 <p>Finally, now that the database has been tidied and deduplicated, the resulting data.frame can be converted back into a universalmotif list using <code><a href="https://rdrr.io/pkg/universalmotif/man/tidy-motifs.html" class="external-link">to_list()</a></code>. To discard the additional columns we created so they are not passed on to the <code>universalmotif</code>, set <code>extrainfo = FALSE</code>.</p>
@@ -449,8 +460,8 @@
 <span class="co">#&gt; Discarding unknown slot(s) 'tfid', 'dataSource' (set `extrainfo=TRUE` to preserve these).</span></code></pre></div>
 <p>The resulting universalmotif list object now reflects the changes we made to the <code>data.frame</code> and can now be exported as a .meme format file using <code><a href="https://rdrr.io/pkg/universalmotif/man/write_meme.html" class="external-link">universalmotif::write_meme</a></code> or can be used directly as input to tools like <code>runTomTom</code> or <code>runAme</code>.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">flyFactorMotifs_final</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">flyFactorMotifs_final</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
 <span class="co">#&gt; [[1]]</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;        Motif name:   ab_SANGER_10</span>
@@ -474,16 +485,16 @@
 <span class="co">#&gt; C 0.10 0.25 0.25</span>
 <span class="co">#&gt; G 0.55 0.15 0.45</span>
 <span class="co">#&gt; T 0.10 0.10 0.00</span></code></pre></div>
-<p>This cleaned-up version of the FlyFactorSurvey data is packaged with memes in <code><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file("extdata/flyFactorSurvey_cleaned.meme", package = "memes")</a></code>.</p>
+<p>This cleaned-up version of the FlyFactorSurvey data is packaged with memes in <code>system.file("extdata/flyFactorSurvey_cleaned.meme", package = "memes")</code>.</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/universalmotif/man/write_meme.html" class="external-link">write_meme</a></span><span class="op">(</span><span class="va">flyFactorMotifs_final</span>, <span class="st">"flyFactorSurvey_cleaned.meme"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="session-info" class="section level1">
 <h1 class="hasAnchor">
-<a href="#session-info" class="anchor"></a>Session Info</h1>
+<a href="#session-info" class="anchor" aria-hidden="true"></a>Session Info</h1>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; R Under development (unstable) (2021-04-08 r80148)</span>
+<span class="co">#&gt; R Under development (unstable) (2021-04-15 r80175)</span>
 <span class="co">#&gt; Platform: x86_64-pc-linux-gnu (64-bit)</span>
 <span class="co">#&gt; Running under: Ubuntu 20.04.2 LTS</span>
 <span class="co">#&gt; </span>
@@ -502,7 +513,7 @@
 <span class="co">#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
-<span class="co">#&gt; [1] universalmotif_1.9.49 magrittr_2.0.1        memes_0.99.10        </span>
+<span class="co">#&gt; [1] universalmotif_1.9.59 magrittr_2.0.1        memes_0.99.11        </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
 <span class="co">#&gt;  [1] MatrixGenerics_1.3.1        Biobase_2.51.0             </span>
@@ -510,7 +521,7 @@
 <span class="co">#&gt;  [5] jsonlite_1.7.2              bslib_0.2.4                </span>
 <span class="co">#&gt;  [7] stats4_4.1.0                GenomeInfoDbData_1.2.4     </span>
 <span class="co">#&gt;  [9] Rsamtools_2.7.2             yaml_2.2.1                 </span>
-<span class="co">#&gt; [11] pillar_1.5.1                lattice_0.20-41            </span>
+<span class="co">#&gt; [11] pillar_1.6.0                lattice_0.20-41            </span>
 <span class="co">#&gt; [13] glue_1.4.2                  digest_0.6.27              </span>
 <span class="co">#&gt; [15] GenomicRanges_1.43.4        XVector_0.31.1             </span>
 <span class="co">#&gt; [17] colorspace_2.0-0            htmltools_0.5.1.1          </span>
@@ -518,10 +529,10 @@
 <span class="co">#&gt; [21] pkgconfig_2.0.3             ggseqlogo_0.1              </span>
 <span class="co">#&gt; [23] zlibbioc_1.37.0             purrr_0.3.4                </span>
 <span class="co">#&gt; [25] scales_1.1.1                BiocParallel_1.25.5        </span>
-<span class="co">#&gt; [27] tibble_3.1.0                generics_0.1.0             </span>
-<span class="co">#&gt; [29] IRanges_2.25.7              ggplot2_3.3.3              </span>
-<span class="co">#&gt; [31] ellipsis_0.3.1              cachem_1.0.4               </span>
-<span class="co">#&gt; [33] SummarizedExperiment_1.21.3 BiocGenerics_0.37.1        </span>
+<span class="co">#&gt; [27] tibble_3.1.1                generics_0.1.0             </span>
+<span class="co">#&gt; [29] IRanges_2.25.10             ggplot2_3.3.3              </span>
+<span class="co">#&gt; [31] ellipsis_0.3.2              cachem_1.0.4               </span>
+<span class="co">#&gt; [33] SummarizedExperiment_1.21.3 BiocGenerics_0.37.4        </span>
 <span class="co">#&gt; [35] splitstackshape_1.4.8       crayon_1.4.1               </span>
 <span class="co">#&gt; [37] memoise_2.0.0               evaluate_0.14              </span>
 <span class="co">#&gt; [39] fs_1.5.0                    fansi_0.4.2                </span>
@@ -529,24 +540,24 @@
 <span class="co">#&gt; [43] data.table_1.14.0           tools_4.1.0                </span>
 <span class="co">#&gt; [45] hms_1.0.0                   BiocIO_1.1.2               </span>
 <span class="co">#&gt; [47] lifecycle_1.0.0             matrixStats_0.58.0         </span>
-<span class="co">#&gt; [49] stringr_1.4.0               S4Vectors_0.29.15          </span>
-<span class="co">#&gt; [51] munsell_0.5.0               DelayedArray_0.17.10       </span>
+<span class="co">#&gt; [49] stringr_1.4.0               S4Vectors_0.29.17          </span>
+<span class="co">#&gt; [51] munsell_0.5.0               DelayedArray_0.17.11       </span>
 <span class="co">#&gt; [53] Biostrings_2.59.2           compiler_4.1.0             </span>
-<span class="co">#&gt; [55] pkgdown_1.6.1.9001          jquerylib_0.1.3            </span>
+<span class="co">#&gt; [55] pkgdown_1.6.1.9001          jquerylib_0.1.4            </span>
 <span class="co">#&gt; [57] GenomeInfoDb_1.27.11        systemfonts_1.0.1          </span>
-<span class="co">#&gt; [59] rlang_0.4.10                MotifDb_1.33.0             </span>
+<span class="co">#&gt; [59] rlang_0.4.11                MotifDb_1.33.0             </span>
 <span class="co">#&gt; [61] grid_4.1.0                  RCurl_1.98-1.3             </span>
-<span class="co">#&gt; [63] rjson_0.2.20                bitops_1.0-6               </span>
+<span class="co">#&gt; [63] rjson_0.2.20                bitops_1.0-7               </span>
 <span class="co">#&gt; [65] rmarkdown_2.7               restfulr_0.0.13            </span>
 <span class="co">#&gt; [67] gtable_0.3.0                R6_2.5.0                   </span>
-<span class="co">#&gt; [69] GenomicAlignments_1.27.2    knitr_1.31                 </span>
+<span class="co">#&gt; [69] GenomicAlignments_1.27.2    knitr_1.33                 </span>
 <span class="co">#&gt; [71] dplyr_1.0.5                 rtracklayer_1.51.5         </span>
 <span class="co">#&gt; [73] fastmap_1.1.0               utf8_1.2.1                 </span>
 <span class="co">#&gt; [75] rprojroot_2.0.2             ragg_1.1.2                 </span>
 <span class="co">#&gt; [77] readr_1.4.0                 desc_1.3.0                 </span>
 <span class="co">#&gt; [79] stringi_1.5.3               parallel_4.1.0             </span>
-<span class="co">#&gt; [81] Rcpp_1.0.6                  vctrs_0.3.7                </span>
-<span class="co">#&gt; [83] tidyselect_1.1.0            xfun_0.22</span></code></pre></div>
+<span class="co">#&gt; [81] Rcpp_1.0.6                  vctrs_0.3.8                </span>
+<span class="co">#&gt; [83] tidyselect_1.1.1            xfun_0.22</span></code></pre></div>
 </div>
   </div>
 

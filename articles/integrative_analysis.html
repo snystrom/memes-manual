@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">memes</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.11</span>
       </span>
     </div>
 
@@ -111,9 +111,14 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bioconductor.org/packages/GenomicRanges" class="external-link">GenomicRanges</a></span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div id="see-package-website-for-full-vignette" class="section level1">
+<h1 class="hasAnchor">
+<a href="#see-package-website-for-full-vignette" class="anchor" aria-hidden="true"></a>See package website for full vignette</h1>
+<p>The Bioconductor build system does not have the MEME Suite installed, therefore these vignettes will not contain any R output. To view the full vignette, visit this article page on the memes website <a href="https://snystrom.github.io/memes-manual/articles/integrative_analysis.html" class="external-link">at this link</a></p>
+</div>
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h1>
+<a href="#introduction" class="anchor" aria-hidden="true"></a>Introduction</h1>
 <p>In this vignette, we’ll explore using <code>memes</code> to deeply analyze a set of ChIP-seq peaks to identify motifs to explain differences in transcription factor binding, and consequences to chromatin accessibility at these ChIP peaks.</p>
 <p>We will use a dataset from (Nystrom, 2020) which investigated the binding of the transcription factor E93 during <em>Drosophila</em> wing development. These data are useful because they contain multiple groupings with interesting motif properties between groups.</p>
 <p>The ChIP experiments were performed under two conditions: ectopic expression of E93 during early development, and under wild-type conditions in a late stage of development. Peaks are annotated based on whether they are found in both conditions (“Endogenous” peaks), only in the ectopic expression condition (“Ectopic” peaks), or only found under wild-type conditions (“Orphan” peaks).</p>
@@ -128,14 +133,15 @@
 <span class="co">#&gt; ✔ /opt/meme/bin/ame</span>
 <span class="co">#&gt; ✔ /opt/meme/bin/fimo</span>
 <span class="co">#&gt; ✔ /opt/meme/bin/tomtom</span>
-<span class="co">#&gt; ✔ /opt/meme/bin/meme</span></code></pre></div>
+<span class="co">#&gt; ✔ /opt/meme/bin/meme</span>
+<span class="co">#&gt; ✔ /opt/meme/bin/streme</span></code></pre></div>
 <div id="prepare-peaks-for-analysis" class="section level3">
 <h3 class="hasAnchor">
-<a href="#prepare-peaks-for-analysis" class="anchor"></a>Prepare peaks for analysis</h3>
+<a href="#prepare-peaks-for-analysis" class="anchor" aria-hidden="true"></a>Prepare peaks for analysis</h3>
 <p>A subset of annotated E93 ChIP summits are shipped with the memes package and can be loaded as follows:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"example_chip_summits"</span>, package <span class="op">=</span> <span class="st">"memes"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">example_chip_summits</span>, <span class="fl">5</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">head</a></span><span class="op">(</span><span class="va">example_chip_summits</span>, <span class="fl">5</span><span class="op">)</span>
 <span class="co">#&gt; GRanges object with 5 ranges and 3 metadata columns:</span>
 <span class="co">#&gt;       seqnames    ranges strand |          id peak_binding_description</span>
 <span class="co">#&gt;          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;              &lt;character&gt;</span>
@@ -160,30 +166,30 @@
 <span class="va">dm.genome</span> <span class="op">&lt;-</span> <span class="fu">BSgenome.Dmelanogaster.UCSC.dm3</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/BSgenome.Dmelanogaster.UCSC.dm3/man/package.html" class="external-link">BSgenome.Dmelanogaster.UCSC.dm3</a></span>
 
 <span class="co"># Get sequences in a 100bp window around the peak summit</span>
-<span class="va">summit_flank</span> <span class="op">&lt;-</span> <span class="va">example_chip_summits</span> <span class="op">%&gt;%</span>
+<span class="va">summit_flank</span> <span class="op">&lt;-</span> <span class="va">example_chip_summits</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="co"># this ensures we take 50bp up &amp; downstream of the summit for a total width of 100bp</span>
-  <span class="fu">plyranges</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/plyranges/man/ranges-anchor.html" class="external-link">anchor_center</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu">plyranges</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/plyranges/man/ranges-anchor.html" class="external-link">anchor_center</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu">plyranges</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/plyranges/man/tidyverse-reexports.html" class="external-link">mutate</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="determinants-of-ectopic-and-orphan-binding" class="section level2">
 <h2 class="hasAnchor">
-<a href="#determinants-of-ectopic-and-orphan-binding" class="anchor"></a>Determinants of ectopic and orphan binding</h2>
+<a href="#determinants-of-ectopic-and-orphan-binding" class="anchor" aria-hidden="true"></a>Determinants of ectopic and orphan binding</h2>
 <p>One approach to identify enriched motifs is to search for enrichment of known transcription factor (TF) motifs within sequences of interest. The Fly Factor Survey is a database of known <em>Drosophila</em> TF motifs that we will use throught this vignette. These data are also packaged with <code>memes</code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">meme_db_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/flyFactorSurvey_cleaned.meme"</span>, package <span class="op">=</span> <span class="st">"memes"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <div id="pre-filtering-database-for-expressed-transcription-factors" class="section level3">
 <h3 class="hasAnchor">
-<a href="#pre-filtering-database-for-expressed-transcription-factors" class="anchor"></a>Pre-filtering database for expressed transcription factors</h3>
+<a href="#pre-filtering-database-for-expressed-transcription-factors" class="anchor" aria-hidden="true"></a>Pre-filtering database for expressed transcription factors</h3>
 <p>A key consideration when using a database of known transcription factors is whether to include motifs for TFs which are not expressed. On one hand, including all motifs allows maximum discovery of potential regulators, but on the other hand may detect factors which are not relevant under your experimental conditions. Another consideration for many tools is that increasing the number of tested motifs increases the multiple testing penaly, so limiting the motif database to a smaller number of relevant candidates can be a way to improve statistical power. There is no one right answer to this question. For this vignette, I will give an example for how one could go about filtering a database to consider only expressed factors. For other analyses, this question will need to be carefully considered.</p>
 <p>First, we load the motif database into R using <code>read_meme</code>. To more easily manipulate the motif metadata, we can convert this to a data.frame using <code>to_df</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bioconductor.org/packages/universalmotif/" class="external-link">universalmotif</a></span><span class="op">)</span>
-<span class="va">meme_db</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/universalmotif/man/read_meme.html" class="external-link">read_meme</a></span><span class="op">(</span><span class="va">meme_db_path</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<span class="va">meme_db</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/universalmotif/man/read_meme.html" class="external-link">read_meme</a></span><span class="op">(</span><span class="va">meme_db_path</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="https://rdrr.io/pkg/universalmotif/man/tidy-motifs.html" class="external-link">to_df</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>To simplify the vignette, we’ve preproccessed RNAseq data from our tissue of interest and shipped them with <code>memes</code>. These are FPKM normalized counts for each transcription factor gene at early and late developmental times.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"example_rnaseq"</span>, package <span class="op">=</span> <span class="st">"memes"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">example_rnaseq</span>, <span class="fl">4</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">head</a></span><span class="op">(</span><span class="va">example_rnaseq</span>, <span class="fl">4</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 4 x 3</span>
 <span class="co">#&gt; # Groups:   symbol [2]</span>
 <span class="co">#&gt;   symbol time     fpkm</span>
@@ -194,16 +200,16 @@
 <span class="co">#&gt; 4 Adf1   Late  92.7</span></code></pre></div>
 <p>Choosing a method to decide whether a gene is expressed or not is a non-trivial topic. <strong>DO NOT BLINDLY DO WHAT I DO HERE</strong>. To keep this vignette on topic, I will use an overly simplistic cutoff of FPKM &gt; 5 to define expressed genes. In this example, I will consider any gene that exceeds the cutoff at either timepoint as expressed.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">expressed_genes</span> <span class="op">&lt;-</span> <span class="va">example_rnaseq</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">expressed_genes</span> <span class="op">&lt;-</span> <span class="va">example_rnaseq</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="co"># For each gene, keep only those with max(FPKM) greater or equal to 5.</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">symbol</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">symbol</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">fpkm</span><span class="op">)</span> <span class="op">&gt;=</span> <span class="fl">5</span><span class="op">)</span></code></pre></div>
 <p>Finally, I will filter the full motif database to select only those motifs corresponding to expressed gene.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">meme_db_expressed</span> <span class="op">&lt;-</span> <span class="va">meme_db</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">meme_db_expressed</span> <span class="op">&lt;-</span> <span class="va">meme_db</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="co"># the altname slot of meme_db contains the gene symbol</span>
   <span class="co"># (this is database-specific)</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">altname</span> <span class="op">%in%</span> <span class="va">expressed_genes</span><span class="op">$</span><span class="va">symbol</span><span class="op">)</span></code></pre></div>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">altname</span> <span class="op"><a href="https://rdrr.io/pkg/BiocGenerics/man/match.html" class="external-link">%in%</a></span> <span class="va">expressed_genes</span><span class="op">$</span><span class="va">symbol</span><span class="op">)</span></code></pre></div>
 <p>Below is a comparison of the number of motifs in the database before and after filtering.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">#Number of motifs pre-filtering: </span>
@@ -222,70 +228,70 @@
 </div>
 <div id="examination-of-binding-categories-with-ame" class="section level3">
 <h3 class="hasAnchor">
-<a href="#examination-of-binding-categories-with-ame" class="anchor"></a>Examination of binding categories with AME</h3>
+<a href="#examination-of-binding-categories-with-ame" class="anchor" aria-hidden="true"></a>Examination of binding categories with AME</h3>
 <p>Next, to test for enrichment of known motifs between E93 binding categories, we first collect the sequences of each category like so:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">by_binding</span> <span class="op">&lt;-</span> <span class="va">summit_flank</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">by_binding</span> <span class="op">&lt;-</span> <span class="va">summit_flank</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="co"># Get a list of chip peaks belonging to each set</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="fu">mcols</span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">$</span><span class="va">peak_binding_description</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/splitAsList.html" class="external-link">split</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">mcols</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">$</span><span class="va">peak_binding_description</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="co"># look up the DNA sequence of each peak within each group</span>
   <span class="fu"><a href="../reference/get_sequence.html">get_sequence</a></span><span class="op">(</span><span class="va">dm.genome</span><span class="op">)</span></code></pre></div>
 <p>The data are returned as a Biostrings List, where each list entry represents the sequences of each E93 binding category.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">by_binding</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">head</a></span><span class="op">(</span><span class="va">by_binding</span><span class="op">)</span>
 <span class="co">#&gt; BStringSetList of length 3</span>
 <span class="co">#&gt; [["ectopic"]] chr3L:40482-40581=GGACTGGGGTTGGGTACGAAACGAAATGGAAACATAGCCAAACAC...</span>
 <span class="co">#&gt; [["entopic"]] chr3L:60616-60715=CAGGTGCATCCCGCGACGAGTATTTTTTATATTATTGTTTGGCCG...</span>
 <span class="co">#&gt; [["orphan"]] chr3L:57749-57848=GAAACCTATACCCCGCCGTCGGCCGATTATCACCTTTTCAAGTCTC...</span></code></pre></div>
 <p>Finally, we test each set of sequencing using AME with the <code>runAme</code> function. This will run AME on each set of input sequences in the Biostrings List.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">ame_by_binding</span> <span class="op">&lt;-</span> <span class="va">by_binding</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">ame_by_binding</span> <span class="op">&lt;-</span> <span class="va">by_binding</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="va">runAme</span></code></pre></div>
 <p>This returns a list object where each entry is the AME results for each category. For example, here is what the results for the ectopic peaks look like:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ame_by_binding</span><span class="op">$</span><span class="va">ectopic</span>, <span class="fl">5</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ame_by_binding</span><span class="op">$</span><span class="va">ectopic</span>, <span class="fl">5</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 5 x 17</span>
 <span class="co">#&gt;    rank motif_db   motif_id  motif_alt_id consensus   pvalue adj.pvalue   evalue</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;        &lt;chr&gt;        &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;</span>
 <span class="co">#&gt; 1     1 /tmp/Rtmp… Aef1_Fly… Aef1         CAACWACW  6.87e-23   5.53e-20 1.66e-17</span>
 <span class="co">#&gt; 2     2 /tmp/Rtmp… Aef1_SAN… Aef1         RCAACAAC… 1.69e-20   5.16e-18 1.55e-15</span>
-<span class="co">#&gt; 3     3 /tmp/Rtmp… klu_SOLE… klu          KGYGKGGG… 1.35e-14   7.90e-12 2.37e- 9</span>
-<span class="co">#&gt; 4     4 /tmp/Rtmp… l(3)neo3… l(3)neo38    DGKGGGKG… 2.10e-14   1.23e-11 3.69e- 9</span>
+<span class="co">#&gt; 3     3 /tmp/Rtmp… klu_SOLE… klu          KGYGKGGG… 1.35e-14   7.9 e-12 2.37e- 9</span>
+<span class="co">#&gt; 4     4 /tmp/Rtmp… l(3)neo3… l(3)neo38    DGKGGGKG… 2.1 e-14   1.23e-11 3.69e- 9</span>
 <span class="co">#&gt; 5     5 /tmp/Rtmp… Mes2_SAN… Mes2         TTTARGCC… 2.34e-13   1.12e-10 3.36e- 8</span>
 <span class="co">#&gt; # … with 9 more variables: tests &lt;int&gt;, fasta_max &lt;dbl&gt;, pos &lt;int&gt;, neg &lt;int&gt;,</span>
 <span class="co">#&gt; #   pwm_min &lt;dbl&gt;, tp &lt;int&gt;, tp_percent &lt;dbl&gt;, fp &lt;int&gt;, fp_percent &lt;dbl&gt;</span></code></pre></div>
 </div>
 <div id="visualizing-ame-results" class="section level3">
 <h3 class="hasAnchor">
-<a href="#visualizing-ame-results" class="anchor"></a>Visualizing AME results</h3>
+<a href="#visualizing-ame-results" class="anchor" aria-hidden="true"></a>Visualizing AME results</h3>
 <p>The <code><a href="../reference/plot_ame_heatmap.html">plot_ame_heatmap()</a></code> function provides a quick way to visualize AME results. It is built on top of <code>ggplot2</code>, so all <code>ggplot2</code> functions can be used to further modify the plot.</p>
 <p>By default, it uses the -log10(adjusted p-value) as the heat values. See the documentation (<code><a href="../reference/plot_ame_heatmap.html">?plot_ame_heatmap</a></code>) for additional notes on customization.</p>
 <p>We can visualize the top 10 hits from the ectopic binding results as follows:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">ame_by_binding</span><span class="op">$</span><span class="va">ectopic</span> <span class="op">%&gt;%</span> 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">rank</span> <span class="op">%in%</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">ame_by_binding</span><span class="op">$</span><span class="va">ectopic</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">rank</span> <span class="op"><a href="https://rdrr.io/pkg/BiocGenerics/man/match.html" class="external-link">%in%</a></span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/plot_ame_heatmap.html">plot_ame_heatmap</a></span><span class="op">(</span>group_name <span class="op">=</span> <span class="st">"Ectopic Sites"</span><span class="op">)</span>  <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Top 10 AME Hits in Ectopic Sites"</span><span class="op">)</span></code></pre></div>
 <p><img src="integrative_analysis_files/figure-html/unnamed-chunk-17-1.png" width="672"></p>
 <p>To plot results from multiple runs together, they must first be joined into a single data frame. The <code>ame_by_binding</code> object is a list whose names correspond to the E93 binding category. The list can be combined into a data.frame using <code><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">dplyr::bind_rows</a></code>. Setting <code>.id = "binding_type"</code> creates a new column <code>binding_type</code> that contains the names from the <code>ame_by_binding</code> list. In this way, the <code>ame_res</code> data.frame contains all AME results for each run, which can be distinguished by the <code>binding_type</code> column.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">ame_res</span> <span class="op">&lt;-</span> <span class="va">ame_by_binding</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">ame_res</span> <span class="op">&lt;-</span> <span class="va">ame_by_binding</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span>.id <span class="op">=</span> <span class="st">"binding_type"</span><span class="op">)</span>
   </code></pre></div>
 <p>It is possible to aggregate results from multiple runs into a heatmap by setting the <code>group</code> parameter in <code><a href="../reference/plot_ame_heatmap.html">plot_ame_heatmap()</a></code>. This will stratify the y-axis by the entries in the column passed to <code>group</code>. This results in clustering motifs with shared hits across categories along the x-axis for quickly visualizing motifs that may be shared or distinct between multiple groups.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">ame_res</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">ame_res</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/plot_ame_heatmap.html">plot_ame_heatmap</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">binding_type</span><span class="op">)</span></code></pre></div>
 <p><img src="integrative_analysis_files/figure-html/unnamed-chunk-19-1.png" width="1440"></p>
 </div>
 <div id="reducing-redundant-motif-hits" class="section level3">
 <h3 class="hasAnchor">
-<a href="#reducing-redundant-motif-hits" class="anchor"></a>Reducing redundant motif hits</h3>
+<a href="#reducing-redundant-motif-hits" class="anchor" aria-hidden="true"></a>Reducing redundant motif hits</h3>
 <p>Another key consideration for the above visualization is that in the FlyFactorSurvey database we used, different TFs can have multiple motif entries in the database which are all detected separately by AME. Here, when returning the top 5 hits from each group, you can see, for example, that a motif matching “Aef1” is reported 2 times within the top 5 hits of the ectopic sites. In this situation, it makes sense to summarize the data at the TF level, instead of the motif level. <strong>Note:</strong> There may be exceptions to this if, for example, a TF has multiple DNA binding sequences it can recognize, in which case having multiple hits may reflect a biological property of your sequences. You will have to handle this on a case-by-case basis for interesting hits and different motif databases. Here, we can see that at least for Aef1, the consensus sequences are very similar.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">ame_res</span> <span class="op">%&gt;%</span> 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">binding_type</span> <span class="op">==</span> <span class="st">"ectopic"</span>, <span class="va">rank</span> <span class="op">%in%</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">ame_res</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">binding_type</span> <span class="op">==</span> <span class="st">"ectopic"</span>, <span class="va">rank</span> <span class="op"><a href="https://rdrr.io/pkg/BiocGenerics/man/match.html" class="external-link">%in%</a></span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">binding_type</span>, <span class="va">rank</span>, <span class="va">motif_id</span>, <span class="va">motif_alt_id</span>, <span class="va">consensus</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 5 x 5</span>
 <span class="co">#&gt;   binding_type  rank motif_id             motif_alt_id consensus      </span>
@@ -297,11 +303,11 @@
 <span class="co">#&gt; 5 ectopic          5 Mes2_SANGER_5        Mes2         TTTARGCCAAVW</span></code></pre></div>
 <p>How to solve this problem will vary with different motif databases (For details on how to pre-process a motif database, see <code><a href="../articles/tidy_motifs.html">vignette("tidy_motifs")</a></code>). In the tidy version of the FlyFactorSurvey database, the <code>altname</code>s of the motifs are set to the transcription factor gene symbol. This information is included in the AME results as the <code>motif_alt_id</code> column. In order to reduce the occurrance of redundant hits in the heatmap, we select the hit for each TF with the lowest p-value (i.e. the most significant hit) as follows:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">ame_res</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">ame_res</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="co"># perform the next dplyr operation on each TF within each binding type</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">binding_type</span>, <span class="va">motif_alt_id</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">binding_type</span>, <span class="va">motif_alt_id</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="co"># within each binding type, select the TF hit with the lowest adjusted p-value</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">adj.pvalue</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">adj.pvalue</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">adj.pvalue</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">adj.pvalue</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/plot_ame_heatmap.html">plot_ame_heatmap</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">binding_type</span>, id <span class="op">=</span> <span class="va">motif_alt_id</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"Binding Category"</span>,
          x <span class="op">=</span> <span class="st">"Transcription Factor Motif"</span><span class="op">)</span></code></pre></div>
@@ -309,33 +315,33 @@
 </div>
 <div id="ame-heatmap-visualization" class="section level3">
 <h3 class="hasAnchor">
-<a href="#ame-heatmap-visualization" class="anchor"></a>AME Heatmap Visualization</h3>
+<a href="#ame-heatmap-visualization" class="anchor" aria-hidden="true"></a>AME Heatmap Visualization</h3>
 <p>If you have read <code><a href="../articles/core_ame.html">vignette("core_ame")</a></code>, the “normalized rank” heatmap was introduced as an alternative visualization method useful when AME produces very large numbers of hits, or when p-values are on very different scales between groups. The <code><a href="../reference/ame_compare_heatmap_methods.html">ame_compare_heatmap_methods()</a></code> function can be used to visualize why.</p>
 <p>Below is a comparison of the distribution of values when using <code>-log10(adj.pvalue)</code> (A) vs normalized ranks (B). Because there are relatively few hits in the results (~30), and the number of hits between groups varies more than the <code>-log10(p-value)</code> distributions, the “normalize” method will produce a misleading heatmap relative to the <code>-log10(p-value)</code> map.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">ame_res</span> <span class="op">%&gt;%</span> 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">binding_type</span>, <span class="va">motif_alt_id</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">adj.pvalue</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">adj.pvalue</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">ame_res</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">binding_type</span>, <span class="va">motif_alt_id</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">adj.pvalue</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">adj.pvalue</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/ame_compare_heatmap_methods.html">ame_compare_heatmap_methods</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">binding_type</span><span class="op">)</span></code></pre></div>
 <p><img src="integrative_analysis_files/figure-html/unnamed-chunk-22-1.png" width="720"></p>
 <p>A third option for adjusting this visualization is to cap the heatmap scale values at a certain value. A good rule of thumb for selecting this cutoff is to view the cumulative distribution plot above in (A), and select a value on the x-axis which captures a majority of the data. Here, we see that <code>-log10(adj.pvalue) &lt; 10</code> captures &gt;90% of the entopic &amp; ectopic hits, but only ~50% of the orphan hits. By selecting 10 as the heatmap scale cap, we can improve the dynamic range of the signal for values &lt;10, while preserving the information that many orphan sites generally have higher scores than the other categories. The heatmap scale can be capped at 10 by setting <code>scale_max = 10</code>. Below is a comparison of the 3 different visualizations. Notice how the intensity of the orphan vs other categories hits changes.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">best_ame_hits</span> <span class="op">&lt;-</span> <span class="va">ame_res</span> <span class="op">%&gt;%</span> 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">binding_type</span>, <span class="va">motif_alt_id</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">best_ame_hits</span> <span class="op">&lt;-</span> <span class="va">ame_res</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">binding_type</span>, <span class="va">motif_alt_id</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">adj.pvalue</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">adj.pvalue</span><span class="op">)</span><span class="op">)</span>
   
-<span class="va">pval_heatmap</span> <span class="op">&lt;-</span> <span class="va">best_ame_hits</span> <span class="op">%&gt;%</span> 
+<span class="va">pval_heatmap</span> <span class="op">&lt;-</span> <span class="va">best_ame_hits</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/plot_ame_heatmap.html">plot_ame_heatmap</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">binding_type</span>, id <span class="op">=</span> <span class="va">motif_alt_id</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="cn">NULL</span>,
          title <span class="op">=</span> <span class="st">"-log10(adj.pvalue)"</span><span class="op">)</span>
   
 
-<span class="va">norm_heatmap</span> <span class="op">&lt;-</span> <span class="va">best_ame_hits</span> <span class="op">%&gt;%</span> 
+<span class="va">norm_heatmap</span> <span class="op">&lt;-</span> <span class="va">best_ame_hits</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/plot_ame_heatmap.html">plot_ame_heatmap</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">binding_type</span>, id <span class="op">=</span> <span class="va">motif_alt_id</span>, value <span class="op">=</span> <span class="st">"normalize"</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="cn">NULL</span>,
          title <span class="op">=</span> <span class="st">"normalize"</span><span class="op">)</span>
 
-<span class="va">pval_scaled_heatmap</span> <span class="op">&lt;-</span> <span class="va">best_ame_hits</span> <span class="op">%&gt;%</span> 
+<span class="va">pval_scaled_heatmap</span> <span class="op">&lt;-</span> <span class="va">best_ame_hits</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/plot_ame_heatmap.html">plot_ame_heatmap</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">binding_type</span>, id <span class="op">=</span> <span class="va">motif_alt_id</span>, scale_max <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="cn">NULL</span>,
          title <span class="op">=</span> <span class="st">"-log10(adj.pvalue) (scale capped at 10)"</span><span class="op">)</span></code></pre></div>
@@ -350,44 +356,45 @@
 </div>
 <div id="de-novo-motif-similarity-by-binding" class="section level2">
 <h2 class="hasAnchor">
-<a href="#de-novo-motif-similarity-by-binding" class="anchor"></a><em>De-novo</em> motif similarity by binding</h2>
+<a href="#de-novo-motif-similarity-by-binding" class="anchor" aria-hidden="true"></a><em>De-novo</em> motif similarity by binding</h2>
 <p>Discovery of <em>de-novo</em> motifs within binding categories can be another way to identify meaningful motifs that distinguish between ectopic, entopic, and orphan sites which does not rely on known motif information. The MEME tool, Dreme, discovers short <em>de-novo</em> motifs in input sequences. We begin the analysis by searching for 5 <em>de-novo</em> motifs per binding category and shuffling the input sequences to use as the control set.</p>
 <p>We pass the same <code>by_binding</code> list as the input to <code>runDreme</code> which will run Dreme on each set of sequences independently. The results are returned in list format, which we combine into a data.frame using <code><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">dplyr::bind_rows</a></code> as above.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dreme_by_binding</span> <span class="op">&lt;-</span> <span class="va">by_binding</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/runDreme.html">runDreme</a></span><span class="op">(</span><span class="st">"shuffle"</span>, nmotifs <span class="op">=</span> <span class="fl">5</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">dreme_by_binding</span> <span class="op">&lt;-</span> <span class="va">by_binding</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="../reference/runDreme.html">runDreme</a></span><span class="op">(</span><span class="st">"shuffle"</span>, nmotifs <span class="op">=</span> <span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span>.id <span class="op">=</span> <span class="st">"binding_type"</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># The above code chunk takes a long time to run.</span>
 <span class="co"># memes is packaged with the results of this run in the "example_dreme_by_binding" dataset</span>
 <span class="co"># which can be loaded as follows:</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"example_dreme_by_binding"</span>, package <span class="op">=</span> <span class="st">"memes"</span><span class="op">)</span>
-<span class="va">dreme_by_binding</span> <span class="op">&lt;-</span> <span class="va">example_dreme_by_binding</span> <span class="op">%&gt;%</span> 
+<span class="va">dreme_by_binding</span> <span class="op">&lt;-</span> <span class="va">example_dreme_by_binding</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span>.id <span class="op">=</span> <span class="st">"binding_type"</span><span class="op">)</span></code></pre></div>
 <p>Next, we want to compare the de-novo motifs between each binding category to identify motifs which could distinguish the three groups. One way to interrogate this is to examine the correlation score between each motif.</p>
 <p>Rename the motifs to indicate the binding category they were discovered in (for visualization purposes).</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dreme_by_binding_renamed</span> <span class="op">&lt;-</span> <span class="va">dreme_by_binding</span> <span class="op">%&gt;%</span> 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">binding_type</span>, <span class="va">seq</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">dreme_by_binding_renamed</span> <span class="op">&lt;-</span> <span class="va">dreme_by_binding</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">binding_type</span>, <span class="va">seq</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="co"># update_motifs updates the information in the special `motif` column</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/universalmotif/man/tidy-motifs.html" class="external-link">update_motifs</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="https://rdrr.io/pkg/universalmotif/man/tidy-motifs.html" class="external-link">update_motifs</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt; Restoring missing slot(s) 'pseudocount'.</span></code></pre></div>
 <p>Create the correlation heatmap:</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Set the color values for the heatmap scale</span>
-<span class="va">cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/colorRamp.html" class="external-link">colorRampPalette</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"white"</span>, <span class="st">"dodgerblue4"</span><span class="op">)</span><span class="op">)</span><span class="op">(</span><span class="fl">255</span><span class="op">)</span>
+<span class="va">cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/colorRamp.html" class="external-link">colorRampPalette</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"white"</span>, <span class="st">"dodgerblue4"</span><span class="op">)</span><span class="op">)</span><span class="op">(</span><span class="fl">255</span><span class="op">)</span>
 
 <span class="co"># This is for adding the colored annotation blocks indicating group membership</span>
 <span class="co"># to the heatmap</span>
-<span class="va">anno.df</span> <span class="op">&lt;-</span> <span class="va">dreme_by_binding_renamed</span> <span class="op">%&gt;%</span> 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">binding_type</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html" class="external-link">remove_rownames</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<span class="va">anno.df</span> <span class="op">&lt;-</span> <span class="va">dreme_by_binding_renamed</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">binding_type</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html" class="external-link">remove_rownames</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html" class="external-link">column_to_rownames</a></span><span class="op">(</span><span class="st">"name"</span><span class="op">)</span>
 
-<span class="va">dreme_by_binding_renamed</span> <span class="op">%&gt;%</span>
+<span class="va">dreme_by_binding_renamed</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="co"># Convert to universalmotif format </span>
-  <span class="fu"><a href="https://rdrr.io/pkg/universalmotif/man/tidy-motifs.html" class="external-link">to_list</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/universalmotif/man/tidy-motifs.html" class="external-link">to_list</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="co"># Compute the pearson correlation for each motif with all other motifs</span>
-  <span class="fu">universalmotif</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/universalmotif/man/compare_motifs.html" class="external-link">compare_motifs</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"PCC"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">universalmotif</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/universalmotif/man/compare_motifs.html" class="external-link">compare_motifs</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"PCC"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="co"># Plot the correlation matrix along with the annotations</span>
   <span class="fu">pheatmap</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/pheatmap/man/pheatmap.html" class="external-link">pheatmap</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">cols</span>,
                      <span class="co"># This sets the heatmap range to be from 0-1</span>
@@ -402,49 +409,49 @@
 <p>This heatmap reveals that most motifs discovered in each group are highly similar to the motifs found in other groups.</p>
 <div id="test-de-novo-motif-enrichment-using-ame" class="section level3">
 <h3 class="hasAnchor">
-<a href="#test-de-novo-motif-enrichment-using-ame" class="anchor"></a>Test <em>de-novo</em> motif enrichment using AME</h3>
+<a href="#test-de-novo-motif-enrichment-using-ame" class="anchor" aria-hidden="true"></a>Test <em>de-novo</em> motif enrichment using AME</h3>
 <p>The above analysis suggests the motif content of the different binding categories are highly similar in sequence composition. To extend these analyses, we can use AME to test for motif enrichment of the <em>de-novo</em> discovered motifs within each binding category, and determine whether the motifs detected in one category are indeed enriched in another. To do this, we can provide the <em>de-novo</em> motifs as the AME database to test for their enrichment in each sequence category.</p>
 <p><code><a href="../reference/runAme.html">runAme()</a></code> allows using a <code><a href="../reference/runDreme.html">runDreme()</a></code> results object as the <code>database</code> input by passing it within a <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>. Naming the <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> entry produces an informative <code>motif_db</code> name in the results data.frame.</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">ame_denovo_by_binding</span> <span class="op">&lt;-</span> <span class="va">by_binding</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/runAme.html">runAme</a></span><span class="op">(</span>database <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"denovo_binding_motifs"</span> <span class="op">=</span> <span class="va">dreme_by_binding_renamed</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">ame_denovo_by_binding</span> <span class="op">&lt;-</span> <span class="va">by_binding</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="../reference/runAme.html">runAme</a></span><span class="op">(</span>database <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"denovo_binding_motifs"</span> <span class="op">=</span> <span class="va">dreme_by_binding_renamed</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span>.id <span class="op">=</span> <span class="st">"binding_type"</span><span class="op">)</span> </code></pre></div>
 <p>Plotting the heatmap of results reveals that indeed a majority of the <em>de-novo</em> motifs discovered within a single category are detected in all 3 categories, supporting the conclusion that orphan, ectopic, and entopic sites are highly similar in sequence content.</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">ame_denovo_by_binding</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">ame_denovo_by_binding</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/plot_ame_heatmap.html">plot_ame_heatmap</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">binding_type</span>, scale_max <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></code></pre></div>
 <p><img src="integrative_analysis_files/figure-html/unnamed-chunk-28-1.png" width="960"></p>
 <p>However, there are 2 interesting motifs which distinguish orphan and ectopic sites from entopic sites. To help identify which TFs these motifs might belong to, we can use TomTom to match them to known TF motifs.</p>
 <p>First, we select the motif id’s that are not found in entopic sites.</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">entopic_motifs</span> <span class="op">&lt;-</span> <span class="va">ame_denovo_by_binding</span> <span class="op">%&gt;%</span> 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">binding_type</span> <span class="op">==</span> <span class="st">"entopic"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">entopic_motifs</span> <span class="op">&lt;-</span> <span class="va">ame_denovo_by_binding</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">binding_type</span> <span class="op">==</span> <span class="st">"entopic"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">motif_id</span><span class="op">)</span>
 
-<span class="va">ame_denovo_binding_unique</span> <span class="op">&lt;-</span> <span class="va">ame_denovo_by_binding</span> <span class="op">%&gt;%</span> 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="op">(</span><span class="va">motif_id</span> <span class="op">%in%</span> <span class="va">entopic_motifs</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="va">ame_denovo_binding_unique</span> <span class="op">&lt;-</span> <span class="va">ame_denovo_by_binding</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="op">!</span><span class="op">(</span><span class="va">motif_id</span> <span class="op"><a href="https://rdrr.io/pkg/BiocGenerics/man/match.html" class="external-link">%in%</a></span> <span class="va">entopic_motifs</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Next, we use the motif id’s from the unique AME results to select those entries in the Dreme results object, and run TomTom on that subset.</p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dreme_by_binding_unique</span> <span class="op">&lt;-</span> <span class="va">dreme_by_binding_renamed</span> <span class="op">%&gt;%</span> 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">name</span> <span class="op">%in%</span> <span class="va">ame_denovo_binding_unique</span><span class="op">$</span><span class="va">motif_id</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">dreme_by_binding_unique</span> <span class="op">&lt;-</span> <span class="va">dreme_by_binding_renamed</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">name</span> <span class="op"><a href="https://rdrr.io/pkg/BiocGenerics/man/match.html" class="external-link">%in%</a></span> <span class="va">ame_denovo_binding_unique</span><span class="op">$</span><span class="va">motif_id</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/runTomTom.html">runTomTom</a></span><span class="op">(</span>dist <span class="op">=</span> <span class="st">"ed"</span><span class="op">)</span></code></pre></div>
 <p>Finally, we visualize the TomTom results to identify candidate TFs driving the presence of ectopic and orphan sites.</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dreme_by_binding_unique</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/view_tomtom_hits.html">view_tomtom_hits</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">dreme_by_binding_unique</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="../reference/view_tomtom_hits.html">view_tomtom_hits</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span>plotlist <span class="op">=</span> <span class="va">.</span>, nrow <span class="op">=</span> <span class="fl">1</span>, labels <span class="op">=</span> <span class="st">"AUTO"</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p><img src="integrative_analysis_files/figure-html/unnamed-chunk-31-1.png" width="1152"></p>
 </div>
 </div>
 <div id="motifs-in-opening-vs-closing-sites" class="section level2">
 <h2 class="hasAnchor">
-<a href="#motifs-in-opening-vs-closing-sites" class="anchor"></a>Motifs in opening vs closing sites</h2>
+<a href="#motifs-in-opening-vs-closing-sites" class="anchor" aria-hidden="true"></a>Motifs in opening vs closing sites</h2>
 <p>Another category of ChIP peaks in this dataset are ones that overlap regions with dynamic changes to chromatin accessibility in response to E93 expression. These peaks are annotated in the <code>e93_sensitive_behavior</code> column which indicates whether sites have higher accessibility after ectopic E93 expression (“Increasing”), lower accessibility after ectopic E93 expression (“Decreasing”), or if the accessibility does not change (“Static”).</p>
 <p>To identify motifs associated with Increasing or Decreasing accessibility in response to ectopic E93 expression, we first grab the DNA sequences of the Increasing, Decreasing, and Static sites by splitting the ChIP peaks on the <code>e93_sensitive_behavior</code> column.</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># split by response to E93 binding</span>
-<span class="va">by_sens</span> <span class="op">&lt;-</span> <span class="va">summit_flank</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="fu">mcols</span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">$</span><span class="va">e93_sensitive_behavior</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<span class="va">by_sens</span> <span class="op">&lt;-</span> <span class="va">summit_flank</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/splitAsList.html" class="external-link">split</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">mcols</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">$</span><span class="va">e93_sensitive_behavior</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/get_sequence.html">get_sequence</a></span><span class="op">(</span><span class="va">dm.genome</span><span class="op">)</span></code></pre></div>
 <p>Proper selection of the control set of sequences is critical to identifying biologically relevant motifs. Because we are interested in motifs associated with Increasing or Decreasing behavior, we want to exclude detection of motifs that are simply associated with E93 binding. To do this, we can use the “Static” category of E93 ChIP peaks, because these theoretically represent E93 binding sites without motifs that influence chromatin accessibility. To start, we will search for <em>de-novo</em> motifs within dynamic E93 binding sites using Dreme.</p>
 <p>The <code>by_sens</code> list has three entries: <code>Increasing</code>, <code>Decreasing</code>, and <code>Static</code>. When calling <code>runDreme</code> on a sequence list, you can pass the name of a list entry as the <code>control</code> argument to use that set as the background sequences for the remaining sets of sequences. Below we search for <em>de-novo</em> motifs in Increasing and Decreasing peaks using the Static peaks as the background set.</p>
@@ -456,17 +463,17 @@
 <span class="va">dreme_by_sens_vs_static</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/runDreme.html">runDreme</a></span><span class="op">(</span><span class="va">by_sens</span>, <span class="st">"Static"</span><span class="op">)</span></code></pre></div>
 <p>The results are returned as a list with two entries: <code>Increasing</code>, and <code>Decreasing</code>. These can be joined into a single data.frame using <code><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">dplyr::bind_rows</a></code>.</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dreme_results</span> <span class="op">&lt;-</span> <span class="va">dreme_by_sens_vs_static</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">dreme_results</span> <span class="op">&lt;-</span> <span class="va">dreme_by_sens_vs_static</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">bind_rows</a></span><span class="op">(</span>.id <span class="op">=</span> <span class="st">"e93_response"</span><span class="op">)</span></code></pre></div>
 <p>Next, we match the <em>de-novo</em> motifs with known TF motifs using TomTom. The TomTom results will be added as new columns to the input data. TomTom data columns begin with <code>best_match_</code> summarizing the top hit, and the <code>tomtom</code> column is a nested data.frame storing the full results for each input motif.</p>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">denovo_dynamic_motifs</span> <span class="op">&lt;-</span> <span class="va">dreme_results</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">denovo_dynamic_motifs</span> <span class="op">&lt;-</span> <span class="va">dreme_results</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/runTomTom.html">runTomTom</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>We can visualize some of the top TomTom hits for each <em>de-novo</em> motif using <code><a href="../reference/view_tomtom_hits.html">view_tomtom_hits()</a></code>. Passing a number to <code><a href="../reference/view_tomtom_hits.html">view_tomtom_hits()</a></code> shows that many matches ranked in descending order. Passing no value will show all hits. It’s a good idea to inspect all hits visually. This can be an extremely revealing step, as it will give you insight into which motifs are generally similar to your input motif. You may also discover proteins with identical motifs, in which case you may need to decide which TF is the better candidate. For brevity, I’ll only show the top 3 hits for each motif.</p>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">denovo_dynamic_motifs</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">denovo_dynamic_motifs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="co"># Plot the top 3 matches</span>
-  <span class="fu"><a href="../reference/view_tomtom_hits.html">view_tomtom_hits</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/view_tomtom_hits.html">view_tomtom_hits</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="co"># Arrange into figure panels</span>
   <span class="co"># You don't need to do this if you're just exploring your data, I do it here to make a pretty figure</span>
   <span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span>plotlist <span class="op">=</span> <span class="va">.</span>, labels <span class="op">=</span> <span class="st">"AUTO"</span><span class="op">)</span></code></pre></div>
@@ -476,28 +483,28 @@
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># use force_best_match to use update the best match info</span>
 <span class="co"># %&lt;&gt;% is a shortcut from magrittr for updating the data in-place</span>
-<span class="va">denovo_dynamic_motifs</span> <span class="op">%&lt;&gt;%</span> 
-  <span class="fu"><a href="../reference/force_best_match.html">force_best_match</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"m03_AKGG"</span> <span class="op">=</span> <span class="st">"pho_SANGER_10"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="va">denovo_dynamic_motifs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/compound.html" class="external-link">%&lt;&gt;%</a></span> 
+  <span class="fu"><a href="../reference/force_best_match.html">force_best_match</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"m03_AKGG"</span> <span class="op">=</span> <span class="st">"pho_SANGER_10"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Replotting the top hits, you can see that “pho_SANGER_10” is now listed as the top hit for “m03_AKGG”.</p>
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">denovo_dynamic_motifs</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/view_tomtom_hits.html">view_tomtom_hits</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">denovo_dynamic_motifs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="../reference/view_tomtom_hits.html">view_tomtom_hits</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span>plotlist <span class="op">=</span> <span class="va">.</span>, labels <span class="op">=</span> <span class="st">"AUTO"</span><span class="op">)</span></code></pre></div>
 <p><img src="integrative_analysis_files/figure-html/unnamed-chunk-37-1.png" width="816"></p>
 <p>Finally, we can make publication quality figures using cowplot. This code is a little complicated, but hopefully gives an idea for how you can use R graphics to generate nice motif figures!</p>
 <p>A striking result from this is that the <em>de-novo</em> motifs associated with Decreasing sites match the E93 motif itself.</p>
 <div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">denovo_dynamic_motifs</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">denovo_dynamic_motifs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="co"># Create a new label that indicates whether the motif is found in Increasing or Decreasing sites</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">e93_response</span>, <span class="st">" in response to E93"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">e93_response</span>, <span class="st">" in response to E93"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="co"># Sort the top hits first</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">rank</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">rank</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="co"># Run the plot command separately for Increasing and Decreasing sets</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">.</span><span class="op">$</span><span class="va">label</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/splitAsList.html" class="external-link">split</a></span><span class="op">(</span><span class="va">.</span><span class="op">$</span><span class="va">label</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="co"># For each set:</span>
   <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/imap.html" class="external-link">imap</a></span><span class="op">(</span><span class="op">~</span><span class="op">{</span>
     <span class="co"># Plot the top hit for each motif in the set as a panel figure</span>
-    <span class="va">top_hits</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/view_tomtom_hits.html">view_tomtom_hits</a></span><span class="op">(</span><span class="va">.x</span>, <span class="fl">1</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+    <span class="va">top_hits</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/view_tomtom_hits.html">view_tomtom_hits</a></span><span class="op">(</span><span class="va">.x</span>, <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
       <span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span>plotlist <span class="op">=</span> <span class="va">.</span>, nrow <span class="op">=</span> <span class="fl">1</span>, labels <span class="op">=</span> <span class="st">"AUTO"</span><span class="op">)</span>
 
     <span class="co"># Create a figure title from the label we created above</span>
@@ -507,7 +514,7 @@
     <span class="co"># Combine the title &amp; the motif hits figure</span>
     <span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span>plotlist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">title</span>, <span class="va">top_hits</span><span class="op">)</span>, 
                        ncol <span class="op">=</span> <span class="fl">1</span>,
-                       rel_heights <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>
+                       rel_heights <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>
     <span class="op">)</span>
   <span class="op">}</span><span class="op">)</span>
 <span class="co">#&gt; $`Decreasing in response to E93`</span></code></pre></div>
@@ -518,15 +525,15 @@
 </div>
 <div id="scanning-for-motif-matches-using-fimo" class="section level2">
 <h2 class="hasAnchor">
-<a href="#scanning-for-motif-matches-using-fimo" class="anchor"></a>Scanning for motif matches using FIMO</h2>
+<a href="#scanning-for-motif-matches-using-fimo" class="anchor" aria-hidden="true"></a>Scanning for motif matches using FIMO</h2>
 <p>Because we discover a <em>de-novo</em> motif from DREME that matches to E93 in Decreasing sites, this suggests that the E93 motifs in Decreasing sites have different properties relative to E93 motifs in Increasing or Static sites. For example, the E93 motif may have higher similarity to the canonical sequence, may be present in greater number, or may have different positioning in Decreasing sites relative to Increasing or Static sites. To test these questions directly, we can identify individual E93 motif matches within each sequence and investigate their properties. The FIMO tool is used to identify the positions of motif matches in a set of sequences. It will return the coordinates, sequence, and a score (higher values are more similar to the consensus) for each motif found in the input sequences.</p>
 <p>In order to scan for the E93 motif within target sequences, we first need a copy of the E93 motif. Although we could import the motifs from our local meme database, it is also possible to use motifs pulled from a <a href="https://bioconductor.org/packages/release/bioc/html/MotifDb.html" class="external-link"><code>MotifDb</code></a> query as follows. I’ll use that approach here as an example, but if this were a real analysis, I’d take the result from our local database.</p>
 <div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">e93_flyfactor</span> <span class="op">&lt;-</span> <span class="fu">MotifDb</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/MotifDb/man/MotifDb.html" class="external-link">MotifDb</a></span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">e93_flyfactor</span> <span class="op">&lt;-</span> <span class="fu">MotifDb</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/MotifDb/man/MotifDb.html" class="external-link">MotifDb</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="co"># Query the database for the E93 motif using it's gene name</span>
-  <span class="fu">MotifDb</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MotifDb/man/query.html" class="external-link">query</a></span><span class="op">(</span><span class="st">"Eip93F"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu">MotifDb</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MotifDb/man/query.html" class="external-link">query</a></span><span class="op">(</span><span class="st">"Eip93F"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="co"># Convert from motifdb format to universalmotif format</span>
-  <span class="fu">universalmotif</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/universalmotif/man/convert_motifs.html" class="external-link">convert_motifs</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu">universalmotif</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/universalmotif/man/convert_motifs.html" class="external-link">convert_motifs</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="co"># The result is a list, to simplify the object, return it as a single universalmotif</span>
   <span class="va">.</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
 <span class="co">#&gt; See system.file("LICENSE", package="MotifDb") for use restrictions.</span>
@@ -556,8 +563,8 @@
 <span class="co">#&gt; T 0.00 0.16 0.37 0.11 0 0 0.00 0 0 0.16 0.37 0.89</span></code></pre></div>
 <p>Just like <code><a href="../reference/runDreme.html">runDreme()</a></code> and <code><a href="../reference/runAme.html">runAme()</a></code>, <code><a href="../reference/runFimo.html">runFimo()</a></code> takes a <code><a href="https://rdrr.io/pkg/Biostrings/man/XStringSet-class.html" class="external-link">Biostrings::XStringSet</a></code> as input. Using <code><a href="../reference/get_sequence.html">get_sequence()</a></code> to generate these for DNA sequences is preferred because it creates sequence inputs that can be parsed into genomic coordinates by Fimo.</p>
 <div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">fimo_res</span> <span class="op">&lt;-</span> <span class="va">summit_flank</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/get_sequence.html">get_sequence</a></span><span class="op">(</span><span class="va">dm.genome</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">fimo_res</span> <span class="op">&lt;-</span> <span class="va">summit_flank</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu"><a href="../reference/get_sequence.html">get_sequence</a></span><span class="op">(</span><span class="va">dm.genome</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/runFimo.html">runFimo</a></span><span class="op">(</span>motifs <span class="op">=</span> <span class="va">e93_flyfactor</span>, thresh <span class="op">=</span> <span class="fl">1e-3</span><span class="op">)</span></code></pre></div>
 <p>The results of <code><a href="../reference/runFimo.html">runFimo()</a></code> are returned as a <code>GRanges</code> object containing the positions of each motif discovered in the input sequences. The best way to integrate these data with our input peaks is to use the <code>plyranges</code> suite of tools for performing overlaps and joins between <code>GRanges</code> objects.</p>
 <div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
@@ -593,22 +600,22 @@
 <span class="co">#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span></code></pre></div>
 <div id="counting-the-number-of-motifs-per-peak" class="section level3">
 <h3 class="hasAnchor">
-<a href="#counting-the-number-of-motifs-per-peak" class="anchor"></a>Counting the number of motifs per peak</h3>
+<a href="#counting-the-number-of-motifs-per-peak" class="anchor" aria-hidden="true"></a>Counting the number of motifs per peak</h3>
 <p><code>plyranges</code> extends <code>dplyr</code>-like syntax to range objects. Here we add a count for each motif per peak in the <code>n_motifs</code> column. We also add a column <code>has_motif</code> which will be a binary indicator of whether a peak contains any motifs.</p>
 <div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">summit_flank</span> <span class="op">%&lt;&gt;%</span> 
+<code class="sourceCode R"><span class="va">summit_flank</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/compound.html" class="external-link">%&lt;&gt;%</a></span> 
   <span class="co"># Note, if running FIMO with multiple motifs, this solution will not work</span>
   <span class="co"># as it will count all motifs within the fimo-results without splitting by motif_id</span>
   <span class="fu">plyranges</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/plyranges/man/tidyverse-reexports.html" class="external-link">mutate</a></span><span class="op">(</span>n_motifs <span class="op">=</span> <span class="fu">plyranges</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/plyranges/man/ranges-count-overlaps.html" class="external-link">count_overlaps</a></span><span class="op">(</span><span class="va">.</span>, <span class="va">fimo_res</span><span class="op">)</span>, 
                     has_motif <span class="op">=</span> <span class="va">n_motifs</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></code></pre></div>
 <p>First, we want to determine whether E93 sensitive sites are more likely to have E93 motifs in certain response types. Here we can see that sensitive decreasing sites are more likely to have E93 motifs than sensitive increasing or insensitive static sites.</p>
 <div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">summit_flank</span> <span class="op">%&gt;%</span> 
-  <span class="va">data.frame</span> <span class="op">%&gt;%</span> 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>has_match <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span><span class="va">has_motif</span>, <span class="st">"Match"</span>, <span class="st">"No Match"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">summit_flank</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="va">data.frame</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>has_match <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span><span class="va">has_motif</span>, <span class="st">"Match"</span>, <span class="st">"No Match"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">e93_sensitive_behavior</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_bar</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="fu">forcats</span><span class="fu">::</span><span class="fu"><a href="https://forcats.tidyverse.org/reference/fct_rev.html" class="external-link">fct_rev</a></span><span class="op">(</span><span class="va">has_match</span><span class="op">)</span><span class="op">)</span>, position <span class="op">=</span> <span class="st">"fill"</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_fill_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Match"</span> <span class="op">=</span> <span class="st">"firebrick"</span>,
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_fill_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Match"</span> <span class="op">=</span> <span class="st">"firebrick"</span>,
                                  <span class="st">"No Match"</span> <span class="op">=</span> <span class="st">"Black"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"E93 Motif Match"</span>,
          y <span class="op">=</span> <span class="st">"Fraction of Sites"</span>,
@@ -616,13 +623,13 @@
 <p><img src="integrative_analysis_files/figure-html/unnamed-chunk-43-1.png" width="480"></p>
 <p>To investigate whether E93-sensitive sites that increase, decrease, or remain static have different numbers of E93 motifs, we plot the fraction of sites with each number of motifs per group. Here we can see that in addition to being more likely to contain an E93 motif, sensitive decreasing sites are more likely to to contain 2 or more matches, where 10% contain at least 2 motifs.</p>
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">summit_flank</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">summit_flank</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="co"># currently, group operations are faster as data.frames, so we convert to data.frame</span>
-  <span class="va">data.frame</span> <span class="op">%&gt;%</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">e93_sensitive_behavior</span>, <span class="va">n_motifs</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">e93_sensitive_behavior</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>frac <span class="op">=</span> <span class="va">n</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="va">data.frame</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">e93_sensitive_behavior</span>, <span class="va">n_motifs</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">e93_sensitive_behavior</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>frac <span class="op">=</span> <span class="va">n</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">n_motifs</span>, <span class="va">frac</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">e93_sensitive_behavior</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"Fraction of Sites"</span>,
@@ -633,20 +640,20 @@
 <p>Finally, we want to assess whether the quality of E93 motifs is different between sensitivity categories. To examine this, we need to determine which motifs are found in which peaks. We use <code><a href="https://rdrr.io/pkg/plyranges/man/overlap-joins.html" class="external-link">plyranges::join_overlap_intersect</a></code> to return motif entries appended with peak-level metadata, like the peak id each motif is found within.</p>
 <div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># return position of each motif match w/ peak metadata</span>
-<span class="va">intersect</span> <span class="op">&lt;-</span> <span class="va">fimo_res</span> <span class="op">%&gt;%</span> 
+<span class="va">intersect</span> <span class="op">&lt;-</span> <span class="va">fimo_res</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu">plyranges</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/plyranges/man/overlap-joins.html" class="external-link">join_overlap_intersect</a></span><span class="op">(</span><span class="va">summit_flank</span><span class="op">)</span></code></pre></div>
 <p>We use the FIMO <code>score</code> as a proxy for quality, where higher scores are better matches to the motif. Here we examine only the best match (highest score) motif within each peak.</p>
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">best_motifs</span> <span class="op">&lt;-</span> <span class="va">intersect</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">best_motifs</span> <span class="op">&lt;-</span> <span class="va">intersect</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="co"># group by ChIP peak id</span>
-  <span class="fu">plyranges</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/plyranges/man/tidyverse-reexports.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu">plyranges</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/plyranges/man/tidyverse-reexports.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">id</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="co"># Keep only motifs w/ the highest score within a peak</span>
-  <span class="fu">plyranges</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/plyranges/man/tidyverse-reexports.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">score</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">score</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu">plyranges</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/plyranges/man/tidyverse-reexports.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">score</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">score</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu">plyranges</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/plyranges/man/tidyverse-reexports.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>Finally, visualize the FIMO scores for the best E93 motif within each ChIP peak across categories. This reveals that Decreasing sites appear to have higher FIMO scores, suggesting the E93 motifs within Decreasing sites are higher quality E93 motifs than those in Increasing or Static sites.</p>
 <div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">best_motifs</span> <span class="op">%&gt;%</span> 
-  <span class="va">data.frame</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">best_motifs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="va">data.frame</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">e93_sensitive_behavior</span>, <span class="va">score</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html" class="external-link">geom_boxplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">e93_sensitive_behavior</span><span class="op">)</span>, notch <span class="op">=</span> <span class="cn">TRUE</span>, width <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/guides.html" class="external-link">guides</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span> <span class="op">+</span>
@@ -656,9 +663,9 @@
 <p><img src="integrative_analysis_files/figure-html/unnamed-chunk-47-1.png" width="288"></p>
 <p>We can test whether the distribution of FIMO scores between multiple groups is statistically significantly different using an <a href="https://en.wikipedia.org/wiki/Anderson%E2%80%93Darling_test" class="external-link">Anderson-Darling test</a>. For a pairwise comparison (in case you only have 2 groups to test), a <a href="https://en.wikipedia.org/wiki/Kolmogorov%E2%80%93Smirnov_test" class="external-link">Kolmogorov-Smirnov test</a> is commonly used instead. The <code><a href="https://rdrr.io/pkg/PMCMRplus/man/adAllPairsTest.html" class="external-link">PMCMRplus::adAllPairsTest()</a></code> performs the Anderson-Darling test and corrects for multiple testing. This reveals that Decreasing FIMO scores are significantly different from Increasing and Static scores (p &lt; 0.05), but Increasing and Static scores are not significantly different from eachother (p &gt; 0.05), supporting the conclusion that E93 motifs in Decreasing sites are higher quality than those in Increasing or Static sites.</p>
 <div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">best_motifs</span> <span class="op">%&gt;%</span> 
-  <span class="va">data.frame</span> <span class="op">%&gt;%</span> 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>behavior <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">e93_sensitive_behavior</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">best_motifs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="va">data.frame</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>behavior <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">e93_sensitive_behavior</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu">PMCMRplus</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/PMCMRplus/man/adAllPairsTest.html" class="external-link">adAllPairsTest</a></span><span class="op">(</span><span class="va">score</span> <span class="op">~</span> <span class="va">behavior</span>, <span class="va">.</span>, p.adjust.method <span class="op">=</span> <span class="st">"fdr"</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  Pairwise comparisons using Anderson-Darling All-Pairs Test</span>
@@ -671,13 +678,13 @@
 <span class="co">#&gt; alternative hypothesis: two.sided</span></code></pre></div>
 <p>We can visualize the differences in E93 motif quality between groups by reconstructing PCM’s from the matched motif sequences. Here, it is clear that although each category contains an E93 motif match, the sequence content of those motifs differs between categories, providing a nice visual representation of the statistical analysis above.</p>
 <div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">best_motifs</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">best_motifs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="co"># Get sequences of each matched motif</span>
-  <span class="fu"><a href="../reference/add_sequence.html">add_sequence</a></span><span class="op">(</span><span class="va">dm.genome</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/add_sequence.html">add_sequence</a></span><span class="op">(</span><span class="va">dm.genome</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="co"># Split by E93 response category</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="fu">mcols</span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">$</span><span class="va">e93_sensitive_behavior</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/splitAsList.html" class="external-link">split</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">mcols</a></span><span class="op">(</span><span class="va">.</span><span class="op">)</span><span class="op">$</span><span class="va">e93_sensitive_behavior</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="co"># Convert from GRangesList to list() to use `purrr::imap`</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/as.list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="co"># imap passes the list entry as .x and the name of that object to .y</span>
   <span class="co"># here, .y holds the e93_sensitive_behavior name, and .x holds the motif positions</span>
   <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/imap.html" class="external-link">imap</a></span><span class="op">(</span><span class="op">~</span><span class="op">{</span>
@@ -685,43 +692,43 @@
     <span class="fu"><a href="https://rdrr.io/pkg/universalmotif/man/create_motif.html" class="external-link">create_motif</a></span><span class="op">(</span><span class="va">.x</span><span class="op">$</span><span class="va">sequence</span>, 
                  <span class="co"># Append the response category to the motif name</span>
                  name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"E93_"</span>, <span class="va">.y</span><span class="op">)</span><span class="op">)</span>
-    <span class="op">}</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+    <span class="op">}</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="co"># Prepend E93 Fly Factor motif to beginning of motif list so it is plotted at the top</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"E93_FlyFactor"</span> <span class="op">=</span> <span class="va">e93_flyfactor</span><span class="op">)</span>, <span class="va">.</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"E93_FlyFactor"</span> <span class="op">=</span> <span class="va">e93_flyfactor</span><span class="op">)</span>, <span class="va">.</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="co"># Plot each motif</span>
   <span class="fu"><a href="https://rdrr.io/pkg/universalmotif/man/view_motifs.html" class="external-link">view_motifs</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="integrative_analysis_files/figure-html/unnamed-chunk-49-1.png" width="480"></p>
 <p>We can also build a more complex representation of these data by making a heatmap of the sequence variability for each matched sequence using <code><a href="../reference/plot_sequence_heatmap.html">plot_sequence_heatmap()</a></code>. This function will plot each sequence as a row of a heatmap where each column represents the position relative to the motif start coordinate. The cells are colored by the DNA sequence found at that position for each sequence. Using this type of plot it becomes even more clear how variability at position 6 differs between Decreasing and Increasing sites, where Decreasing sites have a very consistent “C” at position 6, while Increasing sites are more likely to have non-C bases at this position.</p>
 <div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">best_motifs</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">best_motifs</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="co"># Get sequences of each matched motif</span>
-  <span class="fu"><a href="../reference/add_sequence.html">add_sequence</a></span><span class="op">(</span><span class="va">dm.genome</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="va">data.frame</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/add_sequence.html">add_sequence</a></span><span class="op">(</span><span class="va">dm.genome</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="va">data.frame</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="co"># Split by E93 response category</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">.</span><span class="op">$</span><span class="va">e93_sensitive_behavior</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/splitAsList.html" class="external-link">split</a></span><span class="op">(</span><span class="va">.</span><span class="op">$</span><span class="va">e93_sensitive_behavior</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="co"># Extract the "sequence" column from each category</span>
-  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="st">"sequence"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span><span class="st">"sequence"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="co"># Plot a heatmap for each category</span>
-  <span class="fu"><a href="../reference/plot_sequence_heatmap.html">plot_sequence_heatmap</a></span><span class="op">(</span>title_hjust <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/plot_sequence_heatmap.html">plot_sequence_heatmap</a></span><span class="op">(</span>title_hjust <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="co"># Arrange into a grid</span>
   <span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span>plotlist <span class="op">=</span> <span class="va">.</span>, nrow <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
 <p><img src="integrative_analysis_files/figure-html/unnamed-chunk-50-1.png" width="768"></p>
 </div>
 <div id="centrality-of-e93-motif" class="section level3">
 <h3 class="hasAnchor">
-<a href="#centrality-of-e93-motif" class="anchor"></a>Centrality of E93 motif</h3>
+<a href="#centrality-of-e93-motif" class="anchor" aria-hidden="true"></a>Centrality of E93 motif</h3>
 <p>Next we want to visualize whether the E93 motif has altered positioning across the response categories. To do this we add the metadata for each nearest motif to our peak summits. Setting <code>distance = TRUE</code> in <code><a href="https://rdrr.io/pkg/plyranges/man/ranges-nearest.html" class="external-link">plyranges::join_nearest</a></code> adds a <code>distance</code> column indicating the distance to the nearest joined region.</p>
 <div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">summit_nearest_e93_motif</span> <span class="op">&lt;-</span> <span class="va">summit_flank</span> <span class="op">%&gt;%</span> 
-  <span class="fu">plyranges</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/plyranges/man/ranges-anchor.html" class="external-link">anchor_center</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu">plyranges</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/plyranges/man/tidyverse-reexports.html" class="external-link">mutate</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+<code class="sourceCode R"><span class="va">summit_nearest_e93_motif</span> <span class="op">&lt;-</span> <span class="va">summit_flank</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu">plyranges</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/plyranges/man/ranges-anchor.html" class="external-link">anchor_center</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="fu">plyranges</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/plyranges/man/tidyverse-reexports.html" class="external-link">mutate</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu">plyranges</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/plyranges/man/ranges-nearest.html" class="external-link">join_nearest</a></span><span class="op">(</span><span class="va">fimo_res</span>, distance <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p>We can visualize these data as a cumuluative distribution plot. In this example, it does appear that decreasing sites tend to be closer to the peak summit than increasing or static sites.</p>
 <div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">summit_nearest_e93_motif</span> <span class="op">%&gt;%</span> 
-  <span class="va">data.frame</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="va">summit_nearest_e93_motif</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
+  <span class="va">data.frame</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
   <span class="co"># Limit our analysis to peaks that contain motifs</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">has_motif</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span> 
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">has_motif</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">distance</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/stat_ecdf.html" class="external-link">stat_ecdf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">e93_sensitive_behavior</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">1</span>, pad <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Distance to nearest E93 Motif"</span>,
@@ -734,20 +741,20 @@
 </div>
 <div id="conclusion" class="section level1">
 <h1 class="hasAnchor">
-<a href="#conclusion" class="anchor"></a>Conclusion</h1>
+<a href="#conclusion" class="anchor" aria-hidden="true"></a>Conclusion</h1>
 <p>This is just one example of how <code>memes</code> can integrate multiple data sources to perform deep analysis of genomics data. Here we went from a set of annotated ChIP peaks do multifaceted interrogation of motif content. Each approach has advantages and disadvantages. The most important thing is to critically evaluate the data at every step: visualize <em>de-novo</em> motif hits with <code>view_motifs</code>, compare matches using <code>view_tomtom_hits</code>, and think carefully about which sequences to use as control regions.</p>
 </div>
 <div id="references" class="section level1">
 <h1 class="hasAnchor">
-<a href="#references" class="anchor"></a>References</h1>
+<a href="#references" class="anchor" aria-hidden="true"></a>References</h1>
 <p>Nystrom SL, Niederhuber MJ, McKay DJ. Expression of E93 provides an instructive cue to control dynamic enhancer activity and chromatin accessibility during development. Development 2020 Mar 16;147(6).</p>
 </div>
 <div id="session-info" class="section level1">
 <h1 class="hasAnchor">
-<a href="#session-info" class="anchor"></a>Session Info</h1>
+<a href="#session-info" class="anchor" aria-hidden="true"></a>Session Info</h1>
 <div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; R Under development (unstable) (2021-04-08 r80148)</span>
+<span class="co">#&gt; R Under development (unstable) (2021-04-15 r80175)</span>
 <span class="co">#&gt; Platform: x86_64-pc-linux-gnu (64-bit)</span>
 <span class="co">#&gt; Running under: Ubuntu 20.04.2 LTS</span>
 <span class="co">#&gt; </span>
@@ -767,14 +774,14 @@
 <span class="co">#&gt; [8] methods   base     </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
-<span class="co">#&gt; [1] universalmotif_1.9.49 GenomicRanges_1.43.4  GenomeInfoDb_1.27.11 </span>
-<span class="co">#&gt; [4] IRanges_2.25.7        S4Vectors_0.29.15     BiocGenerics_0.37.1  </span>
-<span class="co">#&gt; [7] ggplot2_3.3.3         magrittr_2.0.1        memes_0.99.10        </span>
+<span class="co">#&gt; [1] universalmotif_1.9.59 GenomicRanges_1.43.4  GenomeInfoDb_1.27.11 </span>
+<span class="co">#&gt; [4] IRanges_2.25.10       S4Vectors_0.29.17     BiocGenerics_0.37.4  </span>
+<span class="co">#&gt; [7] ggplot2_3.3.3         magrittr_2.0.1        memes_0.99.11        </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
 <span class="co">#&gt;   [1] colorspace_2.0-0                     </span>
 <span class="co">#&gt;   [2] rjson_0.2.20                         </span>
-<span class="co">#&gt;   [3] ellipsis_0.3.1                       </span>
+<span class="co">#&gt;   [3] ellipsis_0.3.2                       </span>
 <span class="co">#&gt;   [4] rprojroot_2.0.2                      </span>
 <span class="co">#&gt;   [5] XVector_0.31.1                       </span>
 <span class="co">#&gt;   [6] fs_1.5.0                             </span>
@@ -787,7 +794,7 @@
 <span class="co">#&gt;  [13] xml2_1.3.2                           </span>
 <span class="co">#&gt;  [14] R.methodsS3_1.8.1                    </span>
 <span class="co">#&gt;  [15] cachem_1.0.4                         </span>
-<span class="co">#&gt;  [16] knitr_1.31                           </span>
+<span class="co">#&gt;  [16] knitr_1.33                           </span>
 <span class="co">#&gt;  [17] SuppDists_1.1-9.5                    </span>
 <span class="co">#&gt;  [18] pkgload_1.2.1                        </span>
 <span class="co">#&gt;  [19] jsonlite_1.7.2                       </span>
@@ -801,7 +808,7 @@
 <span class="co">#&gt;  [27] PMCMRplus_1.9.0                      </span>
 <span class="co">#&gt;  [28] Matrix_1.3-2                         </span>
 <span class="co">#&gt;  [29] fastmap_1.1.0                        </span>
-<span class="co">#&gt;  [30] cli_2.4.0                            </span>
+<span class="co">#&gt;  [30] cli_2.5.0                            </span>
 <span class="co">#&gt;  [31] htmltools_0.5.1.1                    </span>
 <span class="co">#&gt;  [32] tools_4.1.0                          </span>
 <span class="co">#&gt;  [33] gmp_0.6-2                            </span>
@@ -811,9 +818,9 @@
 <span class="co">#&gt;  [37] dplyr_1.0.5                          </span>
 <span class="co">#&gt;  [38] Rcpp_1.0.6                           </span>
 <span class="co">#&gt;  [39] Biobase_2.51.0                       </span>
-<span class="co">#&gt;  [40] jquerylib_0.1.3                      </span>
+<span class="co">#&gt;  [40] jquerylib_0.1.4                      </span>
 <span class="co">#&gt;  [41] pkgdown_1.6.1.9001                   </span>
-<span class="co">#&gt;  [42] vctrs_0.3.7                          </span>
+<span class="co">#&gt;  [42] vctrs_0.3.8                          </span>
 <span class="co">#&gt;  [43] Biostrings_2.59.2                    </span>
 <span class="co">#&gt;  [44] BSgenome.Dmelanogaster.UCSC.dm3_1.4.0</span>
 <span class="co">#&gt;  [45] rtracklayer_1.51.5                   </span>
@@ -829,7 +836,7 @@
 <span class="co">#&gt;  [55] zlibbioc_1.37.0                      </span>
 <span class="co">#&gt;  [56] MASS_7.3-53.1                        </span>
 <span class="co">#&gt;  [57] scales_1.1.1                         </span>
-<span class="co">#&gt;  [58] BSgenome_1.59.2                      </span>
+<span class="co">#&gt;  [58] BSgenome_1.59.4                      </span>
 <span class="co">#&gt;  [59] ragg_1.1.2                           </span>
 <span class="co">#&gt;  [60] hms_1.0.0                            </span>
 <span class="co">#&gt;  [61] MatrixGenerics_1.3.1                 </span>
@@ -840,15 +847,15 @@
 <span class="co">#&gt;  [66] memoise_2.0.0                        </span>
 <span class="co">#&gt;  [67] sass_0.3.1                           </span>
 <span class="co">#&gt;  [68] stringi_1.5.3                        </span>
-<span class="co">#&gt;  [69] highr_0.8                            </span>
+<span class="co">#&gt;  [69] highr_0.9                            </span>
 <span class="co">#&gt;  [70] BiocIO_1.1.2                         </span>
 <span class="co">#&gt;  [71] desc_1.3.0                           </span>
 <span class="co">#&gt;  [72] BiocParallel_1.25.5                  </span>
-<span class="co">#&gt;  [73] rlang_0.4.10                         </span>
+<span class="co">#&gt;  [73] rlang_0.4.11                         </span>
 <span class="co">#&gt;  [74] pkgconfig_2.0.3                      </span>
 <span class="co">#&gt;  [75] systemfonts_1.0.1                    </span>
 <span class="co">#&gt;  [76] matrixStats_0.58.0                   </span>
-<span class="co">#&gt;  [77] bitops_1.0-6                         </span>
+<span class="co">#&gt;  [77] bitops_1.0-7                         </span>
 <span class="co">#&gt;  [78] evaluate_0.14                        </span>
 <span class="co">#&gt;  [79] lattice_0.20-41                      </span>
 <span class="co">#&gt;  [80] purrr_0.3.4                          </span>
@@ -856,17 +863,17 @@
 <span class="co">#&gt;  [82] GenomicAlignments_1.27.2             </span>
 <span class="co">#&gt;  [83] labeling_0.4.2                       </span>
 <span class="co">#&gt;  [84] cowplot_1.1.1                        </span>
-<span class="co">#&gt;  [85] tidyselect_1.1.0                     </span>
-<span class="co">#&gt;  [86] processx_3.5.1                       </span>
+<span class="co">#&gt;  [85] tidyselect_1.1.1                     </span>
+<span class="co">#&gt;  [86] processx_3.5.2                       </span>
 <span class="co">#&gt;  [87] R6_2.5.0                             </span>
 <span class="co">#&gt;  [88] generics_0.1.0                       </span>
 <span class="co">#&gt;  [89] multcompView_0.1-8                   </span>
 <span class="co">#&gt;  [90] BWStest_0.2.2                        </span>
-<span class="co">#&gt;  [91] DelayedArray_0.17.10                 </span>
-<span class="co">#&gt;  [92] pillar_1.5.1                         </span>
-<span class="co">#&gt;  [93] withr_2.4.1                          </span>
+<span class="co">#&gt;  [91] DelayedArray_0.17.11                 </span>
+<span class="co">#&gt;  [92] pillar_1.6.0                         </span>
+<span class="co">#&gt;  [93] withr_2.4.2                          </span>
 <span class="co">#&gt;  [94] RCurl_1.98-1.3                       </span>
-<span class="co">#&gt;  [95] tibble_3.1.0                         </span>
+<span class="co">#&gt;  [95] tibble_3.1.1                         </span>
 <span class="co">#&gt;  [96] cmdfun_1.0.2                         </span>
 <span class="co">#&gt;  [97] MotifDb_1.33.0                       </span>
 <span class="co">#&gt;  [98] crayon_1.4.1                         </span>

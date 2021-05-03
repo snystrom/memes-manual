@@ -85,7 +85,7 @@ modes." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">memes</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.11</span>
       </span>
     </div>
 
@@ -221,7 +221,7 @@ Biostrings::BStringSet (can generate using <code><a href='get_sequence.html'>get
     <tr>
       <th>control</th>
       <td><p>any data type as in <code>input</code>, or a character vector of
-<code><a href='https://rdrr.io/r/base/names.html'>names(input)</a></code> to use those regions as control sequences. Using sequences
+<code>names(input)</code> to use those regions as control sequences. Using sequences
 as background requires an alternative objective function. Users must pass a non-default value of
 <code>objfun</code> to <code>...</code> if using a non-NA control set (default: NA)</p></td>
     </tr>
@@ -235,14 +235,14 @@ as background requires an alternative objective function. Users must pass a non-
     </tr>
     <tr>
       <th>parse_genomic_coord</th>
-      <td><p><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code> whether to parse genomic coordinates
+      <td><p><code>logical(1)</code> whether to parse genomic coordinates
 from fasta headers. Requires headers are in the form: "chr:start-end", or
 will result in an error. Automatically set to <code>FALSE</code> if <code>alph = "protein"</code>. This setting only needs to be changed if using a custom-built
 fasta file without genomic coordinates in the header.</p></td>
     </tr>
     <tr>
       <th>combined_sites</th>
-      <td><p><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code> whether to return combined sites
+      <td><p><code>logical(1)</code> whether to return combined sites
 information (coerces output to list) (default: FALSE)</p></td>
     </tr>
     <tr>
@@ -286,7 +286,7 @@ best if using sequences flaking the summit (the site of maximum signal) of
 each peak rather than the center. ChIP-seq or similar data can also benefit
 from setting <code>revcomp = TRUE, minw = 5, maxw = 20</code>. For more tips on using
 MEME to analyze ChIP-seq data, see the following
-<a href='https://groups.google.com/forum/#%21topic/meme-suite/rIbjIHbcpAE'>tips page</a>.</p><h3 class='hasAnchor' id='additional-arguments'><a class='anchor' href='#additional-arguments'></a>Additional arguments</h3>
+<a href='https://groups.google.com/forum/#%21topic/meme-suite/rIbjIHbcpAE'>tips page</a>.</p><h3 class='hasAnchor' id='additional-arguments'><a class='anchor' aria-hidden='true' href='#additional-arguments'></a>Additional arguments</h3>
 
 
 <p><code>runMeme()</code> accepts all valid arguments to meme as arguments passed to <code>...</code>.
@@ -316,10 +316,10 @@ license. See the <a href='http://meme-suite.org/doc/copyright.html'>MEME Suite C
 <span class='fu'>runMeme</span><span class='op'>(</span><span class='va'>seqs</span>, parse_genomic_coord <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
 <span class='op'>}</span>
-</div><div class='output co'>#&gt;          motif     name altname consensus alphabet strand  icscore nsites  eval
+</div><div class='co'>#&gt;          motif     name altname consensus alphabet strand  icscore nsites  eval
 #&gt; 1 &lt;mot:AMAC..&gt; AMACMAMC  MEME-1  AMMCMAMC      DNA      + 4.569835      2 47000
-#&gt;   type                                bkg width
-#&gt; 1  PPM 0.45800, 0.53100, 0.00565, 0.00565     8
+#&gt;   type pseudocount                                bkg width
+#&gt; 1  PPM           1 0.45800, 0.53100, 0.00565, 0.00565     8
 #&gt;                                         sites_hits
 #&gt; 1 1, 3, 19, 70, 0.0124, 0.0268, AWACAARC, ARRCCAWC
 #&gt; 

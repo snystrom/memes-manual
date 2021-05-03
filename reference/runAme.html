@@ -83,7 +83,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">memes</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.11</span>
       </span>
     </div>
 
@@ -259,7 +259,7 @@ search behavior as described in <code><a href='check_meme_install.html'>check_me
     </tr>
     <tr>
       <th>sequences</th>
-      <td><p><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code> add results from <code>sequences.tsv</code> to <code>sequences</code>
+      <td><p><code>logical(1)</code> add results from <code>sequences.tsv</code> to <code>sequences</code>
 list column to returned data.frame. Valid only if method = "fisher". See
 <a href='http://alternate.meme-suite.org/doc/ame-output-format.html'>AME outputs</a>
 webpage for more information (Default: FALSE).</p></td>
@@ -294,22 +294,22 @@ additional details for all valid AME arguments, see the <a href='http://meme-sui
 of valid parameters, and brief descriptions of their function are provided
 below:</p><table class='table'>
 <tr><td>AME Flag</td><td>allowed values</td><td>default</td><td>description</td></tr>
-<tr><td>kmer</td><td><code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code></td><td>2</td><td>kmer frequency to preserve when shuffling control sequences</td></tr>
-<tr><td>seed</td><td><code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code></td><td>1</td><td>seed for random number generator when shuffling control sequences</td></tr>
+<tr><td>kmer</td><td><code>integer(1)</code></td><td>2</td><td>kmer frequency to preserve when shuffling control sequences</td></tr>
+<tr><td>seed</td><td><code>integer(1)</code></td><td>1</td><td>seed for random number generator when shuffling control sequences</td></tr>
 <tr><td>scoring</td><td>"avg", "max", "sum", "totalhits"</td><td>"avg"</td><td>Method for scoring a sequence for matches to a PWM (avg, max, sum, totalhits)</td></tr>
-<tr><td>hit_lo_fraction</td><td><code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code></td><td>0.25</td><td>fraction of hit log odds score to exceed to be considered a "hit"</td></tr>
-<tr><td>evalue_report_threshold</td><td><code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code></td><td>10</td><td>E-value threshold for reporting a motif as significantly enriched</td></tr>
-<tr><td>fasta_threshold</td><td><code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code></td><td>0.001</td><td>AME will classify sequences with FASTA scores below this value as positives. Only valid when <code>method = "fisher", poslist = "pwm", control = NA, fix_partition = NULL</code>.</td></tr>
-<tr><td>fix_partition</td><td><code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code></td><td><code>NULL</code></td><td>AME evaluates only the partition of the first N sequences. Only works when <code>control = NA</code> and <code>poslist = "fasta"</code></td></tr>
+<tr><td>hit_lo_fraction</td><td><code>numeric(1)</code></td><td>0.25</td><td>fraction of hit log odds score to exceed to be considered a "hit"</td></tr>
+<tr><td>evalue_report_threshold</td><td><code>numeric(1)</code></td><td>10</td><td>E-value threshold for reporting a motif as significantly enriched</td></tr>
+<tr><td>fasta_threshold</td><td><code>numeric(1)</code></td><td>0.001</td><td>AME will classify sequences with FASTA scores below this value as positives. Only valid when <code>method = "fisher", poslist = "pwm", control = NA, fix_partition = NULL</code>.</td></tr>
+<tr><td>fix_partition</td><td><code>numeric(1)</code></td><td><code>NULL</code></td><td>AME evaluates only the partition of the first N sequences. Only works when <code>control = NA</code> and <code>poslist = "fasta"</code></td></tr>
 <tr><td>poslist</td><td>"pwm", "fasta"</td><td>"fasta"</td><td>When using paritioning mode (<code>control = NA</code>), test thresholds on either PWM or Fasta score</td></tr>
-<tr><td>log_fscores</td><td><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code></td><td>FALSE</td><td>Convert FASTA scores into log-space (only used when <code>method = "pearson"</code>)</td></tr>
-<tr><td>log_pwmscores</td><td><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code></td><td>FALSE</td><td>Convert PWM scores into log-space (only used for <code>method = "pearson"</code> or <code>method = "spearman</code>)</td></tr>
-<tr><td>lingreg_switchxy</td><td><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code></td><td>FALSE</td><td>Make the x-points FASTA scores and y-points PWM scores (only used for <code>method = "pearson"</code> or <code>method = "spearman</code>)</td></tr>
+<tr><td>log_fscores</td><td><code>logical(1)</code></td><td>FALSE</td><td>Convert FASTA scores into log-space (only used when <code>method = "pearson"</code>)</td></tr>
+<tr><td>log_pwmscores</td><td><code>logical(1)</code></td><td>FALSE</td><td>Convert PWM scores into log-space (only used for <code>method = "pearson"</code> or <code>method = "spearman</code>)</td></tr>
+<tr><td>lingreg_switchxy</td><td><code>logical(1)</code></td><td>FALSE</td><td>Make the x-points FASTA scores and y-points PWM scores (only used for <code>method = "pearson"</code> or <code>method = "spearman</code>)</td></tr>
 <tr><td>xalph</td><td>file path</td><td><code>NULL(1)</code></td><td>alphabet file to use if input motifs are in different alphabet than input sequences</td></tr>
 <tr><td>bfile</td><td>"motif", "motif-file", "uniform", path to file</td><td><code>NULL</code></td><td>source of 0-order background model. If "motif" or "motif-file" 0-order letter frequencies in the first motif file are used. If "uniform" uses uniform letter frequencies.</td></tr>
-<tr><td>motif_pseudo</td><td><code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code></td><td>0.1</td><td>Addd this pseudocount when converting from frequency matrix to log-odds matrix</td></tr>
-<tr><td>inc</td><td><code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code></td><td><code>NULL</code></td><td>use only motifs with names matching this regex</td></tr>
-<tr><td>exc</td><td><code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code></td><td><code>NULL</code></td><td>exclude motifs with names matching this regex</td></tr>
+<tr><td>motif_pseudo</td><td><code>numeric(1)</code></td><td>0.1</td><td>Addd this pseudocount when converting from frequency matrix to log-odds matrix</td></tr>
+<tr><td>inc</td><td><code>character(1)</code></td><td><code>NULL</code></td><td>use only motifs with names matching this regex</td></tr>
+<tr><td>exc</td><td><code>character(1)</code></td><td><code>NULL</code></td><td>exclude motifs with names matching this regex</td></tr>
 </table>
 
 
@@ -318,7 +318,7 @@ below:</p><table class='table'>
     <p>If you use <code><a href='runAme.html'>runAme()</a></code> in your analysis, please cite:</p>
 <p>Robert McLeay and Timothy L. Bailey, "Motif Enrichment Analysis: A unified
 framework and method evaluation", BMC Bioinformatics, 11:165, 2010,
-doi:10.1186/1471-2105-11-165. <a href='http://www.biomedcentral.com/1471-2105/11/165'>full text</a></p><h3 class='hasAnchor' id='licensing'><a class='anchor' href='#licensing'></a>Licensing</h3>
+doi:10.1186/1471-2105-11-165. <a href='http://www.biomedcentral.com/1471-2105/11/165'>full text</a></p><h3 class='hasAnchor' id='licensing'><a class='anchor' aria-hidden='true' href='#licensing'></a>Licensing</h3>
 
 
 <p>The MEME Suite is free for non-profit use, but for-profit users should purchase a
@@ -343,7 +343,7 @@ license. See the <a href='http://meme-suite.org/doc/copyright.html'>MEME Suite C
 <span class='co'># database can be set to multiple values like so: </span>
 <span class='fu'><a href='runAme.html'>runAme</a></span><span class='op'>(</span><span class='va'>seqs</span>, database <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>motif_file</span>, <span class='st'>"my_dreme_motifs"</span> <span class='op'>=</span> <span class='va'>dreme_results</span><span class='op'>)</span><span class='op'>)</span>
 <span class='op'>}</span>
-</div><div class='output co'>#&gt; <span class='message'>AME detected no enrichment</span></div><div class='output co'>#&gt; <span class='message'>AME detected no enrichment</span></div><div class='output co'>#&gt; NULL</div></pre>
+</div><div class='co'>#&gt; AME detected no enrichment</div><div class='co'>#&gt; AME detected no enrichment</div><div class='co'>#&gt; NULL</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

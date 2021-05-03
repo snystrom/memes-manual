@@ -84,7 +84,7 @@ identify matches." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">memes</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.11</span>
       </span>
     </div>
 
@@ -219,7 +219,7 @@ Default: <code>ed</code> (euclidean distance).</p></td>
       <th>meme_path</th>
       <td><p>path to "meme/bin/" (optional). If unset, will check R
 environment variable "MEME_DB (set in <code>.Renviron</code>), or option
-"meme_db" (set with <code><a href='https://rdrr.io/r/base/options.html'>option(meme_db = "path/to/meme/bin")</a></code>)</p></td>
+"meme_db" (set with <code>option(meme_db = "path/to/meme/bin")</code>)</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -266,7 +266,7 @@ their description.</p><table class='table'>
     <p>If you use <code>runTomTom()</code> in your analysis, please cite:</p>
 <p>Shobhit Gupta, JA Stamatoyannopolous, Timothy Bailey and William Stafford
 Noble, "Quantifying similarity between motifs", Genome Biology, 8(2):R24,
-2007. <a href='http://genomebiology.com/2007/8/2/R24'>full text</a></p><h3 class='hasAnchor' id='licensing'><a class='anchor' href='#licensing'></a>Licensing</h3>
+2007. <a href='http://genomebiology.com/2007/8/2/R24'>full text</a></p><h3 class='hasAnchor' id='licensing'><a class='anchor' aria-hidden='true' href='#licensing'></a>Licensing</h3>
 
 
 <p>The MEME Suite is free for non-profit use, but for-profit users should purchase a
@@ -280,8 +280,8 @@ license. See the <a href='http://meme-suite.org/doc/copyright.html'>MEME Suite C
 
 <span class='fu'>runTomTom</span><span class='op'>(</span><span class='va'>motif</span>, <span class='va'>database</span><span class='op'>)</span>
 <span class='op'>}</span>
-</div><div class='output co'>#&gt;         motif  name consensus alphabet strand icscore type
-#&gt; 1 &lt;mot:motif&gt; motif   CCRAAAW      DNA     +-      12  PPM
+</div><div class='co'>#&gt;         motif  name consensus alphabet strand icscore type pseudocount
+#&gt; 1 &lt;mot:motif&gt; motif   CCRAAAW      DNA     +-      12  PPM           0
 #&gt;                      bkg  best_match_name best_match_altname
 #&gt; 1 0.25, 0.25, 0.25, 0.25 Eip93F_SANGER_10             Eip93F
 #&gt;              best_db_name best_match_offset best_match_pval best_match_eval

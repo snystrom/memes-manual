@@ -84,7 +84,7 @@ motif. FIMO has no sequence length or motif number restrictions." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">memes</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.11</span>
       </span>
     </div>
 
@@ -196,7 +196,7 @@ input, this will be a temporary location unless explicity set.</p></td>
     </tr>
     <tr>
       <th>parse_genomic_coord</th>
-      <td><p><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code> whether to parse genomic position
+      <td><p><code>logical(1)</code> whether to parse genomic position
 from fasta headers. Fasta headers must be UCSC format positions (ie
 "chr:start-end"), but base 1 indexed (GRanges format). If names of fasta
 entries are genomic coordinates and parse_genomic_coord == TRUE, results
@@ -205,7 +205,7 @@ relative coordinates (i.e. positions from 1 to length of the fasta entry).</p></
     </tr>
     <tr>
       <th>skip_matched_sequence</th>
-      <td><p><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code> whether or not to include the DNA
+      <td><p><code>logical(1)</code> whether or not to include the DNA
 sequence of the match. Default: <code>FALSE</code>. Note: jobs will complete faster if
 set to <code>TRUE</code>. <code><a href='add_sequence.html'>add_sequence()</a></code> can be used to lookup the sequence after data import if
 <code>parse_genomic_coord</code> is <code>TRUE</code>, so setting this flag is not strictly needed.</p></td>
@@ -217,7 +217,7 @@ best match (default: TRUE).</p></td>
     </tr>
     <tr>
       <th>text</th>
-      <td><p><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code> (default: <code>TRUE</code>). No output files will be created
+      <td><p><code>logical(1)</code> (default: <code>TRUE</code>). No output files will be created
 on the filesystem. The results are unsorted and no q-values are computed.
 This setting allows fast searches on very large inputs. When set to <code>FALSE</code>
 FIMO will discard 50% of the lower significance matches if &gt;100,000 matches are
@@ -232,7 +232,7 @@ I suggest keeping <code>text = TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>silent</th>
-      <td><p><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code> whether to suppress stdout/stderr printing to
+      <td><p><code>logical(1)</code> whether to suppress stdout/stderr printing to
 console (default: TRUE). If the command is failing or giving unexpected
 output, setting <code>silent = FALSE</code> can aid troubleshooting.</p></td>
     </tr>
@@ -259,20 +259,20 @@ match. The GRanges object has the following additional <code>mcols</code>:
     <p>Additional arguments passed to <code>...</code>. See: <a href='http://meme-suite.org/doc/fimo.html?man_type=web'>Fimo web manual</a>
 for a complete description of FIMO flags.</p><table class='table'>
 <tr><td>FIMO Flag</td><td>allowed values</td><td>default</td><td>description</td></tr>
-<tr><td>alpha</td><td><code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code></td><td>1</td><td>alpha for calculating position-specific priors. Represents fraction of sites that are binding sites of TF of interest. Used in conjunction with <code>psp</code></td></tr>
+<tr><td>alpha</td><td><code>numeric(1)</code></td><td>1</td><td>alpha for calculating position-specific priors. Represents fraction of sites that are binding sites of TF of interest. Used in conjunction with <code>psp</code></td></tr>
 <tr><td>bfile</td><td>"motif", "motif-file", "uniform", file path,</td><td>"motif"</td><td>If "motif" or "motif-file", use 0-order letter frequencies from motif. "uniform" sets uniform letter frequencies.</td></tr>
-<tr><td>max_stored_scores</td><td><code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code></td><td>NULL</td><td>maximum number of scores to be stored for computing q-values. used when <code>text = FALSE</code>, see FIMO webpage for details</td></tr>
-<tr><td>motif_pseudo</td><td><code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code></td><td>0.1</td><td>pseudocount added to motif matrix</td></tr>
-<tr><td>no_qvalue</td><td><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code></td><td>FALSE</td><td>only needed when <code>text = FALSE</code>, do not compute q-value for each p-value</td></tr>
-<tr><td>norc</td><td><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code></td><td>FALSE</td><td>Do not score reverse complement strand</td></tr>
+<tr><td>max_stored_scores</td><td><code>integer(1)</code></td><td>NULL</td><td>maximum number of scores to be stored for computing q-values. used when <code>text = FALSE</code>, see FIMO webpage for details</td></tr>
+<tr><td>motif_pseudo</td><td><code>numeric(1)</code></td><td>0.1</td><td>pseudocount added to motif matrix</td></tr>
+<tr><td>no_qvalue</td><td><code>logical(1)</code></td><td>FALSE</td><td>only needed when <code>text = FALSE</code>, do not compute q-value for each p-value</td></tr>
+<tr><td>norc</td><td><code>logical(1)</code></td><td>FALSE</td><td>Do not score reverse complement strand</td></tr>
 <tr><td>prior_dist</td><td>file path</td><td>NULL</td><td>file containing binned distribution of priors</td></tr>
 <tr><td>psp</td><td>file path</td><td>NULL</td><td>file containing position specific priors. Requires <code>prior_dist</code></td></tr>
-<tr><td>qv_thresh</td><td><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code></td><td>FALSE</td><td>use q-values for the output threshold</td></tr>
-<tr><td>thresh</td><td><code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code></td><td><code>1e-4</code></td><td>output threshold for returning a match, only matches with values less than <code>thresh</code> are returned.</td></tr>
+<tr><td>qv_thresh</td><td><code>logical(1)</code></td><td>FALSE</td><td>use q-values for the output threshold</td></tr>
+<tr><td>thresh</td><td><code>numeric(1)</code></td><td><code>1e-4</code></td><td>output threshold for returning a match, only matches with values less than <code>thresh</code> are returned.</td></tr>
 </table>
 
 
-<h3 class='hasAnchor' id='licensing'><a class='anchor' href='#licensing'></a>Licensing</h3>
+<h3 class='hasAnchor' id='licensing'><a class='anchor' aria-hidden='true' href='#licensing'></a>Licensing</h3>
 
 
 <p>The MEME Suite is free for non-profit use, but for-profit users should purchase a
@@ -298,7 +298,7 @@ Scanning for occurrences of a given motif", Bioinformatics, 27(7):1017-1018,
 <span class='co'># parse_genomic_coord set to FALSE since fasta headers aren't in "chr:start-end" format.</span>
 <span class='fu'>runFimo</span><span class='op'>(</span><span class='va'>seq</span>, <span class='va'>motif</span>, parse_genomic_coord <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 <span class='op'>}</span>
-</div><div class='output co'>#&gt; GRanges object with 2 ranges and 6 metadata columns:
+</div><div class='co'>#&gt; GRanges object with 2 ranges and 6 metadata columns:
 #&gt;       seqnames    ranges strand |    motif_id motif_alt_id     score    pvalue
 #&gt;          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;  &lt;character&gt; &lt;numeric&gt; &lt;numeric&gt;
 #&gt;   [1]       65     82-91      - |       motif         &lt;NA&gt;   12.1098  4.45e-05

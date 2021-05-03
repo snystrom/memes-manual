@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">memes</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.11</span>
       </span>
     </div>
 
@@ -147,10 +147,11 @@
       <small>Source: <a href='https://github.com/snystrom/memes/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="memes-09910" class="section level1">
-<h1 class="page-header" data-toc-text="0.99.10">
-<a href="#memes-09910" class="anchor"></a>memes 0.99.10</h1>
+    <div id="memes-09911" class="section level1">
+<h1 class="page-header" data-toc-text="0.99.11">
+<a href="#memes-09911" class="anchor" aria-hidden="true"></a>memes 0.99.11</h1>
 <ul>
+<li>Add support for STREME with <code><a href="../reference/runStreme.html">runStreme()</a></code>. STREME will supercede DREME in a future MEME Suite release. # memes 0.99.10</li>
 <li>Fixed a bug where paths weren’t correctly expanded when used as <code>database</code> entry under certain conditions # memes 0.99.8</li>
 <li>Removed inline <code>r</code> call in integrative_analysis vignette to fix issue on bioc build machine # memes 0.99.7</li>
 <li>Version bump to force pkg rebuild # memes 0.99.6</li>
@@ -163,7 +164,7 @@
 </div>
     <div id="memes-0995" class="section level1">
 <h1 class="page-header" data-toc-text="0.99.5">
-<a href="#memes-0995" class="anchor"></a>memes 0.99.5</h1>
+<a href="#memes-0995" class="anchor" aria-hidden="true"></a>memes 0.99.5</h1>
 <ul>
 <li>added <code>plot_sequence_heatmap</code> for making heatmaps of sequence lists</li>
 <li>Added significantly more explanation to the ChIP-seq vignette</li>
@@ -172,7 +173,7 @@
 </div>
     <div id="memes-012" class="section level1">
 <h1 class="page-header" data-toc-text="0.1.2">
-<a href="#memes-012" class="anchor"></a>memes 0.1.2</h1>
+<a href="#memes-012" class="anchor" aria-hidden="true"></a>memes 0.1.2</h1>
 <ul>
 <li>
 <code><a href="../reference/runFimo.html">runFimo()</a></code> <code>skip_matched_sequence</code> default is now <code>FALSE</code>. Set this to <code>TRUE</code> if fimo takes a long time to run, then use <code><a href="../reference/add_sequence.html">add_sequence()</a></code> to add it back if needed.</li>
@@ -182,7 +183,7 @@
 </div>
     <div id="memes-010" class="section level1">
 <h1 class="page-header" data-toc-text="0.1.0">
-<a href="#memes-010" class="anchor"></a>memes 0.1.0</h1>
+<a href="#memes-010" class="anchor" aria-hidden="true"></a>memes 0.1.0</h1>
 <ul>
 <li>Removed <code>as_universalmotif_df()</code>, <code>as_universalmotif()</code>, and <code><a href="https://rdrr.io/pkg/universalmotif/man/tidy-motifs.html" class="external-link">update_motifs()</a></code>.
 <ul>
@@ -193,7 +194,7 @@
 <li>
 <code>runDreme</code> and <code>runTomTom</code> results are now returned in <code>universalmotif_df</code> format (behaves just like a data.frame)
 <ul>
-<li>The <code>motif</code> column of <code>universalmotif_df</code> objects can no longer be called directly in <code>universalmotif</code> operations like <code><a href="https://rdrr.io/pkg/universalmotif/man/view_motifs.html" class="external-link">view_motifs(df$motif)</a></code>. Use <code><a href="https://rdrr.io/pkg/universalmotif/man/tidy-motifs.html" class="external-link">to_list()</a></code> for this behavior instead.</li>
+<li>The <code>motif</code> column of <code>universalmotif_df</code> objects can no longer be called directly in <code>universalmotif</code> operations like <code>view_motifs(df$motif)</code>. Use <code><a href="https://rdrr.io/pkg/universalmotif/man/tidy-motifs.html" class="external-link">to_list()</a></code> for this behavior instead.</li>
 <li>To support this change, the <code>pvalue</code>, <code>evalue</code>, and <code>qvalue</code> columns are renamed <code>pval</code>, <code>eval</code>, and <code>qval</code>. The same is true for tomtom output columns <code>match_pvalue</code> -&gt; <code>match_pval</code>, <code>best_match_pvalue</code> -&gt; <code>best_match_pval</code>, etc.</li>
 <li>Updated example datasets to use <code>unviversalmotif_df</code> type</li>
 </ul>
