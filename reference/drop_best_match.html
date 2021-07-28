@@ -61,9 +61,6 @@ propagating these columns." />
 
 
 
-<!-- dependencies from examples -->
-
-
   
 
   
@@ -86,7 +83,7 @@ propagating these columns." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">memes</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
       </span>
     </div>
 
@@ -161,7 +158,7 @@ column. Can be useful if you want to unnest the `tomtom` data without
 propagating these columns.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>drop_best_match</span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>drop_best_match</span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -177,27 +174,29 @@ propagating these columns.</p>
     <p>`res` without the tomtom best_match_ columns</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"example_dreme_tomtom"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>example_dreme_tomtom</span><span class='op'>)</span>
-</div><div class='co'>#&gt;  [1] "motif"              "name"               "altname"           
-#&gt;  [4] "family"             "organism"           "consensus"         
-#&gt;  [7] "alphabet"           "strand"             "icscore"           
-#&gt; [10] "nsites"             "bkgsites"           "pval"              
-#&gt; [13] "qval"               "eval"               "type"              
-#&gt; [16] "bkg"                "rank"               "seq"               
-#&gt; [19] "length"             "positive_hits"      "negative_hits"     
-#&gt; [22] "unerased_evalue"    "positive_total"     "negative_total"    
-#&gt; [25] "pos_frac"           "neg_frac"           "best_match_name"   
-#&gt; [28] "best_match_altname" "best_db_name"       "best_match_offset" 
-#&gt; [31] "best_match_pval"    "best_match_eval"    "best_match_qval"   
-#&gt; [34] "best_match_strand"  "best_match_motif"   "tomtom"            </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='fu'>drop_best_match</span><span class='op'>(</span><span class='va'>example_dreme_tomtom</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='co'>#&gt;  [1] "motif"           "name"            "altname"         "family"         
-#&gt;  [5] "organism"        "consensus"       "alphabet"        "strand"         
-#&gt;  [9] "icscore"         "nsites"          "bkgsites"        "pval"           
-#&gt; [13] "qval"            "eval"            "type"            "bkg"            
-#&gt; [17] "rank"            "seq"             "length"          "positive_hits"  
-#&gt; [21] "negative_hits"   "unerased_evalue" "positive_total"  "negative_total" 
-#&gt; [25] "pos_frac"        "neg_frac"        "tomtom"         </div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"example_dreme_tomtom"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>example_dreme_tomtom</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "motif"              "name"               "altname"           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [4] "family"             "organism"           "consensus"         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "alphabet"           "strand"             "icscore"           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [10] "nsites"             "bkgsites"           "pval"              </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "qval"               "eval"               "type"              </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [16] "bkg"                "rank"               "seq"               </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [19] "length"             "positive_hits"      "negative_hits"     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [22] "unerased_evalue"    "positive_total"     "negative_total"    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [25] "pos_frac"           "neg_frac"           "best_match_name"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [28] "best_match_altname" "best_db_name"       "best_match_offset" </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [31] "best_match_pval"    "best_match_eval"    "best_match_qval"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [34] "best_match_strand"  "best_match_motif"   "tomtom"            </span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='fu'>drop_best_match</span><span class='op'>(</span><span class='va'>example_dreme_tomtom</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "motif"           "name"            "altname"         "family"         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [5] "organism"        "consensus"       "alphabet"        "strand"         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] "icscore"         "nsites"          "bkgsites"        "pval"           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "qval"            "eval"            "type"            "bkg"            </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [17] "rank"            "seq"             "length"          "positive_hits"  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [21] "negative_hits"   "unerased_evalue" "positive_total"  "negative_total" </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [25] "pos_frac"        "neg_frac"        "tomtom"         </span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -62,9 +62,6 @@ list is the one returned." />
 
 
 
-<!-- dependencies from examples -->
-
-
   
 
   
@@ -87,7 +84,7 @@ list is the one returned." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">memes</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
       </span>
     </div>
 
@@ -163,7 +160,7 @@ matrices are identical. The first instance of a duplicated motif in the input
 list is the one returned.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>remove_duplicate_motifs</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>remove_duplicate_motifs</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -179,25 +176,26 @@ list is the one returned.</p>
     <p>A deduplicated list or universalmotif_df</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>motif</span> <span class='op'>&lt;-</span> <span class='fu'>universalmotif</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/universalmotif/man/create_motif.html'>create_motif</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='va'>duplicated</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>c</a></span><span class='op'>(</span><span class='va'>motif</span>, <span class='va'>motif</span><span class='op'>)</span>
-<span class='fu'>remove_duplicate_motifs</span><span class='op'>(</span><span class='va'>duplicated</span><span class='op'>)</span>
-</div><div class='co'>#&gt; [[1]]
-#&gt; 
-#&gt;        Motif name:   motif
-#&gt;          Alphabet:   DNA
-#&gt;              Type:   PPM
-#&gt;           Strands:   +-
-#&gt;          Total IC:   10.79
-#&gt;       Pseudocount:   0
-#&gt;         Consensus:   MTSTNTCGGS
-#&gt; 
-#&gt;      M    T    S    T    N    T    C    G    G    S
-#&gt; A 0.51 0.15 0.00 0.00 0.31 0.17 0.04 0.00 0.00 0.01
-#&gt; C 0.46 0.06 0.50 0.00 0.00 0.15 0.62 0.00 0.00 0.36
-#&gt; G 0.02 0.10 0.48 0.01 0.44 0.00 0.19 0.97 0.99 0.62
-#&gt; T 0.01 0.69 0.02 0.99 0.25 0.68 0.14 0.02 0.01 0.00
-#&gt; </div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='va'>motif</span> <span class='op'>&lt;-</span> <span class='fu'>universalmotif</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/universalmotif/man/create_motif.html'>create_motif</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>duplicated</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>c</a></span><span class='op'>(</span><span class='va'>motif</span>, <span class='va'>motif</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>remove_duplicate_motifs</span><span class='op'>(</span><span class='va'>duplicated</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        Motif name:   motif</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>          Alphabet:   DNA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>              Type:   PPM</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           Strands:   +-</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>          Total IC:   10.79</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       Pseudocount:   0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         Consensus:   MTSTNTCGGS</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      M    T    S    T    N    T    C    G    G    S</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> A 0.51 0.15 0.00 0.00 0.31 0.17 0.04 0.00 0.00 0.01</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> C 0.46 0.06 0.50 0.00 0.00 0.15 0.62 0.00 0.00 0.36</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> G 0.02 0.10 0.48 0.01 0.44 0.00 0.19 0.97 0.99 0.62</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> T 0.01 0.69 0.02 0.99 0.25 0.68 0.14 0.02 0.01 0.00</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

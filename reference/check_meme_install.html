@@ -63,9 +63,6 @@ may specify the location of their meme/bin in three ways:" />
 
 
 
-<!-- dependencies from examples -->
-
-
   
 
   
@@ -88,7 +85,7 @@ may specify the location of their meme/bin in three ways:" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">memes</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
       </span>
     </div>
 
@@ -165,7 +162,7 @@ in the case that the MEME Suite is found at a nonstandard location, the user
 may specify the location of their meme/bin in three ways:</p>
     </div>
 
-    <pre class="usage"><span class='fu'>check_meme_install</span><span class='op'>(</span>meme_path <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>check_meme_install</span><span class='op'>(</span>meme_path <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -207,8 +204,17 @@ function. The heirarchy is as follows:</p><ol>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>check_meme_install</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='co'>#&gt; checking main install</div><div class='co'>#&gt; <span style='color: #00BB00;'>✔</span><span> /opt/meme/bin</span></div><div class='co'>#&gt; checking util installs</div><div class='co'>#&gt; <span style='color: #00BB00;'>✔</span><span> /opt/meme/bin/dreme</span></div><div class='co'>#&gt; <span style='color: #00BB00;'>✔</span><span> /opt/meme/bin/ame</span></div><div class='co'>#&gt; <span style='color: #00BB00;'>✔</span><span> /opt/meme/bin/fimo</span></div><div class='co'>#&gt; <span style='color: #00BB00;'>✔</span><span> /opt/meme/bin/tomtom</span></div><div class='co'>#&gt; <span style='color: #00BB00;'>✔</span><span> /opt/meme/bin/meme</span></div><div class='co'>#&gt; <span style='color: #00BB00;'>✔</span><span> /opt/meme/bin/streme</span></div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>check_meme_install</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> checking main install</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> /opt/meme/bin</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> checking util installs</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> /opt/meme/bin/dreme</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> /opt/meme/bin/ame</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> /opt/meme/bin/fimo</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> /opt/meme/bin/tomtom</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> /opt/meme/bin/meme</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>✔</span> /opt/meme/bin/streme</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

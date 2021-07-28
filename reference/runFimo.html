@@ -59,9 +59,6 @@ motif. FIMO has no sequence length or motif number restrictions." />
 
 
 
-<!-- dependencies from examples -->
-
-
   
 
   
@@ -84,7 +81,7 @@ motif. FIMO has no sequence length or motif number restrictions." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">memes</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
       </span>
     </div>
 
@@ -157,7 +154,7 @@ motif. FIMO has no sequence length or motif number restrictions." />
 motif. FIMO has no sequence length or motif number restrictions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>runFimo</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>runFimo</span><span class='op'>(</span>
   <span class='va'>sequences</span>,
   <span class='va'>motifs</span>,
   bfile <span class='op'>=</span> <span class='st'>"motif"</span>,
@@ -169,7 +166,7 @@ motif. FIMO has no sequence length or motif number restrictions.</p>
   meme_path <span class='op'>=</span> <span class='cn'>NULL</span>,
   silent <span class='op'>=</span> <span class='cn'>TRUE</span>,
   <span class='va'>...</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -286,29 +283,30 @@ Scanning for occurrences of a given motif", Bioinformatics, 27(7):1017-1018,
 2011. <a href='http://bioinformatics.oxfordjournals.org/content/early/2011/02/16/bioinformatics.btr064.full'>full text</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='meme_is_installed.html'>meme_is_installed</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span>
-<span class='co'># Generate some example input sequences</span>
-<span class='va'>seq</span> <span class='op'>&lt;-</span> <span class='fu'>universalmotif</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/universalmotif/man/create_sequences.html'>create_sequences</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='co'># sequences must have values in their fasta headers</span>
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>seq</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span><span class='op'>(</span><span class='va'>seq</span><span class='op'>)</span>
-<span class='co'># Create random example motif to search for</span>
-<span class='va'>motif</span> <span class='op'>&lt;-</span> <span class='fu'>universalmotif</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/universalmotif/man/create_motif.html'>create_motif</a></span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='co'># Search for motif in sequences</span>
-<span class='co'># parse_genomic_coord set to FALSE since fasta headers aren't in "chr:start-end" format.</span>
-<span class='fu'>runFimo</span><span class='op'>(</span><span class='va'>seq</span>, <span class='va'>motif</span>, parse_genomic_coord <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div><div class='co'>#&gt; GRanges object with 2 ranges and 6 metadata columns:
-#&gt;       seqnames    ranges strand |    motif_id motif_alt_id     score    pvalue
-#&gt;          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;  &lt;character&gt; &lt;numeric&gt; &lt;numeric&gt;
-#&gt;   [1]       65     82-91      - |       motif         &lt;NA&gt;   12.1098  4.45e-05
-#&gt;   [2]       89     68-77      + |       motif         &lt;NA&gt;   12.4024  3.07e-05
-#&gt;          qvalue matched_sequence
-#&gt;       &lt;numeric&gt;      &lt;character&gt;
-#&gt;   [1]        NA       GTCTATATCT
-#&gt;   [2]        NA       GACCATTTCT
-#&gt;   -------
-#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='meme_is_installed.html'>meme_is_installed</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span></span>
+<span class='r-in'><span class='co'># Generate some example input sequences</span></span>
+<span class='r-in'><span class='va'>seq</span> <span class='op'>&lt;-</span> <span class='fu'>universalmotif</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/universalmotif/man/create_sequences.html'>create_sequences</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># sequences must have values in their fasta headers</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>seq</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span><span class='op'>(</span><span class='va'>seq</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># Create random example motif to search for</span></span>
+<span class='r-in'><span class='va'>motif</span> <span class='op'>&lt;-</span> <span class='fu'>universalmotif</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/universalmotif/man/create_motif.html'>create_motif</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Search for motif in sequences</span></span>
+<span class='r-in'><span class='co'># parse_genomic_coord set to FALSE since fasta headers aren't in "chr:start-end" format.</span></span>
+<span class='r-in'><span class='fu'>runFimo</span><span class='op'>(</span><span class='va'>seq</span>, <span class='va'>motif</span>, parse_genomic_coord <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> GRanges object with 2 ranges and 6 metadata columns:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       seqnames    ranges strand |    motif_id motif_alt_id     score    pvalue</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;  &lt;character&gt; &lt;numeric&gt; &lt;numeric&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [1]       65     82-91      - |       motif         &lt;NA&gt;   12.1098  4.45e-05</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [2]       89     68-77      + |       motif         &lt;NA&gt;   12.4024  3.07e-05</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>          qvalue matched_sequence</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       &lt;numeric&gt;      &lt;character&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [1]        NA       GTCTATATCT</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [2]        NA       GACCATTTCT</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   -------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

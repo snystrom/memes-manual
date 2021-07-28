@@ -59,9 +59,6 @@
 
 
 
-<!-- dependencies from examples -->
-
-
   
 
   
@@ -84,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">memes</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
       </span>
     </div>
 
@@ -157,7 +154,7 @@
 "Increasing" and "Decreasing" sites, using "Static" as background.</p>
     </div>
 
-    <pre class="usage"><span class='va'>example_ame</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='va'>example_ame</span></code></pre></div>
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
@@ -170,32 +167,33 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Data can be combined into 1 large data.frame using:</span>
-<span class='co'># where the "behavior" column will hold the "Increasing"/"Decreasing" information</span>
-<span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span><span class='op'>(</span><span class='va'>example_ame</span>, .id <span class='op'>=</span> <span class='st'>"behavior"</span><span class='op'>)</span>
-</div><div class='co'>#&gt; <span style='color: #949494;'># A tibble: 17 x 18</span>
-#&gt;    behavior   rank motif_db   motif_id motif_alt_id consensus  pvalue adj.pvalue
-#&gt;    <span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>       </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span><span> Decreasi…     1 /nas/long… Eip93F_… Eip93F       ACWSCCRA… 5.39</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-9</span><span> 0.000</span><span style='text-decoration: underline;'>002</span><span>03</span>
-#&gt; <span style='color: #BCBCBC;'> 2</span><span> Decreasi…     2 /nas/long… cad_Fly… cad          BTTTWBGAT 6.3 </span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-8</span><span> 0.000</span><span style='text-decoration: underline;'>112</span><span>  </span>
-#&gt; <span style='color: #BCBCBC;'> 3</span><span> Decreasi…     3 /nas/long… CG31670… erm          AAAWGMGC… 1.46</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-6</span><span> 0.000</span><span style='text-decoration: underline;'>805</span><span>  </span>
-#&gt; <span style='color: #BCBCBC;'> 4</span><span> Decreasi…     4 /nas/long… fru-PG_… fru          GAAAAAW   8.27</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-7</span><span> 0.001</span><span style='text-decoration: underline;'>06</span><span>   </span>
-#&gt; <span style='color: #BCBCBC;'> 5</span><span> Decreasi…     5 /nas/long… rn_SANG… rn           MRDHSAAA… 2.1 </span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-5</span><span> 0.008</span><span style='text-decoration: underline;'>14</span><span>   </span>
-#&gt; <span style='color: #BCBCBC;'> 6</span><span> Decreasi…     6 /nas/long… exd_Fly… exd          TTTNRWTY… 6.97</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-6</span><span> 0.010</span><span style='text-decoration: underline;'>8</span><span>    </span>
-#&gt; <span style='color: #BCBCBC;'> 7</span><span> Increasi…     1 /nas/long… l(3)neo… l(3)neo38    RGGGGGKG… 9.52</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-9</span><span> 0.000</span><span style='text-decoration: underline;'>004</span><span>46</span>
-#&gt; <span style='color: #BCBCBC;'> 8</span><span> Increasi…     2 /nas/long… l(3)neo… l(3)neo38    DGKGGGKG… 1.86</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-8</span><span> 0.000</span><span style='text-decoration: underline;'>015</span><span>4 </span>
-#&gt; <span style='color: #BCBCBC;'> 9</span><span> Increasi…     3 /nas/long… CG9895_… CG9895       RDTGGGYG… 6.58</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-7</span><span> 0.000</span><span style='text-decoration: underline;'>239</span><span>  </span>
-#&gt; <span style='color: #BCBCBC;'>10</span><span> Increasi…     4 /nas/long… CG7368_… CG7368       KDGKGGGD… 5.95</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-7</span><span> 0.000</span><span style='text-decoration: underline;'>327</span><span>  </span>
-#&gt; <span style='color: #BCBCBC;'>11</span><span> Increasi…     5 /nas/long… Sp1_SOL… Sp1          VRGKGGGC… 6.91</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-7</span><span> 0.000</span><span style='text-decoration: underline;'>448</span><span>  </span>
-#&gt; <span style='color: #BCBCBC;'>12</span><span> Increasi…     6 /nas/long… luna_SO… luna         NVAWGGGC… 3.31</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-6</span><span> 0.001</span><span style='text-decoration: underline;'>75</span><span>   </span>
-#&gt; <span style='color: #BCBCBC;'>13</span><span> Increasi…     7 /nas/long… CG3065_… CG3065       RGKGGGCG… 4.06</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-6</span><span> 0.002</span><span style='text-decoration: underline;'>02</span><span>   </span>
-#&gt; <span style='color: #BCBCBC;'>14</span><span> Increasi…     8 /nas/long… sr_SOLE… sr           DBGYGTGG… 3.25</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-6</span><span> 0.002</span><span style='text-decoration: underline;'>93</span><span>   </span>
-#&gt; <span style='color: #BCBCBC;'>15</span><span> Increasi…     9 /nas/long… ttk-PA_… ttk          CMACCCCTA 9.25</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-6</span><span> 0.004</span><span style='text-decoration: underline;'>15</span><span>   </span>
-#&gt; <span style='color: #BCBCBC;'>16</span><span> Increasi…    10 /nas/long… Sp1_SAN… Sp1          GKGGGCGK… 9.46</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-6</span><span> 0.004</span><span style='text-decoration: underline;'>97</span><span>   </span>
-#&gt; <span style='color: #BCBCBC;'>17</span><span> Increasi…    11 /nas/long… crol_F7… crol         ACCCCCCC… 4.79</span><span style='color: #949494;'>e</span><span style='color: #BB0000;'>-5</span><span> 0.016     </span>
-#&gt; <span style='color: #949494;'># … with 10 more variables: evalue &lt;dbl&gt;, tests &lt;int&gt;, fasta_max &lt;dbl&gt;,</span>
-#&gt; <span style='color: #949494;'>#   pos &lt;int&gt;, neg &lt;int&gt;, pwm_min &lt;dbl&gt;, tp &lt;int&gt;, tp_percent &lt;dbl&gt;, fp &lt;int&gt;,</span>
-#&gt; <span style='color: #949494;'>#   fp_percent &lt;dbl&gt;</span></div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># Data can be combined into 1 large data.frame using:</span></span>
+<span class='r-in'><span class='co'># where the "behavior" column will hold the "Increasing"/"Decreasing" information</span></span>
+<span class='r-in'><span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span><span class='op'>(</span><span class='va'>example_ame</span>, .id <span class='op'>=</span> <span class='st'>"behavior"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 17 × 18</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    behavior   rank motif_db   motif_id motif_alt_id consensus  pvalue adj.pvalue</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> Decreasi…     1 /nas/long… Eip93F_… Eip93F       ACWSCCRA… 5.39<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-9</span> 0.000<span style='text-decoration: underline;'>002</span>03</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> Decreasi…     2 /nas/long… cad_Fly… cad          BTTTWBGAT 6.3 <span style='color: #949494;'>e</span><span style='color: #BB0000;'>-8</span> 0.000<span style='text-decoration: underline;'>112</span>  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> Decreasi…     3 /nas/long… CG31670… erm          AAAWGMGC… 1.46<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-6</span> 0.000<span style='text-decoration: underline;'>805</span>  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> Decreasi…     4 /nas/long… fru-PG_… fru          GAAAAAW   8.27<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-7</span> 0.001<span style='text-decoration: underline;'>06</span>   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> Decreasi…     5 /nas/long… rn_SANG… rn           MRDHSAAA… 2.1 <span style='color: #949494;'>e</span><span style='color: #BB0000;'>-5</span> 0.008<span style='text-decoration: underline;'>14</span>   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> Decreasi…     6 /nas/long… exd_Fly… exd          TTTNRWTY… 6.97<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-6</span> 0.010<span style='text-decoration: underline;'>8</span>    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> Increasi…     1 /nas/long… l(3)neo… l(3)neo38    RGGGGGKG… 9.52<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-9</span> 0.000<span style='text-decoration: underline;'>004</span>46</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> Increasi…     2 /nas/long… l(3)neo… l(3)neo38    DGKGGGKG… 1.86<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-8</span> 0.000<span style='text-decoration: underline;'>015</span>4 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> Increasi…     3 /nas/long… CG9895_… CG9895       RDTGGGYG… 6.58<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-7</span> 0.000<span style='text-decoration: underline;'>239</span>  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> Increasi…     4 /nas/long… CG7368_… CG7368       KDGKGGGD… 5.95<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-7</span> 0.000<span style='text-decoration: underline;'>327</span>  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>11</span> Increasi…     5 /nas/long… Sp1_SOL… Sp1          VRGKGGGC… 6.91<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-7</span> 0.000<span style='text-decoration: underline;'>448</span>  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>12</span> Increasi…     6 /nas/long… luna_SO… luna         NVAWGGGC… 3.31<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-6</span> 0.001<span style='text-decoration: underline;'>75</span>   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>13</span> Increasi…     7 /nas/long… CG3065_… CG3065       RGKGGGCG… 4.06<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-6</span> 0.002<span style='text-decoration: underline;'>02</span>   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>14</span> Increasi…     8 /nas/long… sr_SOLE… sr           DBGYGTGG… 3.25<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-6</span> 0.002<span style='text-decoration: underline;'>93</span>   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>15</span> Increasi…     9 /nas/long… ttk-PA_… ttk          CMACCCCTA 9.25<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-6</span> 0.004<span style='text-decoration: underline;'>15</span>   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>16</span> Increasi…    10 /nas/long… Sp1_SAN… Sp1          GKGGGCGK… 9.46<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-6</span> 0.004<span style='text-decoration: underline;'>97</span>   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>17</span> Increasi…    11 /nas/long… crol_F7… crol         ACCCCCCC… 4.79<span style='color: #949494;'>e</span><span style='color: #BB0000;'>-5</span> 0.016     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 10 more variables: evalue &lt;dbl&gt;, tests &lt;int&gt;, fasta_max &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   pos &lt;int&gt;, neg &lt;int&gt;, pwm_min &lt;dbl&gt;, tp &lt;int&gt;, tp_percent &lt;dbl&gt;, fp &lt;int&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   fp_percent &lt;dbl&gt;</span></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

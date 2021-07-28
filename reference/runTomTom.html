@@ -59,9 +59,6 @@ identify matches." />
 
 
 
-<!-- dependencies from examples -->
-
-
   
 
   
@@ -84,7 +81,7 @@ identify matches." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">memes</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
       </span>
     </div>
 
@@ -157,7 +154,7 @@ identify matches." />
 identify matches.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>runTomTom</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>runTomTom</span><span class='op'>(</span>
   <span class='va'>input</span>,
   database <span class='op'>=</span> <span class='cn'>NULL</span>,
   outdir <span class='op'>=</span> <span class='st'>"auto"</span>,
@@ -168,7 +165,7 @@ identify matches.</p>
   silent <span class='op'>=</span> <span class='cn'>TRUE</span>,
   meme_path <span class='op'>=</span> <span class='cn'>NULL</span>,
   <span class='va'>...</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -274,27 +271,28 @@ license. See the <a href='http://meme-suite.org/doc/copyright.html'>MEME Suite C
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='meme_is_installed.html'>meme_is_installed</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='va'>motif</span> <span class='op'>&lt;-</span> <span class='fu'>universalmotif</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/universalmotif/man/create_motif.html'>create_motif</a></span><span class='op'>(</span><span class='st'>"CCRAAAW"</span><span class='op'>)</span>
-<span class='va'>database</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"flyFactorSurvey_cleaned.meme"</span>, package <span class='op'>=</span> <span class='st'>"memes"</span><span class='op'>)</span>
-
-<span class='fu'>runTomTom</span><span class='op'>(</span><span class='va'>motif</span>, <span class='va'>database</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div><div class='co'>#&gt;         motif  name consensus alphabet strand icscore type pseudocount
-#&gt; 1 &lt;mot:motif&gt; motif   CCRAAAW      DNA     +-      12  PPM           0
-#&gt;                      bkg  best_match_name best_match_altname
-#&gt; 1 0.25, 0.25, 0.25, 0.25 Eip93F_SANGER_10             Eip93F
-#&gt;              best_db_name best_match_offset best_match_pval best_match_eval
-#&gt; 1 flyFactorSurvey_cleaned                 4        1.91e-07        0.000106
-#&gt;   best_match_qval best_match_strand
-#&gt; 1        0.000213                 +
-#&gt;                                                       best_match_motif
-#&gt; 1 &lt;S4 class ‘universalmotif’ [package “universalmotif”] with 20 slots&gt;
-#&gt;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   tomtom
-#&gt; 1 Eip93F_SANGER_10, rib_SANGER_5, Ets65A_SANGER_10, CG12768_SANGER_5, Eip93F, rib, Ets65A, CG12768, &lt;S4 class ‘universalmotif’ [package “universalmotif”] with 20 slots&gt;, &lt;S4 class ‘universalmotif’ [package “universalmotif”] with 20 slots&gt;, &lt;S4 class ‘universalmotif’ [package “universalmotif”] with 20 slots&gt;, &lt;S4 class ‘universalmotif’ [package “universalmotif”] with 20 slots&gt;, flyFactorSurvey_cleaned, flyFactorSurvey_cleaned, flyFactorSurvey_cleaned, flyFactorSurvey_cleaned, 4, 1, 0, 5, 1.91e-07, 0.0015, 0.0126, 0.015, 0.000106, 0.832, 7, 8.36, 0.000213, 0.832, 1, 1, +, +, +, +
-#&gt; 
-#&gt; [Hidden empty columns: altname, family, organism, nsites, bkgsites,
-#&gt;   pval, qval, eval.]</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='meme_is_installed.html'>meme_is_installed</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='va'>motif</span> <span class='op'>&lt;-</span> <span class='fu'>universalmotif</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/universalmotif/man/create_motif.html'>create_motif</a></span><span class='op'>(</span><span class='st'>"CCRAAAW"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>database</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"flyFactorSurvey_cleaned.meme"</span>, package <span class='op'>=</span> <span class='st'>"memes"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>runTomTom</span><span class='op'>(</span><span class='va'>motif</span>, <span class='va'>database</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         motif  name consensus alphabet strand icscore type pseudocount</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 &lt;mot:motif&gt; motif   CCRAAAW      DNA     +-      12  PPM           0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                      bkg  best_match_name best_match_altname</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 0.25, 0.25, 0.25, 0.25 Eip93F_SANGER_10             Eip93F</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>              best_db_name best_match_offset best_match_pval best_match_eval</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 flyFactorSurvey_cleaned                 4        1.91e-07        0.000106</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   best_match_qval best_match_strand</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1        0.000213                 +</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                                       best_match_motif</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 &lt;S4 class ‘universalmotif’ [package “universalmotif”] with 20 slots&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   tomtom</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 Eip93F_SANGER_10, rib_SANGER_5, Ets65A_SANGER_10, CG12768_SANGER_5, Eip93F, rib, Ets65A, CG12768, &lt;S4 class ‘universalmotif’ [package “universalmotif”] with 20 slots&gt;, &lt;S4 class ‘universalmotif’ [package “universalmotif”] with 20 slots&gt;, &lt;S4 class ‘universalmotif’ [package “universalmotif”] with 20 slots&gt;, &lt;S4 class ‘universalmotif’ [package “universalmotif”] with 20 slots&gt;, flyFactorSurvey_cleaned, flyFactorSurvey_cleaned, flyFactorSurvey_cleaned, flyFactorSurvey_cleaned, 4, 1, 0, 5, 1.91e-07, 0.0015, 0.0126, 0.015, 0.000106, 0.832, 7, 8.36, 0.000213, 0.832, 1, 1, +, +, +, +</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [Hidden empty columns: altname, family, organism, nsites, bkgsites,</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   pval, qval, eval.]</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
