@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">memes</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4</span>
       </span>
     </div>
 
@@ -146,10 +146,13 @@
       <small>Source: <a href='https://github.com/snystrom/memes/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="memes-09911" class="section level1">
-<h1 class="page-header" data-toc-text="0.99.11">
-<a href="#memes-09911" class="anchor" aria-hidden="true"></a>memes 0.99.11</h1>
-<ul><li>Add support for STREME with <code><a href="../reference/runStreme.html">runStreme()</a></code>. STREME will supercede DREME in a future MEME Suite release. # memes 0.99.10</li>
+    <div id="memes-113" class="section level1">
+<h1 class="page-header" data-toc-text="1.1.3">
+<a href="#memes-113" class="anchor" aria-hidden="true"></a>memes 1.1.3</h1>
+<ul><li>fixed a bug in <code>runTomTom</code> where setting <code>norc = TRUE</code> failed on data import # memes 1.1.1</li>
+<li>
+<code>runFimo</code> now returns <code>NULL</code> and prints a message when <code>text = FALSE</code> and FIMO detects no matches instead of throwing a cryptic error message # memes 0.99.11</li>
+<li>Add support for STREME with <code><a href="../reference/runStreme.html">runStreme()</a></code>. STREME will supercede DREME in a future MEME Suite release. # memes 0.99.10</li>
 <li>Fixed a bug where paths weren’t correctly expanded when used as <code>database</code> entry under certain conditions # memes 0.99.8</li>
 <li>Removed inline <code>r</code> call in integrative_analysis vignette to fix issue on bioc build machine # memes 0.99.7</li>
 <li>Version bump to force pkg rebuild # memes 0.99.6</li>

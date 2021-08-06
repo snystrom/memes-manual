@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">memes</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4</span>
       </span>
     </div>
 
@@ -379,7 +379,12 @@ docker run -e PASSWORD=&lt;password&gt; -p 8787:8787 -v &lt;path&gt;/&lt;to&gt;/
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ame_results</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="reference/plot_ame_heatmap.html">plot_ame_heatmap</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-14-1.png" style="display: block; margin: auto;"> # Scanning for motif occurances using FIMO</p>
+<p><img src="reference/figures/README-unnamed-chunk-14-1.png" style="display: block; margin: auto;"></p>
+</div>
+</div>
+<div id="scanning-for-motif-occurances-using-fimo" class="section level1">
+<h1 class="hasAnchor">
+<a href="#scanning-for-motif-occurances-using-fimo" class="anchor" aria-hidden="true"></a>Scanning for motif occurances using FIMO</h1>
 <p>The FIMO tool is used to identify matches to known motifs. <code>runFimo</code> will return these hits as a <code>GRanges</code> object containing the genomic coordinates of the motif match.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Query MotifDb for a motif</span>
@@ -393,7 +398,6 @@ docker run -e PASSWORD=&lt;password&gt; -p 8787:8787 -v &lt;path&gt;/&lt;to&gt;/
 <span class="co"># Visualize the sequences matching the E93 motif</span>
 <span class="fu"><a href="reference/plot_sequence_heatmap.html">plot_sequence_heatmap</a></span><span class="op">(</span><span class="va">fimo_results</span><span class="op">$</span><span class="va">matched_sequence</span><span class="op">)</span>  </code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-15-1.png" style="display: block; margin: auto;"></p>
-</div>
 <div id="importing-data-from-previous-runs" class="section level2">
 <h2 class="hasAnchor">
 <a href="#importing-data-from-previous-runs" class="anchor" aria-hidden="true"></a>Importing Data from previous runs</h2>
