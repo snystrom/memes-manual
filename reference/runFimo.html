@@ -18,7 +18,7 @@ motif. FIMO has no sequence length or motif number restrictions."><!-- mathjax -
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">memes</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.2</span>
       </span>
     </div>
 
@@ -192,17 +192,15 @@ Scanning for occurrences of a given motif", Bioinformatics, 27(7):1017-1018,
 <span class="r-in"><span class="co"># parse_genomic_coord set to FALSE since fasta headers aren't in "chr:start-end" format.</span></span>
 <span class="r-in"><span class="fu">runFimo</span><span class="op">(</span><span class="va">seq</span>, <span class="va">motif</span>, parse_genomic_coord <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> GRanges object with 2 ranges and 6 metadata columns:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> GRanges object with 1 range and 6 metadata columns:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       seqnames    ranges strand |    motif_id motif_alt_id     score    pvalue</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;character&gt;  &lt;character&gt; &lt;numeric&gt; &lt;numeric&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [1]       38     10-19      - |       motif         &lt;NA&gt;   10.8675  9.49e-05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [2]       72     53-62      - |       motif         &lt;NA&gt;   11.0000  8.34e-05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [1]        2     62-71      + |       motif         &lt;NA&gt;   12.6024  2.32e-05</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          qvalue matched_sequence</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;numeric&gt;      &lt;character&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [1]        NA       CACTTGCACT</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [2]        NA       CAGCTTCGAT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [1]        NA       CGCTGACGGT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   -------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   seqinfo: 1 sequence from an unspecified genome; no seqlengths</span>
 </code></pre></div>
     </div>
   </div>
@@ -217,7 +215,7 @@ Scanning for occurrences of a given motif", Bioinformatics, 27(7):1017-1018,
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.0.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.9000.</p>
 </div>
 
       </footer></div>
