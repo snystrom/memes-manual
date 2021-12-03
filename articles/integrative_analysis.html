@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">memes</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.1</span>
       </span>
     </div>
 
@@ -93,13 +93,13 @@
 
       
 
-      </header><script src="integrative_analysis_files/header-attrs-2.9/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>ChIP-seq Analysis</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/snystrom/memes/blob/master/vignettes/integrative_analysis.Rmd" class="external-link"><code>vignettes/integrative_analysis.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/snystrom/memes/blob/HEAD/vignettes/integrative_analysis.Rmd" class="external-link"><code>vignettes/integrative_analysis.Rmd</code></a></small>
       <div class="hidden name"><code>integrative_analysis.Rmd</code></div>
 
     </div>
@@ -111,14 +111,14 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bioconductor.org/packages/GenomicRanges" class="external-link">GenomicRanges</a></span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<div id="see-package-website-for-full-vignette" class="section level1">
-<h1 class="hasAnchor">
-<a href="#see-package-website-for-full-vignette" class="anchor" aria-hidden="true"></a>See package website for full vignette</h1>
+<div class="section level1">
+<h1 id="see-package-website-for-full-vignette">See package website for full vignette<a class="anchor" aria-label="anchor" href="#see-package-website-for-full-vignette"></a>
+</h1>
 <p>The Bioconductor build system does not have the MEME Suite installed, therefore these vignettes will not contain any R output. To view the full vignette, visit this article page on the memes website <a href="https://snystrom.github.io/memes-manual/articles/integrative_analysis.html" class="external-link">at this link</a></p>
 </div>
-<div id="introduction" class="section level1">
-<h1 class="hasAnchor">
-<a href="#introduction" class="anchor" aria-hidden="true"></a>Introduction</h1>
+<div class="section level1">
+<h1 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h1>
 <p>In this vignette, we’ll explore using <code>memes</code> to deeply analyze a set of ChIP-seq peaks to identify motifs to explain differences in transcription factor binding, and consequences to chromatin accessibility at these ChIP peaks.</p>
 <p>We will use a dataset from (Nystrom, 2020) which investigated the binding of the transcription factor E93 during <em>Drosophila</em> wing development. These data are useful because they contain multiple groupings with interesting motif properties between groups.</p>
 <p>The ChIP experiments were performed under two conditions: ectopic expression of E93 during early development, and under wild-type conditions in a late stage of development. Peaks are annotated based on whether they are found in both conditions (“Endogenous” peaks), only in the ectopic expression condition (“Ectopic” peaks), or only found under wild-type conditions (“Orphan” peaks).</p>
@@ -127,17 +127,17 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/check_meme_install.html">check_meme_install</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; checking main install</span>
-<span class="co">#&gt; ✔ /opt/meme/bin</span>
+<span class="co">#&gt; <span style="color: #00BB00;">✔</span> /opt/meme/bin</span>
 <span class="co">#&gt; checking util installs</span>
-<span class="co">#&gt; ✔ /opt/meme/bin/dreme</span>
-<span class="co">#&gt; ✔ /opt/meme/bin/ame</span>
-<span class="co">#&gt; ✔ /opt/meme/bin/fimo</span>
-<span class="co">#&gt; ✔ /opt/meme/bin/tomtom</span>
-<span class="co">#&gt; ✔ /opt/meme/bin/meme</span>
-<span class="co">#&gt; ✔ /opt/meme/bin/streme</span></code></pre></div>
-<div id="prepare-peaks-for-analysis" class="section level3">
-<h3 class="hasAnchor">
-<a href="#prepare-peaks-for-analysis" class="anchor" aria-hidden="true"></a>Prepare peaks for analysis</h3>
+<span class="co">#&gt; <span style="color: #00BB00;">✔</span> /opt/meme/bin/dreme</span>
+<span class="co">#&gt; <span style="color: #00BB00;">✔</span> /opt/meme/bin/ame</span>
+<span class="co">#&gt; <span style="color: #00BB00;">✔</span> /opt/meme/bin/fimo</span>
+<span class="co">#&gt; <span style="color: #00BB00;">✔</span> /opt/meme/bin/tomtom</span>
+<span class="co">#&gt; <span style="color: #00BB00;">✔</span> /opt/meme/bin/meme</span>
+<span class="co">#&gt; <span style="color: #00BB00;">✔</span> /opt/meme/bin/streme</span></code></pre></div>
+<div class="section level3">
+<h3 id="prepare-peaks-for-analysis">Prepare peaks for analysis<a class="anchor" aria-label="anchor" href="#prepare-peaks-for-analysis"></a>
+</h3>
 <p>A subset of annotated E93 ChIP summits are shipped with the memes package and can be loaded as follows:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"example_chip_summits"</span>, package <span class="op">=</span> <span class="st">"memes"</span><span class="op">)</span>
@@ -171,15 +171,15 @@
   <span class="fu">plyranges</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/plyranges/man/ranges-anchor.html" class="external-link">anchor_center</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu">plyranges</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/plyranges/man/tidyverse-reexports.html" class="external-link">mutate</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="determinants-of-ectopic-and-orphan-binding" class="section level2">
-<h2 class="hasAnchor">
-<a href="#determinants-of-ectopic-and-orphan-binding" class="anchor" aria-hidden="true"></a>Determinants of ectopic and orphan binding</h2>
+<div class="section level2">
+<h2 id="determinants-of-ectopic-and-orphan-binding">Determinants of ectopic and orphan binding<a class="anchor" aria-label="anchor" href="#determinants-of-ectopic-and-orphan-binding"></a>
+</h2>
 <p>One approach to identify enriched motifs is to search for enrichment of known transcription factor (TF) motifs within sequences of interest. The Fly Factor Survey is a database of known <em>Drosophila</em> TF motifs that we will use throught this vignette. These data are also packaged with <code>memes</code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">meme_db_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/flyFactorSurvey_cleaned.meme"</span>, package <span class="op">=</span> <span class="st">"memes"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<div id="pre-filtering-database-for-expressed-transcription-factors" class="section level3">
-<h3 class="hasAnchor">
-<a href="#pre-filtering-database-for-expressed-transcription-factors" class="anchor" aria-hidden="true"></a>Pre-filtering database for expressed transcription factors</h3>
+<div class="section level3">
+<h3 id="pre-filtering-database-for-expressed-transcription-factors">Pre-filtering database for expressed transcription factors<a class="anchor" aria-label="anchor" href="#pre-filtering-database-for-expressed-transcription-factors"></a>
+</h3>
 <p>A key consideration when using a database of known transcription factors is whether to include motifs for TFs which are not expressed. On one hand, including all motifs allows maximum discovery of potential regulators, but on the other hand may detect factors which are not relevant under your experimental conditions. Another consideration for many tools is that increasing the number of tested motifs increases the multiple testing penaly, so limiting the motif database to a smaller number of relevant candidates can be a way to improve statistical power. There is no one right answer to this question. For this vignette, I will give an example for how one could go about filtering a database to consider only expressed factors. For other analyses, this question will need to be carefully considered.</p>
 <p>First, we load the motif database into R using <code>read_meme</code>. To more easily manipulate the motif metadata, we can convert this to a data.frame using <code>to_df</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -190,14 +190,14 @@
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"example_rnaseq"</span>, package <span class="op">=</span> <span class="st">"memes"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">head</a></span><span class="op">(</span><span class="va">example_rnaseq</span>, <span class="fl">4</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 4 × 3</span>
-<span class="co">#&gt; # Groups:   symbol [2]</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 3</span></span>
+<span class="co">#&gt; <span style="color: #949494;"># Groups:   symbol [2]</span></span>
 <span class="co">#&gt;   symbol time     fpkm</span>
-<span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;   &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 Abd-B  Early  0.0857</span>
-<span class="co">#&gt; 2 Abd-B  Late   0.120 </span>
-<span class="co">#&gt; 3 Adf1   Early 98.7   </span>
-<span class="co">#&gt; 4 Adf1   Late  92.7</span></code></pre></div>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Abd-B  Early  0.085<span style="text-decoration: underline;">7</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Abd-B  Late   0.120 </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Adf1   Early 98.7   </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Adf1   Late  92.7</span></code></pre></div>
 <p>Choosing a method to decide whether a gene is expressed or not is a non-trivial topic. <strong>DO NOT BLINDLY DO WHAT I DO HERE</strong>. To keep this vignette on topic, I will use an overly simplistic cutoff of FPKM &gt; 5 to define expressed genes. In this example, I will consider any gene that exceeds the cutoff at either timepoint as expressed.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">expressed_genes</span> <span class="op">&lt;-</span> <span class="va">example_rnaseq</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
@@ -227,9 +227,9 @@
 <span class="co">#&gt;   preserve these).</span></code></pre></div>
 <p>Alternatively, you can pass a universalmotif object to the <code>database</code> parameter for any <code>memes</code> function and this will override the global option.</p>
 </div>
-<div id="examination-of-binding-categories-with-ame" class="section level3">
-<h3 class="hasAnchor">
-<a href="#examination-of-binding-categories-with-ame" class="anchor" aria-hidden="true"></a>Examination of binding categories with AME</h3>
+<div class="section level3">
+<h3 id="examination-of-binding-categories-with-ame">Examination of binding categories with AME<a class="anchor" aria-label="anchor" href="#examination-of-binding-categories-with-ame"></a>
+</h3>
 <p>Next, to test for enrichment of known motifs between E93 binding categories, we first collect the sequences of each category like so:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">by_binding</span> <span class="op">&lt;-</span> <span class="va">summit_flank</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
@@ -251,20 +251,20 @@
 <p>This returns a list object where each entry is the AME results for each category. For example, here is what the results for the ectopic peaks look like:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ame_by_binding</span><span class="op">$</span><span class="va">ectopic</span>, <span class="fl">5</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 5 × 17</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 17</span></span>
 <span class="co">#&gt;    rank motif_db   motif_id  motif_alt_id consensus   pvalue adj.pvalue   evalue</span>
-<span class="co">#&gt;   &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;        &lt;chr&gt;        &lt;dbl&gt;      &lt;dbl&gt;    &lt;dbl&gt;</span>
-<span class="co">#&gt; 1     1 /tmp/Rtmp… Aef1_Fly… Aef1         CAACWACW  6.87e-23   5.53e-20 1.66e-17</span>
-<span class="co">#&gt; 2     2 /tmp/Rtmp… Aef1_SAN… Aef1         RCAACAAC… 1.69e-20   5.16e-18 1.55e-15</span>
-<span class="co">#&gt; 3     3 /tmp/Rtmp… klu_SOLE… klu          KGYGKGGG… 1.35e-14   7.9 e-12 2.37e- 9</span>
-<span class="co">#&gt; 4     4 /tmp/Rtmp… l(3)neo3… l(3)neo38    DGKGGGKG… 2.1 e-14   1.23e-11 3.69e- 9</span>
-<span class="co">#&gt; 5     5 /tmp/Rtmp… Mes2_SAN… Mes2         TTTARGCC… 2.34e-13   1.12e-10 3.36e- 8</span>
-<span class="co">#&gt; # … with 9 more variables: tests &lt;int&gt;, fasta_max &lt;dbl&gt;, pos &lt;int&gt;, neg &lt;int&gt;,</span>
-<span class="co">#&gt; #   pwm_min &lt;dbl&gt;, tp &lt;int&gt;, tp_percent &lt;dbl&gt;, fp &lt;int&gt;, fp_percent &lt;dbl&gt;</span></code></pre></div>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1 /tmp/Rtmp… Aef1_Fly… Aef1         CAACWACW  6.87<span style="color: #949494;">e</span><span style="color: #BB0000;">-23</span>   5.53<span style="color: #949494;">e</span><span style="color: #BB0000;">-20</span> 1.66<span style="color: #949494;">e</span><span style="color: #BB0000;">-17</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2 /tmp/Rtmp… Aef1_SAN… Aef1         RCAACAAC… 1.69<span style="color: #949494;">e</span><span style="color: #BB0000;">-20</span>   5.16<span style="color: #949494;">e</span><span style="color: #BB0000;">-18</span> 1.55<span style="color: #949494;">e</span><span style="color: #BB0000;">-15</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     3 /tmp/Rtmp… klu_SOLE… klu          KGYGKGGG… 1.35<span style="color: #949494;">e</span><span style="color: #BB0000;">-14</span>   7.9 <span style="color: #949494;">e</span><span style="color: #BB0000;">-12</span> 2.37<span style="color: #949494;">e</span><span style="color: #BB0000;">- 9</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">4</span>     4 /tmp/Rtmp… l(3)neo3… l(3)neo38    DGKGGGKG… 2.1 <span style="color: #949494;">e</span><span style="color: #BB0000;">-14</span>   1.23<span style="color: #949494;">e</span><span style="color: #BB0000;">-11</span> 3.69<span style="color: #949494;">e</span><span style="color: #BB0000;">- 9</span></span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">5</span>     5 /tmp/Rtmp… Mes2_SAN… Mes2         TTTARGCC… 2.34<span style="color: #949494;">e</span><span style="color: #BB0000;">-13</span>   1.12<span style="color: #949494;">e</span><span style="color: #BB0000;">-10</span> 3.36<span style="color: #949494;">e</span><span style="color: #BB0000;">- 8</span></span>
+<span class="co">#&gt; <span style="color: #949494;"># … with 9 more variables: tests &lt;int&gt;, fasta_max &lt;dbl&gt;, pos &lt;int&gt;, neg &lt;int&gt;,</span></span>
+<span class="co">#&gt; <span style="color: #949494;">#   pwm_min &lt;dbl&gt;, tp &lt;int&gt;, tp_percent &lt;dbl&gt;, fp &lt;int&gt;, fp_percent &lt;dbl&gt;</span></span></code></pre></div>
 </div>
-<div id="visualizing-ame-results" class="section level3">
-<h3 class="hasAnchor">
-<a href="#visualizing-ame-results" class="anchor" aria-hidden="true"></a>Visualizing AME results</h3>
+<div class="section level3">
+<h3 id="visualizing-ame-results">Visualizing AME results<a class="anchor" aria-label="anchor" href="#visualizing-ame-results"></a>
+</h3>
 <p>The <code><a href="../reference/plot_ame_heatmap.html">plot_ame_heatmap()</a></code> function provides a quick way to visualize AME results. It is built on top of <code>ggplot2</code>, so all <code>ggplot2</code> functions can be used to further modify the plot.</p>
 <p>By default, it uses the -log10(adjusted p-value) as the heat values. See the documentation (<code><a href="../reference/plot_ame_heatmap.html">?plot_ame_heatmap</a></code>) for additional notes on customization.</p>
 <p>We can visualize the top 10 hits from the ectopic binding results as follows:</p>
@@ -285,23 +285,23 @@
   <span class="fu"><a href="../reference/plot_ame_heatmap.html">plot_ame_heatmap</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">binding_type</span><span class="op">)</span></code></pre></div>
 <p><img src="integrative_analysis_files/figure-html/unnamed-chunk-19-1.png" width="1440"></p>
 </div>
-<div id="reducing-redundant-motif-hits" class="section level3">
-<h3 class="hasAnchor">
-<a href="#reducing-redundant-motif-hits" class="anchor" aria-hidden="true"></a>Reducing redundant motif hits</h3>
+<div class="section level3">
+<h3 id="reducing-redundant-motif-hits">Reducing redundant motif hits<a class="anchor" aria-label="anchor" href="#reducing-redundant-motif-hits"></a>
+</h3>
 <p>Another key consideration for the above visualization is that in the FlyFactorSurvey database we used, different TFs can have multiple motif entries in the database which are all detected separately by AME. Here, when returning the top 5 hits from each group, you can see, for example, that a motif matching “Aef1” is reported 2 times within the top 5 hits of the ectopic sites. In this situation, it makes sense to summarize the data at the TF level, instead of the motif level. <strong>Note:</strong> There may be exceptions to this if, for example, a TF has multiple DNA binding sequences it can recognize, in which case having multiple hits may reflect a biological property of your sequences. You will have to handle this on a case-by-case basis for interesting hits and different motif databases. Here, we can see that at least for Aef1, the consensus sequences are very similar.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ame_res</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">binding_type</span> <span class="op">==</span> <span class="st">"ectopic"</span>, <span class="va">rank</span> <span class="op"><a href="https://rdrr.io/pkg/BiocGenerics/man/match.html" class="external-link">%in%</a></span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">binding_type</span>, <span class="va">rank</span>, <span class="va">motif_id</span>, <span class="va">motif_alt_id</span>, <span class="va">consensus</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 5 × 5</span>
+<span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 5</span></span>
 <span class="co">#&gt;   binding_type  rank motif_id             motif_alt_id consensus      </span>
-<span class="co">#&gt;   &lt;chr&gt;        &lt;int&gt; &lt;chr&gt;                &lt;chr&gt;        &lt;chr&gt;          </span>
-<span class="co">#&gt; 1 ectopic          1 Aef1_FlyReg          Aef1         CAACWACW       </span>
-<span class="co">#&gt; 2 ectopic          2 Aef1_SANGER_5        Aef1         RCAACAACAAC    </span>
-<span class="co">#&gt; 3 ectopic          3 klu_SOLEXA_5         klu          KGYGKGGGTGKKDBN</span>
-<span class="co">#&gt; 4 ectopic          4 l(3)neo38_SOLEXA_2.5 l(3)neo38    DGKGGGKGGGGGDGD</span>
-<span class="co">#&gt; 5 ectopic          5 Mes2_SANGER_5        Mes2         TTTARGCCAAVW</span></code></pre></div>
+<span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">1</span> ectopic          1 Aef1_FlyReg          Aef1         CAACWACW       </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">2</span> ectopic          2 Aef1_SANGER_5        Aef1         RCAACAACAAC    </span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">3</span> ectopic          3 klu_SOLEXA_5         klu          KGYGKGGGTGKKDBN</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">4</span> ectopic          4 l(3)neo38_SOLEXA_2.5 l(3)neo38    DGKGGGKGGGGGDGD</span>
+<span class="co">#&gt; <span style="color: #BCBCBC;">5</span> ectopic          5 Mes2_SANGER_5        Mes2         TTTARGCCAAVW</span></code></pre></div>
 <p>How to solve this problem will vary with different motif databases (For details on how to pre-process a motif database, see <code><a href="../articles/tidy_motifs.html">vignette("tidy_motifs")</a></code>). In the tidy version of the FlyFactorSurvey database, the <code>altname</code>s of the motifs are set to the transcription factor gene symbol. This information is included in the AME results as the <code>motif_alt_id</code> column. In order to reduce the occurrance of redundant hits in the heatmap, we select the hit for each TF with the lowest p-value (i.e. the most significant hit) as follows:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ame_res</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span>
@@ -314,9 +314,9 @@
          x <span class="op">=</span> <span class="st">"Transcription Factor Motif"</span><span class="op">)</span></code></pre></div>
 <p><img src="integrative_analysis_files/figure-html/unnamed-chunk-21-1.png" width="1152"></p>
 </div>
-<div id="ame-heatmap-visualization" class="section level3">
-<h3 class="hasAnchor">
-<a href="#ame-heatmap-visualization" class="anchor" aria-hidden="true"></a>AME Heatmap Visualization</h3>
+<div class="section level3">
+<h3 id="ame-heatmap-visualization">AME Heatmap Visualization<a class="anchor" aria-label="anchor" href="#ame-heatmap-visualization"></a>
+</h3>
 <p>If you have read <code><a href="../articles/core_ame.html">vignette("core_ame")</a></code>, the “normalized rank” heatmap was introduced as an alternative visualization method useful when AME produces very large numbers of hits, or when p-values are on very different scales between groups. The <code><a href="../reference/ame_compare_heatmap_methods.html">ame_compare_heatmap_methods()</a></code> function can be used to visualize why.</p>
 <p>Below is a comparison of the distribution of values when using <code>-log10(adj.pvalue)</code> (A) vs normalized ranks (B). Because there are relatively few hits in the results (~30), and the number of hits between groups varies more than the <code>-log10(p-value)</code> distributions, the “normalize” method will produce a misleading heatmap relative to the <code>-log10(p-value)</code> map.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
@@ -355,9 +355,10 @@
 <p><img src="integrative_analysis_files/figure-html/unnamed-chunk-24-1.png" width="1152"></p>
 </div>
 </div>
-<div id="de-novo-motif-similarity-by-binding" class="section level2">
-<h2 class="hasAnchor">
-<a href="#de-novo-motif-similarity-by-binding" class="anchor" aria-hidden="true"></a><em>De-novo</em> motif similarity by binding</h2>
+<div class="section level2">
+<h2 id="de-novo-motif-similarity-by-binding">
+<em>De-novo</em> motif similarity by binding<a class="anchor" aria-label="anchor" href="#de-novo-motif-similarity-by-binding"></a>
+</h2>
 <p>Discovery of <em>de-novo</em> motifs within binding categories can be another way to identify meaningful motifs that distinguish between ectopic, entopic, and orphan sites which does not rely on known motif information. The MEME tool, Dreme, discovers short <em>de-novo</em> motifs in input sequences. We begin the analysis by searching for 5 <em>de-novo</em> motifs per binding category and shuffling the input sequences to use as the control set.</p>
 <p>We pass the same <code>by_binding</code> list as the input to <code>runDreme</code> which will run Dreme on each set of sequences independently. The results are returned in list format, which we combine into a data.frame using <code><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">dplyr::bind_rows</a></code> as above.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
@@ -408,9 +409,9 @@
                      show_colnames <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> </code></pre></div>
 <p><img src="integrative_analysis_files/figure-html/unnamed-chunk-27-1.png" width="768"></p>
 <p>This heatmap reveals that most motifs discovered in each group are highly similar to the motifs found in other groups.</p>
-<div id="test-de-novo-motif-enrichment-using-ame" class="section level3">
-<h3 class="hasAnchor">
-<a href="#test-de-novo-motif-enrichment-using-ame" class="anchor" aria-hidden="true"></a>Test <em>de-novo</em> motif enrichment using AME</h3>
+<div class="section level3">
+<h3 id="test-de-novo-motif-enrichment-using-ame">Test <em>de-novo</em> motif enrichment using AME<a class="anchor" aria-label="anchor" href="#test-de-novo-motif-enrichment-using-ame"></a>
+</h3>
 <p>The above analysis suggests the motif content of the different binding categories are highly similar in sequence composition. To extend these analyses, we can use AME to test for motif enrichment of the <em>de-novo</em> discovered motifs within each binding category, and determine whether the motifs detected in one category are indeed enriched in another. To do this, we can provide the <em>de-novo</em> motifs as the AME database to test for their enrichment in each sequence category.</p>
 <p><code><a href="../reference/runAme.html">runAme()</a></code> allows using a <code><a href="../reference/runDreme.html">runDreme()</a></code> results object as the <code>database</code> input by passing it within a <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>. Naming the <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> entry produces an informative <code>motif_db</code> name in the results data.frame.</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
@@ -444,9 +445,9 @@
 <p><img src="integrative_analysis_files/figure-html/unnamed-chunk-31-1.png" width="1152"></p>
 </div>
 </div>
-<div id="motifs-in-opening-vs-closing-sites" class="section level2">
-<h2 class="hasAnchor">
-<a href="#motifs-in-opening-vs-closing-sites" class="anchor" aria-hidden="true"></a>Motifs in opening vs closing sites</h2>
+<div class="section level2">
+<h2 id="motifs-in-opening-vs-closing-sites">Motifs in opening vs closing sites<a class="anchor" aria-label="anchor" href="#motifs-in-opening-vs-closing-sites"></a>
+</h2>
 <p>Another category of ChIP peaks in this dataset are ones that overlap regions with dynamic changes to chromatin accessibility in response to E93 expression. These peaks are annotated in the <code>e93_sensitive_behavior</code> column which indicates whether sites have higher accessibility after ectopic E93 expression (“Increasing”), lower accessibility after ectopic E93 expression (“Decreasing”), or if the accessibility does not change (“Static”).</p>
 <p>To identify motifs associated with Increasing or Decreasing accessibility in response to ectopic E93 expression, we first grab the DNA sequences of the Increasing, Decreasing, and Static sites by splitting the ChIP peaks on the <code>e93_sensitive_behavior</code> column.</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
@@ -520,13 +521,13 @@
   <span class="op">}</span><span class="op">)</span>
 <span class="co">#&gt; $`Decreasing in response to E93`</span></code></pre></div>
 <p><img src="integrative_analysis_files/figure-html/unnamed-chunk-38-1.png" width="816"></p>
-<pre><code>#&gt; 
-#&gt; $`Increasing in response to E93`</code></pre>
+<pre><code><span class="co">#&gt; </span>
+<span class="co">#&gt; $`Increasing in response to E93`</span></code></pre>
 <p><img src="integrative_analysis_files/figure-html/unnamed-chunk-38-2.png" width="816"></p>
 </div>
-<div id="scanning-for-motif-matches-using-fimo" class="section level2">
-<h2 class="hasAnchor">
-<a href="#scanning-for-motif-matches-using-fimo" class="anchor" aria-hidden="true"></a>Scanning for motif matches using FIMO</h2>
+<div class="section level2">
+<h2 id="scanning-for-motif-matches-using-fimo">Scanning for motif matches using FIMO<a class="anchor" aria-label="anchor" href="#scanning-for-motif-matches-using-fimo"></a>
+</h2>
 <p>Because we discover a <em>de-novo</em> motif from DREME that matches to E93 in Decreasing sites, this suggests that the E93 motifs in Decreasing sites have different properties relative to E93 motifs in Increasing or Static sites. For example, the E93 motif may have higher similarity to the canonical sequence, may be present in greater number, or may have different positioning in Decreasing sites relative to Increasing or Static sites. To test these questions directly, we can identify individual E93 motif matches within each sequence and investigate their properties. The FIMO tool is used to identify the positions of motif matches in a set of sequences. It will return the coordinates, sequence, and a score (higher values are more similar to the consensus) for each motif found in the input sequences.</p>
 <p>In order to scan for the E93 motif within target sequences, we first need a copy of the E93 motif. Although we could import the motifs from our local meme database, it is also possible to use motifs pulled from a <a href="https://bioconductor.org/packages/release/bioc/html/MotifDb.html" class="external-link"><code>MotifDb</code></a> query as follows. I’ll use that approach here as an example, but if this were a real analysis, I’d take the result from our local database.</p>
 <div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
@@ -599,9 +600,9 @@
 <span class="co">#&gt;   [1542] Eip93F_SANGER_10_FBg..      4.59  0.000536        NA     GCACCCAAATAC</span>
 <span class="co">#&gt;   -------</span>
 <span class="co">#&gt;   seqinfo: 2 sequences from an unspecified genome; no seqlengths</span></code></pre></div>
-<div id="counting-the-number-of-motifs-per-peak" class="section level3">
-<h3 class="hasAnchor">
-<a href="#counting-the-number-of-motifs-per-peak" class="anchor" aria-hidden="true"></a>Counting the number of motifs per peak</h3>
+<div class="section level3">
+<h3 id="counting-the-number-of-motifs-per-peak">Counting the number of motifs per peak<a class="anchor" aria-label="anchor" href="#counting-the-number-of-motifs-per-peak"></a>
+</h3>
 <p><code>plyranges</code> extends <code>dplyr</code>-like syntax to range objects. Here we add a count for each motif per peak in the <code>n_motifs</code> column. We also add a column <code>has_motif</code> which will be a binary indicator of whether a peak contains any motifs.</p>
 <div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">summit_flank</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/compound.html" class="external-link">%&lt;&gt;%</a></span> 
@@ -715,9 +716,9 @@
   <span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span>plotlist <span class="op">=</span> <span class="va">.</span>, nrow <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
 <p><img src="integrative_analysis_files/figure-html/unnamed-chunk-50-1.png" width="768"></p>
 </div>
-<div id="centrality-of-e93-motif" class="section level3">
-<h3 class="hasAnchor">
-<a href="#centrality-of-e93-motif" class="anchor" aria-hidden="true"></a>Centrality of E93 motif</h3>
+<div class="section level3">
+<h3 id="centrality-of-e93-motif">Centrality of E93 motif<a class="anchor" aria-label="anchor" href="#centrality-of-e93-motif"></a>
+</h3>
 <p>Next we want to visualize whether the E93 motif has altered positioning across the response categories. To do this we add the metadata for each nearest motif to our peak summits. Setting <code>distance = TRUE</code> in <code><a href="https://rdrr.io/pkg/plyranges/man/ranges-nearest.html" class="external-link">plyranges::join_nearest</a></code> adds a <code>distance</code> column indicating the distance to the nearest joined region.</p>
 <div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">summit_nearest_e93_motif</span> <span class="op">&lt;-</span> <span class="va">summit_flank</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
@@ -740,24 +741,24 @@
 </div>
 </div>
 </div>
-<div id="conclusion" class="section level1">
-<h1 class="hasAnchor">
-<a href="#conclusion" class="anchor" aria-hidden="true"></a>Conclusion</h1>
+<div class="section level1">
+<h1 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
+</h1>
 <p>This is just one example of how <code>memes</code> can integrate multiple data sources to perform deep analysis of genomics data. Here we went from a set of annotated ChIP peaks do multifaceted interrogation of motif content. Each approach has advantages and disadvantages. The most important thing is to critically evaluate the data at every step: visualize <em>de-novo</em> motif hits with <code>view_motifs</code>, compare matches using <code>view_tomtom_hits</code>, and think carefully about which sequences to use as control regions.</p>
 </div>
-<div id="references" class="section level1">
-<h1 class="hasAnchor">
-<a href="#references" class="anchor" aria-hidden="true"></a>References</h1>
+<div class="section level1">
+<h1 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h1>
 <p>Nystrom SL, Niederhuber MJ, McKay DJ. Expression of E93 provides an instructive cue to control dynamic enhancer activity and chromatin accessibility during development. Development 2020 Mar 16;147(6).</p>
 </div>
-<div id="session-info" class="section level1">
-<h1 class="hasAnchor">
-<a href="#session-info" class="anchor" aria-hidden="true"></a>Session Info</h1>
+<div class="section level1">
+<h1 id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
+</h1>
 <div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; R version 4.1.0 (2021-05-18)</span>
 <span class="co">#&gt; Platform: x86_64-pc-linux-gnu (64-bit)</span>
-<span class="co">#&gt; Running under: Ubuntu 20.04.2 LTS</span>
+<span class="co">#&gt; Running under: Ubuntu 20.04.3 LTS</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Matrix products: default</span>
 <span class="co">#&gt; BLAS/LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.8.so</span>
@@ -775,126 +776,124 @@
 <span class="co">#&gt; [8] base     </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
-<span class="co">#&gt; [1] universalmotif_1.11.3 GenomicRanges_1.45.0  GenomeInfoDb_1.29.3  </span>
-<span class="co">#&gt; [4] IRanges_2.27.0        S4Vectors_0.31.0      BiocGenerics_0.39.1  </span>
-<span class="co">#&gt; [7] ggplot2_3.3.5         magrittr_2.0.1        memes_1.1.4          </span>
+<span class="co">#&gt; [1] universalmotif_1.13.4 GenomicRanges_1.46.1  GenomeInfoDb_1.30.0  </span>
+<span class="co">#&gt; [4] IRanges_2.28.0        S4Vectors_0.32.3      BiocGenerics_0.40.0  </span>
+<span class="co">#&gt; [7] ggplot2_3.3.5         magrittr_2.0.1        memes_1.3.1          </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
 <span class="co">#&gt;   [1] colorspace_2.0-2                     </span>
 <span class="co">#&gt;   [2] rjson_0.2.20                         </span>
 <span class="co">#&gt;   [3] ellipsis_0.3.2                       </span>
 <span class="co">#&gt;   [4] rprojroot_2.0.2                      </span>
-<span class="co">#&gt;   [5] XVector_0.33.0                       </span>
-<span class="co">#&gt;   [6] fs_1.5.0                             </span>
+<span class="co">#&gt;   [5] XVector_0.34.0                       </span>
+<span class="co">#&gt;   [6] fs_1.5.1                             </span>
 <span class="co">#&gt;   [7] farver_2.1.0                         </span>
-<span class="co">#&gt;   [8] waldo_0.2.5                          </span>
+<span class="co">#&gt;   [8] waldo_0.3.1                          </span>
 <span class="co">#&gt;   [9] bit64_4.0.5                          </span>
-<span class="co">#&gt;  [10] mvtnorm_1.1-2                        </span>
-<span class="co">#&gt;  [11] fansi_0.5.0                          </span>
-<span class="co">#&gt;  [12] diffobj_0.3.4                        </span>
-<span class="co">#&gt;  [13] xml2_1.3.2                           </span>
-<span class="co">#&gt;  [14] R.methodsS3_1.8.1                    </span>
-<span class="co">#&gt;  [15] cachem_1.0.5                         </span>
-<span class="co">#&gt;  [16] knitr_1.33                           </span>
-<span class="co">#&gt;  [17] SuppDists_1.1-9.5                    </span>
-<span class="co">#&gt;  [18] pkgload_1.2.1                        </span>
-<span class="co">#&gt;  [19] jsonlite_1.7.2                       </span>
-<span class="co">#&gt;  [20] splitstackshape_1.4.8                </span>
-<span class="co">#&gt;  [21] Rsamtools_2.9.1                      </span>
-<span class="co">#&gt;  [22] Rmpfr_0.8-4                          </span>
-<span class="co">#&gt;  [23] R.oo_1.24.0                          </span>
-<span class="co">#&gt;  [24] pheatmap_1.0.12                      </span>
-<span class="co">#&gt;  [25] readr_2.0.0                          </span>
-<span class="co">#&gt;  [26] compiler_4.1.0                       </span>
-<span class="co">#&gt;  [27] PMCMRplus_1.9.0                      </span>
-<span class="co">#&gt;  [28] Matrix_1.3-4                         </span>
-<span class="co">#&gt;  [29] fastmap_1.1.0                        </span>
-<span class="co">#&gt;  [30] cli_3.0.1                            </span>
-<span class="co">#&gt;  [31] htmltools_0.5.1.1                    </span>
-<span class="co">#&gt;  [32] tools_4.1.0                          </span>
-<span class="co">#&gt;  [33] gmp_0.6-2                            </span>
-<span class="co">#&gt;  [34] gtable_0.3.0                         </span>
-<span class="co">#&gt;  [35] glue_1.4.2                           </span>
-<span class="co">#&gt;  [36] GenomeInfoDbData_1.2.6               </span>
-<span class="co">#&gt;  [37] dplyr_1.0.7                          </span>
-<span class="co">#&gt;  [38] Rcpp_1.0.7                           </span>
-<span class="co">#&gt;  [39] Biobase_2.53.0                       </span>
-<span class="co">#&gt;  [40] jquerylib_0.1.4                      </span>
-<span class="co">#&gt;  [41] pkgdown_1.6.1.9001                   </span>
-<span class="co">#&gt;  [42] vctrs_0.3.8                          </span>
-<span class="co">#&gt;  [43] Biostrings_2.61.2                    </span>
-<span class="co">#&gt;  [44] BSgenome.Dmelanogaster.UCSC.dm3_1.4.0</span>
-<span class="co">#&gt;  [45] rtracklayer_1.53.0                   </span>
-<span class="co">#&gt;  [46] ggseqlogo_0.1                        </span>
-<span class="co">#&gt;  [47] xfun_0.24                            </span>
-<span class="co">#&gt;  [48] stringr_1.4.0                        </span>
-<span class="co">#&gt;  [49] plyranges_1.13.1                     </span>
-<span class="co">#&gt;  [50] ps_1.6.0                             </span>
-<span class="co">#&gt;  [51] testthat_3.0.4                       </span>
-<span class="co">#&gt;  [52] lifecycle_1.0.0                      </span>
-<span class="co">#&gt;  [53] restfulr_0.0.13                      </span>
-<span class="co">#&gt;  [54] XML_3.99-0.6                         </span>
-<span class="co">#&gt;  [55] zlibbioc_1.39.0                      </span>
-<span class="co">#&gt;  [56] MASS_7.3-54                          </span>
-<span class="co">#&gt;  [57] scales_1.1.1                         </span>
-<span class="co">#&gt;  [58] vroom_1.5.3                          </span>
-<span class="co">#&gt;  [59] BSgenome_1.61.0                      </span>
-<span class="co">#&gt;  [60] ragg_1.1.3                           </span>
-<span class="co">#&gt;  [61] hms_1.1.0                            </span>
-<span class="co">#&gt;  [62] MatrixGenerics_1.5.2                 </span>
-<span class="co">#&gt;  [63] parallel_4.1.0                       </span>
-<span class="co">#&gt;  [64] SummarizedExperiment_1.23.1          </span>
-<span class="co">#&gt;  [65] rematch2_2.1.2                       </span>
-<span class="co">#&gt;  [66] RColorBrewer_1.1-2                   </span>
-<span class="co">#&gt;  [67] yaml_2.2.1                           </span>
-<span class="co">#&gt;  [68] memoise_2.0.0                        </span>
-<span class="co">#&gt;  [69] sass_0.4.0                           </span>
-<span class="co">#&gt;  [70] stringi_1.7.3                        </span>
-<span class="co">#&gt;  [71] highr_0.9                            </span>
-<span class="co">#&gt;  [72] BiocIO_1.3.0                         </span>
-<span class="co">#&gt;  [73] desc_1.3.0                           </span>
-<span class="co">#&gt;  [74] BiocParallel_1.27.2                  </span>
-<span class="co">#&gt;  [75] rlang_0.4.11                         </span>
-<span class="co">#&gt;  [76] pkgconfig_2.0.3                      </span>
-<span class="co">#&gt;  [77] systemfonts_1.0.2                    </span>
-<span class="co">#&gt;  [78] matrixStats_0.60.0                   </span>
-<span class="co">#&gt;  [79] bitops_1.0-7                         </span>
-<span class="co">#&gt;  [80] evaluate_0.14                        </span>
-<span class="co">#&gt;  [81] lattice_0.20-44                      </span>
-<span class="co">#&gt;  [82] purrr_0.3.4                          </span>
-<span class="co">#&gt;  [83] patchwork_1.1.1                      </span>
-<span class="co">#&gt;  [84] GenomicAlignments_1.29.0             </span>
-<span class="co">#&gt;  [85] labeling_0.4.2                       </span>
-<span class="co">#&gt;  [86] cowplot_1.1.1                        </span>
-<span class="co">#&gt;  [87] bit_4.0.4                            </span>
-<span class="co">#&gt;  [88] tidyselect_1.1.1                     </span>
-<span class="co">#&gt;  [89] processx_3.5.2                       </span>
-<span class="co">#&gt;  [90] R6_2.5.0                             </span>
-<span class="co">#&gt;  [91] multcompView_0.1-8                   </span>
-<span class="co">#&gt;  [92] generics_0.1.0                       </span>
-<span class="co">#&gt;  [93] BWStest_0.2.2                        </span>
-<span class="co">#&gt;  [94] DelayedArray_0.19.1                  </span>
-<span class="co">#&gt;  [95] pillar_1.6.2                         </span>
-<span class="co">#&gt;  [96] withr_2.4.2                          </span>
-<span class="co">#&gt;  [97] RCurl_1.98-1.3                       </span>
-<span class="co">#&gt;  [98] tibble_3.1.3                         </span>
-<span class="co">#&gt;  [99] cmdfun_1.0.2                         </span>
-<span class="co">#&gt; [100] MotifDb_1.35.0                       </span>
-<span class="co">#&gt; [101] crayon_1.4.1                         </span>
-<span class="co">#&gt; [102] utf8_1.2.2                           </span>
-<span class="co">#&gt; [103] tzdb_0.1.2                           </span>
-<span class="co">#&gt; [104] rmarkdown_2.9                        </span>
-<span class="co">#&gt; [105] kSamples_1.2-9                       </span>
-<span class="co">#&gt; [106] usethis_2.0.1                        </span>
-<span class="co">#&gt; [107] grid_4.1.0                           </span>
-<span class="co">#&gt; [108] data.table_1.14.0                    </span>
-<span class="co">#&gt; [109] forcats_0.5.1                        </span>
-<span class="co">#&gt; [110] digest_0.6.27                        </span>
-<span class="co">#&gt; [111] tidyr_1.1.3                          </span>
-<span class="co">#&gt; [112] R.utils_2.10.1                       </span>
-<span class="co">#&gt; [113] textshaping_0.3.5                    </span>
-<span class="co">#&gt; [114] munsell_0.5.0                        </span>
-<span class="co">#&gt; [115] bslib_0.2.5.1</span></code></pre></div>
+<span class="co">#&gt;  [10] fansi_0.5.0                          </span>
+<span class="co">#&gt;  [11] mvtnorm_1.1-3                        </span>
+<span class="co">#&gt;  [12] xml2_1.3.3                           </span>
+<span class="co">#&gt;  [13] R.methodsS3_1.8.1                    </span>
+<span class="co">#&gt;  [14] cachem_1.0.6                         </span>
+<span class="co">#&gt;  [15] knitr_1.36                           </span>
+<span class="co">#&gt;  [16] SuppDists_1.1-9.5                    </span>
+<span class="co">#&gt;  [17] pkgload_1.2.4                        </span>
+<span class="co">#&gt;  [18] jsonlite_1.7.2                       </span>
+<span class="co">#&gt;  [19] splitstackshape_1.4.8                </span>
+<span class="co">#&gt;  [20] Rsamtools_2.10.0                     </span>
+<span class="co">#&gt;  [21] Rmpfr_0.8-7                          </span>
+<span class="co">#&gt;  [22] R.oo_1.24.0                          </span>
+<span class="co">#&gt;  [23] pheatmap_1.0.12                      </span>
+<span class="co">#&gt;  [24] readr_2.1.1                          </span>
+<span class="co">#&gt;  [25] compiler_4.1.0                       </span>
+<span class="co">#&gt;  [26] PMCMRplus_1.9.3                      </span>
+<span class="co">#&gt;  [27] Matrix_1.3-4                         </span>
+<span class="co">#&gt;  [28] fastmap_1.1.0                        </span>
+<span class="co">#&gt;  [29] cli_3.1.0                            </span>
+<span class="co">#&gt;  [30] htmltools_0.5.2                      </span>
+<span class="co">#&gt;  [31] tools_4.1.0                          </span>
+<span class="co">#&gt;  [32] gmp_0.6-2.1                          </span>
+<span class="co">#&gt;  [33] gtable_0.3.0                         </span>
+<span class="co">#&gt;  [34] glue_1.5.1                           </span>
+<span class="co">#&gt;  [35] GenomeInfoDbData_1.2.7               </span>
+<span class="co">#&gt;  [36] dplyr_1.0.7                          </span>
+<span class="co">#&gt;  [37] Rcpp_1.0.7                           </span>
+<span class="co">#&gt;  [38] Biobase_2.54.0                       </span>
+<span class="co">#&gt;  [39] jquerylib_0.1.4                      </span>
+<span class="co">#&gt;  [40] pkgdown_2.0.0.9000                   </span>
+<span class="co">#&gt;  [41] vctrs_0.3.8                          </span>
+<span class="co">#&gt;  [42] Biostrings_2.62.0                    </span>
+<span class="co">#&gt;  [43] BSgenome.Dmelanogaster.UCSC.dm3_1.4.0</span>
+<span class="co">#&gt;  [44] rtracklayer_1.54.0                   </span>
+<span class="co">#&gt;  [45] ggseqlogo_0.1                        </span>
+<span class="co">#&gt;  [46] xfun_0.28                            </span>
+<span class="co">#&gt;  [47] stringr_1.4.0                        </span>
+<span class="co">#&gt;  [48] plyranges_1.14.0                     </span>
+<span class="co">#&gt;  [49] ps_1.6.0                             </span>
+<span class="co">#&gt;  [50] testthat_3.1.0                       </span>
+<span class="co">#&gt;  [51] lifecycle_1.0.1                      </span>
+<span class="co">#&gt;  [52] restfulr_0.0.13                      </span>
+<span class="co">#&gt;  [53] XML_3.99-0.8                         </span>
+<span class="co">#&gt;  [54] zlibbioc_1.40.0                      </span>
+<span class="co">#&gt;  [55] MASS_7.3-54                          </span>
+<span class="co">#&gt;  [56] scales_1.1.1                         </span>
+<span class="co">#&gt;  [57] vroom_1.5.7                          </span>
+<span class="co">#&gt;  [58] BSgenome_1.62.0                      </span>
+<span class="co">#&gt;  [59] ragg_1.2.0                           </span>
+<span class="co">#&gt;  [60] hms_1.1.1                            </span>
+<span class="co">#&gt;  [61] MatrixGenerics_1.6.0                 </span>
+<span class="co">#&gt;  [62] parallel_4.1.0                       </span>
+<span class="co">#&gt;  [63] SummarizedExperiment_1.24.0          </span>
+<span class="co">#&gt;  [64] RColorBrewer_1.1-2                   </span>
+<span class="co">#&gt;  [65] yaml_2.2.1                           </span>
+<span class="co">#&gt;  [66] memoise_2.0.1                        </span>
+<span class="co">#&gt;  [67] sass_0.4.0                           </span>
+<span class="co">#&gt;  [68] stringi_1.7.6                        </span>
+<span class="co">#&gt;  [69] highr_0.9                            </span>
+<span class="co">#&gt;  [70] BiocIO_1.4.0                         </span>
+<span class="co">#&gt;  [71] desc_1.4.0                           </span>
+<span class="co">#&gt;  [72] BiocParallel_1.28.2                  </span>
+<span class="co">#&gt;  [73] rlang_0.4.12                         </span>
+<span class="co">#&gt;  [74] pkgconfig_2.0.3                      </span>
+<span class="co">#&gt;  [75] systemfonts_1.0.3                    </span>
+<span class="co">#&gt;  [76] matrixStats_0.61.0                   </span>
+<span class="co">#&gt;  [77] bitops_1.0-7                         </span>
+<span class="co">#&gt;  [78] evaluate_0.14                        </span>
+<span class="co">#&gt;  [79] lattice_0.20-44                      </span>
+<span class="co">#&gt;  [80] purrr_0.3.4                          </span>
+<span class="co">#&gt;  [81] GenomicAlignments_1.30.0             </span>
+<span class="co">#&gt;  [82] patchwork_1.1.1                      </span>
+<span class="co">#&gt;  [83] labeling_0.4.2                       </span>
+<span class="co">#&gt;  [84] cowplot_1.1.1                        </span>
+<span class="co">#&gt;  [85] bit_4.0.4                            </span>
+<span class="co">#&gt;  [86] processx_3.5.2                       </span>
+<span class="co">#&gt;  [87] tidyselect_1.1.1                     </span>
+<span class="co">#&gt;  [88] R6_2.5.1                             </span>
+<span class="co">#&gt;  [89] generics_0.1.1                       </span>
+<span class="co">#&gt;  [90] multcompView_0.1-8                   </span>
+<span class="co">#&gt;  [91] BWStest_0.2.2                        </span>
+<span class="co">#&gt;  [92] DelayedArray_0.20.0                  </span>
+<span class="co">#&gt;  [93] pillar_1.6.4                         </span>
+<span class="co">#&gt;  [94] withr_2.4.3                          </span>
+<span class="co">#&gt;  [95] RCurl_1.98-1.5                       </span>
+<span class="co">#&gt;  [96] tibble_3.1.6                         </span>
+<span class="co">#&gt;  [97] cmdfun_1.0.2                         </span>
+<span class="co">#&gt;  [98] MotifDb_1.36.0                       </span>
+<span class="co">#&gt;  [99] crayon_1.4.2                         </span>
+<span class="co">#&gt; [100] utf8_1.2.2                           </span>
+<span class="co">#&gt; [101] tzdb_0.2.0                           </span>
+<span class="co">#&gt; [102] rmarkdown_2.11                       </span>
+<span class="co">#&gt; [103] kSamples_1.2-9                       </span>
+<span class="co">#&gt; [104] usethis_2.1.3                        </span>
+<span class="co">#&gt; [105] grid_4.1.0                           </span>
+<span class="co">#&gt; [106] data.table_1.14.2                    </span>
+<span class="co">#&gt; [107] forcats_0.5.1                        </span>
+<span class="co">#&gt; [108] digest_0.6.29                        </span>
+<span class="co">#&gt; [109] tidyr_1.1.4                          </span>
+<span class="co">#&gt; [110] R.utils_2.11.0                       </span>
+<span class="co">#&gt; [111] textshaping_0.3.6                    </span>
+<span class="co">#&gt; [112] munsell_0.5.0                        </span>
+<span class="co">#&gt; [113] bslib_0.3.1</span></code></pre></div>
 </div>
   </div>
 
@@ -915,7 +914,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9001.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.0.9000.</p>
 </div>
 
       </footer>

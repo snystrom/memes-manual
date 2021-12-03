@@ -1,6 +1,6 @@
 pandoc: 2.11.4
-pkgdown: 1.6.1.9001
-pkgdown_sha: ce9781a15c7ea07df9fb17a11295ba4abec0b54b
+pkgdown: 2.0.0.9000
+pkgdown_sha: 9b17511675bc33fd14715a84231aee38f1261edb
 articles:
   core_ame: core_ame.html
   core_dreme: core_dreme.html
@@ -9,7 +9,7 @@ articles:
   install_guide: install_guide.html
   integrative_analysis: integrative_analysis.html
   tidy_motifs: tidy_motifs.html
-last_built: 2021-08-06T13:31Z
+last_built: 2021-12-03T02:45Z
 urls:
   reference: https://snystrom.github.io/dremeR/reference
   article: https://snystrom.github.io/dremeR/articles

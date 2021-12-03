@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">memes</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3.1</span>
       </span>
     </div>
 
@@ -93,13 +93,13 @@
 
       
 
-      </header><script src="core_ame_files/header-attrs-2.9/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Motif Enrichment Testing using AME</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/snystrom/memes/blob/master/vignettes/core_ame.Rmd" class="external-link"><code>vignettes/core_ame.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/snystrom/memes/blob/HEAD/vignettes/core_ame.Rmd" class="external-link"><code>vignettes/core_ame.Rmd</code></a></small>
       <div class="hidden name"><code>core_ame.Rmd</code></div>
 
     </div>
@@ -110,9 +110,9 @@
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://snystrom.github.io/memes/" class="external-link">memes</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://bioconductor.org/packages/GenomicRanges" class="external-link">GenomicRanges</a></span><span class="op">)</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://magrittr.tidyverse.org" class="external-link">magrittr</a></span><span class="op">)</span></code></pre></div>
-<div id="sequence-input" class="section level2">
-<h2 class="hasAnchor">
-<a href="#sequence-input" class="anchor" aria-hidden="true"></a>Sequence Input</h2>
+<div class="section level2">
+<h2 id="sequence-input">Sequence Input<a class="anchor" aria-label="anchor" href="#sequence-input"></a>
+</h2>
 <p>AME requires a series of input sequences to scan for motif enrichment. <code><a href="../reference/runAme.html">runAme()</a></code> accepts sequence input in the following formats:</p>
 <ul>
 <li>a <code><a href="https://rdrr.io/pkg/Biostrings/man/XStringSet-class.html" class="external-link">Biostrings::XStringSet</a></code> object</li>
@@ -128,9 +128,9 @@
 <span class="va">sequence</span> <span class="op">&lt;-</span> <span class="va">example_peaks</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
   <span class="fu"><a href="../reference/get_sequence.html">get_sequence</a></span><span class="op">(</span><span class="va">dm.genome</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="database-input" class="section level2">
-<h2 class="hasAnchor">
-<a href="#database-input" class="anchor" aria-hidden="true"></a>Database Input</h2>
+<div class="section level2">
+<h2 id="database-input">Database Input<a class="anchor" aria-label="anchor" href="#database-input"></a>
+</h2>
 <p>AME scans input sequences against a database of known motifs and tests for enrichment of each motif in the database. <code><a href="../reference/runAme.html">runAme()</a></code> can accept a database in the following formats:</p>
 <ul>
 <li>a list of universalmotif objects</li>
@@ -139,9 +139,9 @@
 </li>
 <li>a path to a .meme format file</li>
 </ul>
-<div id="setting-a-default-database" class="section level3">
-<h3 class="hasAnchor">
-<a href="#setting-a-default-database" class="anchor" aria-hidden="true"></a>Setting a default database</h3>
+<div class="section level3">
+<h3 id="setting-a-default-database">Setting a default database<a class="anchor" aria-label="anchor" href="#setting-a-default-database"></a>
+</h3>
 <p>memes can be configured to use a default .meme format file as the query database, which it will use if the user does not provide a value to <code>database</code> when calling <code><a href="../reference/runAme.html">runAme()</a></code>. The following locations will be searched in order.</p>
 <ol style="list-style-type: decimal">
 <li>The <code>meme_db</code> option, defined using <code>options(meme_db = "path/to/database.meme")</code>
@@ -162,9 +162,9 @@
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>meme_db <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata/flyFactorSurvey_cleaned.meme"</span>, package <span class="op">=</span> <span class="st">"memes"</span>, mustWork <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
-<div id="running-ame" class="section level2">
-<h2 class="hasAnchor">
-<a href="#running-ame" class="anchor" aria-hidden="true"></a>Running AME</h2>
+<div class="section level2">
+<h2 id="running-ame">Running AME<a class="anchor" aria-label="anchor" href="#running-ame"></a>
+</h2>
 <p><code><a href="../reference/runAme.html">runAme()</a></code> supports running AME using three modes:</p>
 <table class="table">
 <colgroup>
@@ -209,9 +209,9 @@
 <span class="co">#&gt; [1] "chr3L:14551117-14551323 1"</span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ame_partition</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/runAme.html">runAme</a></span><span class="op">(</span><span class="va">sequence_scored</span>, control <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></code></pre></div>
-<div id="running-ame-on-multiple-groups" class="section level3">
-<h3 class="hasAnchor">
-<a href="#running-ame-on-multiple-groups" class="anchor" aria-hidden="true"></a>Running AME on multiple groups</h3>
+<div class="section level3">
+<h3 id="running-ame-on-multiple-groups">Running AME on multiple groups<a class="anchor" aria-label="anchor" href="#running-ame-on-multiple-groups"></a>
+</h3>
 <p>If using a list input to <code><a href="../reference/runAme.html">runAme()</a></code>, it will dispatch multiple AME runs for each object in the list.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"example_chip_summits"</span>, package <span class="op">=</span> <span class="st">"memes"</span><span class="op">)</span>
@@ -222,9 +222,9 @@
   <span class="fu"><a href="../reference/get_sequence.html">get_sequence</a></span><span class="op">(</span><span class="va">dm.genome</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ame_by_behavior</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/runAme.html">runAme</a></span><span class="op">(</span><span class="va">seq_by_behavior</span><span class="op">)</span></code></pre></div>
-<div id="discriminative-analysis-using-list-input" class="section level4">
-<h4 class="hasAnchor">
-<a href="#discriminative-analysis-using-list-input" class="anchor" aria-hidden="true"></a>Discriminative analysis using list input</h4>
+<div class="section level4">
+<h4 id="discriminative-analysis-using-list-input">Discriminative analysis using list input<a class="anchor" aria-label="anchor" href="#discriminative-analysis-using-list-input"></a>
+</h4>
 <p>If the input to <code><a href="../reference/runAme.html">runAme()</a></code> is a named list of <code>XStringSet</code> objects, <code>control</code> can be set to one or more values from <code>names(input)</code> to use those regions as background. It will skip running those regions as the input. The following code will result in these comparisons:</p>
 <ol style="list-style-type: decimal">
 <li>Increasing vs Static</li>
@@ -238,9 +238,9 @@
 </div>
 </div>
 </div>
-<div id="output-format" class="section level2">
-<h2 class="hasAnchor">
-<a href="#output-format" class="anchor" aria-hidden="true"></a>Output Format</h2>
+<div class="section level2">
+<h2 id="output-format">Output Format<a class="anchor" aria-label="anchor" href="#output-format"></a>
+</h2>
 <p>AME will return different output formats depending on the <code>method</code> used. For detailed information about these values see the <a href="http://meme-suite.org/doc/ame-output-format.html" class="external-link">AME Output description webpage</a>. As a general rule of thumb, <code><a href="../reference/runAme.html">runAme()</a></code> will return the same column names described in the webpage, except dashes are removed and all column names are lowercase.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ame_by_behavior_vs_static</span><span class="op">$</span><span class="va">Decreasing</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> 
@@ -251,9 +251,9 @@
 <span class="co">#&gt; [16] "fp"           "fp_percent"</span></code></pre></div>
 <p>If <code><a href="../reference/runAme.html">runAme()</a></code> is run with <code>method = "fisher"</code>, the sequences output can be added to the results by setting <code>sequences = TRUE</code>. This will be added as a list column named <code>sequences</code> that can be unnested using <code><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">tidyr::unnest()</a></code>.</p>
 </div>
-<div id="visualizing-results-as-heatmap" class="section level2">
-<h2 class="hasAnchor">
-<a href="#visualizing-results-as-heatmap" class="anchor" aria-hidden="true"></a>Visualizing Results as Heatmap</h2>
+<div class="section level2">
+<h2 id="visualizing-results-as-heatmap">Visualizing Results as Heatmap<a class="anchor" aria-label="anchor" href="#visualizing-results-as-heatmap"></a>
+</h2>
 <p>The <code><a href="../reference/plot_ame_heatmap.html">plot_ame_heatmap()</a></code> function provides a method to easily generate visualizations of AME results.</p>
 <p>To plot results from multiple runs together, they must first be joined into 1 data frame. The <code>ame_by_behavior_vs_static</code> object is a list whose names correspond to the E93 response (Increasing or Decreasing). The list can be combined into a data.frame using <code><a href="https://dplyr.tidyverse.org/reference/bind.html" class="external-link">dplyr::bind_rows</a></code>. Setting <code>.id = "behavior</code> creates a new column <code>behavior</code> that contains the names from the <code>ame_by_behavior_vs_static</code> list. In this way, the resulting data.frame contains all AME results for each run, which can be distinguished by the <code>behavior</code> column.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
@@ -264,9 +264,9 @@
   <span class="co"># setting group to a column name will split the results on the y-axis</span>
   <span class="fu"><a href="../reference/plot_ame_heatmap.html">plot_ame_heatmap</a></span><span class="op">(</span>group <span class="op">=</span> <span class="va">behavior</span><span class="op">)</span></code></pre></div>
 <p><img src="core_ame_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
-<div id="complex-heatmap-example" class="section level3">
-<h3 class="hasAnchor">
-<a href="#complex-heatmap-example" class="anchor" aria-hidden="true"></a>Complex Heatmap Example</h3>
+<div class="section level3">
+<h3 id="complex-heatmap-example">Complex Heatmap Example<a class="anchor" aria-label="anchor" href="#complex-heatmap-example"></a>
+</h3>
 <p>There are several nuances when making heatmap visualizations of these data. The following examples highlight some of these issues and provide alternative approaches and solutions.</p>
 <p>We start by using different binding site categories as input.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
@@ -288,9 +288,9 @@
 <p><img src="core_ame_files/figure-html/unnamed-chunk-19-1.png" width="1440"></p>
 </div>
 </div>
-<div id="issues-with-heatmap-visualization" class="section level2">
-<h2 class="hasAnchor">
-<a href="#issues-with-heatmap-visualization" class="anchor" aria-hidden="true"></a>Issues with Heatmap Visualization</h2>
+<div class="section level2">
+<h2 id="issues-with-heatmap-visualization">Issues with Heatmap Visualization<a class="anchor" aria-label="anchor" href="#issues-with-heatmap-visualization"></a>
+</h2>
 <p>The dynamic range of p-values in these data varies between groups. For this reason, a simple heatmap scaled using all data values will make it more difficult to interpret within groups with a lower dynamic range of values. In other words, because the dynamic range of values are different between experiments, placing them on the default scale for comparison may not always be the most optimal visualization.</p>
 <p>We can partially overcome this limitation by filling the heatmap with the normalized rank value for each TF, which accounts for differences in total number of discovered motifs between AME runs. Although it does not completely abrogate differences, the signal values for high-ranked motifs within groups will be more comparable. However, <strong>the normalized rank visualization eliminates all real values related to statistical significance!</strong> Instead, this visualization represents the relative ranks of hits within an AME run, which already pass a significance threshold set during <code>runAME()</code>. This means that even if several motifs have similar or even identical p-values, their heatmap representation will be a different color value based on their ranked order in the results list. This tends to only be useful when there are a large number of hits (&gt;=100). Both visualizations can be useful and reveal different properties of the data to the user. <strong>If in doubt</strong>, prefer the <code>-log10(adj.pvalue)</code> representation.</p>
 <p>Below is a comparison of the distribution of values when using <code>-log10(adj.pvalue)</code> (A) vs normalized ranks (B). Because orphan sites tend to have smaller p-values overall, the heatmap scale will be skewed towards the high values in the orphan data, making ectopic and entopic heat values lighter by comparison.</p>
@@ -332,40 +332,40 @@
                    ncol <span class="op">=</span> <span class="fl">1</span>, labels <span class="op">=</span> <span class="st">"AUTO"</span><span class="op">)</span></code></pre></div>
 <p><img src="core_ame_files/figure-html/unnamed-chunk-23-1.png" width="2400"></p>
 </div>
-<div id="importing-previous-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#importing-previous-data" class="anchor" aria-hidden="true"></a>Importing Previous Data</h2>
+<div class="section level2">
+<h2 id="importing-previous-data">Importing Previous Data<a class="anchor" aria-label="anchor" href="#importing-previous-data"></a>
+</h2>
 <p><code><a href="../reference/importAme.html">importAme()</a></code> can be used to import an <code>ame.tsv</code> file from a previous run on the MEME server or on the commandline. Details for how to save data from the AME webserver are below.</p>
 <p>Optionally, if AME was run on the commandline with <code>--method fisher</code>, the user can pass a path to the <code>sequences.tsv</code> file to the <code>sequences</code> argument of <code><a href="../reference/importAme.html">importAme()</a></code> to append the sequence information to the AME results.</p>
-<div id="saving-data-from-ame-web-server" class="section level3">
-<h3 class="hasAnchor">
-<a href="#saving-data-from-ame-web-server" class="anchor" aria-hidden="true"></a>Saving data from AME Web Server</h3>
+<div class="section level3">
+<h3 id="saving-data-from-ame-web-server">Saving data from AME Web Server<a class="anchor" aria-label="anchor" href="#saving-data-from-ame-web-server"></a>
+</h3>
 <p>To download TSV data from the MEME Server, right-click the AME TSV output link and “Save Target As” or “Save Link As” (see example image below), and save as <code>&lt;filename&gt;.tsv</code>. This file can be read using <code><a href="../reference/importAme.html">importAme()</a></code>.</p>
 <div class="figure">
 <img src="save_ame.png" alt=""><p class="caption">saving AME tsv results</p>
 </div>
 </div>
 </div>
-<div id="citation" class="section level1">
-<h1 class="hasAnchor">
-<a href="#citation" class="anchor" aria-hidden="true"></a>Citation</h1>
+<div class="section level1">
+<h1 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
+</h1>
 <p>memes is a wrapper for a select few tools from the MEME Suite, which were developed by another group. In addition to citing memes, please cite the MEME Suite tools corresponding to the tools you use.</p>
 <p>If you use <code><a href="../reference/runAme.html">runAme()</a></code> in your analysis, please cite:</p>
 <p>Robert McLeay and Timothy L. Bailey, “Motif Enrichment Analysis: A unified framework and method evaluation”, BMC Bioinformatics, 11:165, 2010, <a href="doi:10.1186/1471-2105-11-165" class="uri">doi:10.1186/1471-2105-11-165</a>. <a href="http://www.biomedcentral.com/1471-2105/11/165" class="external-link">full text</a></p>
-<div id="licensing-restrictions" class="section level2">
-<h2 class="hasAnchor">
-<a href="#licensing-restrictions" class="anchor" aria-hidden="true"></a>Licensing Restrictions</h2>
+<div class="section level2">
+<h2 id="licensing-restrictions">Licensing Restrictions<a class="anchor" aria-label="anchor" href="#licensing-restrictions"></a>
+</h2>
 <p>The MEME Suite is free for non-profit use, but for-profit users should purchase a license. See the <a href="http://meme-suite.org/doc/copyright.html" class="external-link">MEME Suite Copyright Page</a> for details.</p>
 </div>
 </div>
-<div id="session-info" class="section level1">
-<h1 class="hasAnchor">
-<a href="#session-info" class="anchor" aria-hidden="true"></a>Session Info</h1>
+<div class="section level1">
+<h1 id="session-info">Session Info<a class="anchor" aria-label="anchor" href="#session-info"></a>
+</h1>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#&gt; R version 4.1.0 (2021-05-18)</span>
 <span class="co">#&gt; Platform: x86_64-pc-linux-gnu (64-bit)</span>
-<span class="co">#&gt; Running under: Ubuntu 20.04.2 LTS</span>
+<span class="co">#&gt; Running under: Ubuntu 20.04.3 LTS</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Matrix products: default</span>
 <span class="co">#&gt; BLAS/LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.8.so</span>
@@ -383,59 +383,58 @@
 <span class="co">#&gt; [8] base     </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; other attached packages:</span>
-<span class="co">#&gt; [1] ggplot2_3.3.5        magrittr_2.0.1       GenomicRanges_1.45.0</span>
-<span class="co">#&gt; [4] GenomeInfoDb_1.29.3  IRanges_2.27.0       S4Vectors_0.31.0    </span>
-<span class="co">#&gt; [7] BiocGenerics_0.39.1  memes_1.1.4         </span>
+<span class="co">#&gt; [1] ggplot2_3.3.5        magrittr_2.0.1       GenomicRanges_1.46.1</span>
+<span class="co">#&gt; [4] GenomeInfoDb_1.30.0  IRanges_2.28.0       S4Vectors_0.32.3    </span>
+<span class="co">#&gt; [7] BiocGenerics_0.40.0  memes_1.3.1         </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; loaded via a namespace (and not attached):</span>
-<span class="co">#&gt;  [1] bitops_1.0-7                          matrixStats_0.60.0                   </span>
-<span class="co">#&gt;  [3] fs_1.5.0                              bit64_4.0.5                          </span>
+<span class="co">#&gt;  [1] bitops_1.0-7                          matrixStats_0.61.0                   </span>
+<span class="co">#&gt;  [3] fs_1.5.1                              bit64_4.0.5                          </span>
 <span class="co">#&gt;  [5] rprojroot_2.0.2                       tools_4.1.0                          </span>
-<span class="co">#&gt;  [7] bslib_0.2.5.1                         utf8_1.2.2                           </span>
-<span class="co">#&gt;  [9] R6_2.5.0                              colorspace_2.0-2                     </span>
-<span class="co">#&gt; [11] withr_2.4.2                           tidyselect_1.1.1                     </span>
+<span class="co">#&gt;  [7] bslib_0.3.1                           utf8_1.2.2                           </span>
+<span class="co">#&gt;  [9] R6_2.5.1                              colorspace_2.0-2                     </span>
+<span class="co">#&gt; [11] withr_2.4.3                           tidyselect_1.1.1                     </span>
 <span class="co">#&gt; [13] processx_3.5.2                        bit_4.0.4                            </span>
-<span class="co">#&gt; [15] compiler_4.1.0                        textshaping_0.3.5                    </span>
-<span class="co">#&gt; [17] Biobase_2.53.0                        desc_1.3.0                           </span>
-<span class="co">#&gt; [19] DelayedArray_0.19.1                   labeling_0.4.2                       </span>
-<span class="co">#&gt; [21] rtracklayer_1.53.0                    sass_0.4.0                           </span>
-<span class="co">#&gt; [23] scales_1.1.1                          readr_2.0.0                          </span>
-<span class="co">#&gt; [25] pkgdown_1.6.1.9001                    systemfonts_1.0.2                    </span>
-<span class="co">#&gt; [27] stringr_1.4.0                         digest_0.6.27                        </span>
-<span class="co">#&gt; [29] Rsamtools_2.9.1                       rmarkdown_2.9                        </span>
-<span class="co">#&gt; [31] R.utils_2.10.1                        XVector_0.33.0                       </span>
-<span class="co">#&gt; [33] pkgconfig_2.0.3                       htmltools_0.5.1.1                    </span>
-<span class="co">#&gt; [35] MatrixGenerics_1.5.2                  highr_0.9                            </span>
-<span class="co">#&gt; [37] fastmap_1.1.0                         BSgenome_1.61.0                      </span>
-<span class="co">#&gt; [39] rlang_0.4.11                          farver_2.1.0                         </span>
-<span class="co">#&gt; [41] BSgenome.Dmelanogaster.UCSC.dm3_1.4.0 jquerylib_0.1.4                      </span>
-<span class="co">#&gt; [43] BiocIO_1.3.0                          generics_0.1.0                       </span>
-<span class="co">#&gt; [45] jsonlite_1.7.2                        BiocParallel_1.27.2                  </span>
-<span class="co">#&gt; [47] vroom_1.5.3                           dplyr_1.0.7                          </span>
-<span class="co">#&gt; [49] R.oo_1.24.0                           RCurl_1.98-1.3                       </span>
-<span class="co">#&gt; [51] GenomeInfoDbData_1.2.6                Matrix_1.3-4                         </span>
-<span class="co">#&gt; [53] waldo_0.2.5                           munsell_0.5.0                        </span>
-<span class="co">#&gt; [55] fansi_0.5.0                           lifecycle_1.0.0                      </span>
-<span class="co">#&gt; [57] R.methodsS3_1.8.1                     stringi_1.7.3                        </span>
-<span class="co">#&gt; [59] yaml_2.2.1                            SummarizedExperiment_1.23.1          </span>
-<span class="co">#&gt; [61] zlibbioc_1.39.0                       grid_4.1.0                           </span>
+<span class="co">#&gt; [15] compiler_4.1.0                        textshaping_0.3.6                    </span>
+<span class="co">#&gt; [17] Biobase_2.54.0                        desc_1.4.0                           </span>
+<span class="co">#&gt; [19] DelayedArray_0.20.0                   labeling_0.4.2                       </span>
+<span class="co">#&gt; [21] rtracklayer_1.54.0                    sass_0.4.0                           </span>
+<span class="co">#&gt; [23] scales_1.1.1                          readr_2.1.1                          </span>
+<span class="co">#&gt; [25] pkgdown_2.0.0.9000                    systemfonts_1.0.3                    </span>
+<span class="co">#&gt; [27] stringr_1.4.0                         digest_0.6.29                        </span>
+<span class="co">#&gt; [29] Rsamtools_2.10.0                      rmarkdown_2.11                       </span>
+<span class="co">#&gt; [31] R.utils_2.11.0                        XVector_0.34.0                       </span>
+<span class="co">#&gt; [33] pkgconfig_2.0.3                       htmltools_0.5.2                      </span>
+<span class="co">#&gt; [35] MatrixGenerics_1.6.0                  highr_0.9                            </span>
+<span class="co">#&gt; [37] fastmap_1.1.0                         BSgenome_1.62.0                      </span>
+<span class="co">#&gt; [39] rlang_0.4.12                          BSgenome.Dmelanogaster.UCSC.dm3_1.4.0</span>
+<span class="co">#&gt; [41] jquerylib_0.1.4                       BiocIO_1.4.0                         </span>
+<span class="co">#&gt; [43] generics_0.1.1                        farver_2.1.0                         </span>
+<span class="co">#&gt; [45] jsonlite_1.7.2                        BiocParallel_1.28.2                  </span>
+<span class="co">#&gt; [47] vroom_1.5.7                           dplyr_1.0.7                          </span>
+<span class="co">#&gt; [49] R.oo_1.24.0                           RCurl_1.98-1.5                       </span>
+<span class="co">#&gt; [51] GenomeInfoDbData_1.2.7                Matrix_1.3-4                         </span>
+<span class="co">#&gt; [53] waldo_0.3.1                           munsell_0.5.0                        </span>
+<span class="co">#&gt; [55] fansi_0.5.0                           lifecycle_1.0.1                      </span>
+<span class="co">#&gt; [57] R.methodsS3_1.8.1                     stringi_1.7.6                        </span>
+<span class="co">#&gt; [59] yaml_2.2.1                            SummarizedExperiment_1.24.0          </span>
+<span class="co">#&gt; [61] zlibbioc_1.40.0                       grid_4.1.0                           </span>
 <span class="co">#&gt; [63] ggseqlogo_0.1                         parallel_4.1.0                       </span>
-<span class="co">#&gt; [65] crayon_1.4.1                          lattice_0.20-44                      </span>
-<span class="co">#&gt; [67] cowplot_1.1.1                         Biostrings_2.61.2                    </span>
-<span class="co">#&gt; [69] hms_1.1.0                             knitr_1.33                           </span>
-<span class="co">#&gt; [71] ps_1.6.0                              pillar_1.6.2                         </span>
-<span class="co">#&gt; [73] rjson_0.2.20                          pkgload_1.2.1                        </span>
-<span class="co">#&gt; [75] XML_3.99-0.6                          glue_1.4.2                           </span>
+<span class="co">#&gt; [65] crayon_1.4.2                          lattice_0.20-44                      </span>
+<span class="co">#&gt; [67] cowplot_1.1.1                         Biostrings_2.62.0                    </span>
+<span class="co">#&gt; [69] hms_1.1.1                             knitr_1.36                           </span>
+<span class="co">#&gt; [71] ps_1.6.0                              pillar_1.6.4                         </span>
+<span class="co">#&gt; [73] rjson_0.2.20                          pkgload_1.2.4                        </span>
+<span class="co">#&gt; [75] XML_3.99-0.8                          glue_1.5.1                           </span>
 <span class="co">#&gt; [77] evaluate_0.14                         vctrs_0.3.8                          </span>
-<span class="co">#&gt; [79] tzdb_0.1.2                            testthat_3.0.4                       </span>
+<span class="co">#&gt; [79] tzdb_0.2.0                            testthat_3.1.0                       </span>
 <span class="co">#&gt; [81] gtable_0.3.0                          purrr_0.3.4                          </span>
-<span class="co">#&gt; [83] tidyr_1.1.3                           rematch2_2.1.2                       </span>
-<span class="co">#&gt; [85] cachem_1.0.5                          xfun_0.24                            </span>
-<span class="co">#&gt; [87] restfulr_0.0.13                       ragg_1.1.3                           </span>
-<span class="co">#&gt; [89] tibble_3.1.3                          diffobj_0.3.4                        </span>
-<span class="co">#&gt; [91] GenomicAlignments_1.29.0              plyranges_1.13.1                     </span>
-<span class="co">#&gt; [93] memoise_2.0.0                         cmdfun_1.0.2                         </span>
-<span class="co">#&gt; [95] ellipsis_0.3.2</span></code></pre></div>
+<span class="co">#&gt; [83] tidyr_1.1.4                           cachem_1.0.6                         </span>
+<span class="co">#&gt; [85] xfun_0.28                             restfulr_0.0.13                      </span>
+<span class="co">#&gt; [87] ragg_1.2.0                            tibble_3.1.6                         </span>
+<span class="co">#&gt; [89] GenomicAlignments_1.30.0              plyranges_1.14.0                     </span>
+<span class="co">#&gt; [91] memoise_2.0.1                         cmdfun_1.0.2                         </span>
+<span class="co">#&gt; [93] ellipsis_0.3.2</span></code></pre></div>
 </div>
   </div>
 
@@ -456,7 +455,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9001.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.0.9000.</p>
 </div>
 
       </footer>
